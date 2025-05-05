@@ -47,16 +47,25 @@ return [
 
             $version = get_cms_version();
 
+            $theme->asset()->usePath()->add('font-awesome', 'css/font-awesome.min.css', version: $version);
+            $theme->asset()->usePath()->add('bootstrap', 'css/bootstrap.css', version: $version);
+            $theme->asset()->usePath()->add('owl.carousel', 'css/owl.carousel.css', version: $version);
+            $theme->asset()->usePath()->add('owl.theme.default', 'css/owl.theme.default.min.css', version: $version);
+            $theme->asset()->usePath()->add('magnific-popup', 'css/magnific-popup.css', version: $version);
             $theme->asset()->usePath()->add('style', 'css/style.css', version: $version);
 
             $theme->asset()->container('footer')->add('jquery', 'libraries/jquery.min.js');
 
-            $theme->asset()->container('footer')->usePath()->add(
-                'script',
-                'js/script.js',
-                ['jquery'],
-                version: $version
-            );
+            $theme->asset()->container('footer')->usePath()->add('jquery', 'js/jquery.min.js', [], version: $version);
+            $theme->asset()->container('footer')->usePath()->add('bootstrap', 'js/bootstrap.min.js', [], version: $version);
+            $theme->asset()->container('footer')->usePath()->add('jquery.stellar', 'js/jquery.stellar.js', [], version: $version);
+            $theme->asset()->container('footer')->usePath()->add('animated.headline', 'js/animated.headline.js', [], version: $version);
+            $theme->asset()->container('footer')->usePath()->add('owl.carousel', 'js/owl.carousel.min.js', [], version: $version);
+            $theme->asset()->container('footer')->usePath()->add('scrollIt', 'js/scrollIt.min.js', [], version: $version);
+            $theme->asset()->container('footer')->usePath()->add('isotope.pkgd', 'js/isotope.pkgd.min.js', [], version: $version);
+            $theme->asset()->container('footer')->usePath()->add('jquery.magnific-popup', 'js/jquery.magnific-popup.min.js', [], version: $version);
+            $theme->asset()->container('footer')->usePath()->add('particles', 'js/particles.min.js', [], version: $version);
+            $theme->asset()->container('footer')->usePath()->add('main', 'js/main.js', [], version: $version);
 
             if (function_exists('shortcode')) {
                 $theme->composer(['page'], function (View $view) {
