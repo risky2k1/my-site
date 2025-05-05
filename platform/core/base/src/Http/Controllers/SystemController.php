@@ -96,7 +96,7 @@ class SystemController extends BaseSystemController
 
         $this->pageTitle(trans('core/base::system.updater'));
 
-        $activated = $core->verifyLicense();
+        $activated = $core->verifyLicense(false, 15);
         $isOutdated = false;
 
         try {
@@ -162,7 +162,7 @@ class SystemController extends BaseSystemController
         try {
             $tables = array_map(function (array $table) {
                 return $table['name'];
-            }, Schema::getTables());
+            }, Schema::getTables(Schema::getConnection()->getDatabaseName()));
 
         } catch (Throwable) {
             $tables = [];

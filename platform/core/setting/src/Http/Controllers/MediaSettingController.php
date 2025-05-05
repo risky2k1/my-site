@@ -25,8 +25,10 @@ class MediaSettingController extends SettingController
 
     public function update(MediaSettingRequest $request): BaseHttpResponse
     {
+        $data = $request->validated();
+
         $this->saveSettings([
-            ...$request->validated(),
+            ...$data,
             'media_folders_can_add_watermark' => $request->boolean('media_folders_can_add_watermark_all')
                 ? []
                 : $request->input('media_folders_can_add_watermark', []),

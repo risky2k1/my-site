@@ -637,7 +637,7 @@ class MediaManagement {
                 )
             })
 
-        if (MediaConfig.request_params.view_in === 'trash') {
+        if (Helpers.getRequestParams().view_in === 'trash') {
             $(document).find('.js-insert-to-editor').prop('disabled', true)
         } else {
             $(document).find('.js-insert-to-editor').prop('disabled', false)
@@ -706,24 +706,20 @@ class MediaManagement {
     // Scroll get more media
     scrollGetMore() {
         let _self = this
-        $('.rv-media-main .rv-media-items').bind('DOMMouseScroll mousewheel', (e) => {
-            if (e.originalEvent.detail > 0 || e.originalEvent.wheelDelta < 0) {
-                let loadMore
-                if ($(e.currentTarget).closest('.media-modal').length > 0) {
-                    loadMore =
-                        $(e.currentTarget).scrollTop() + $(e.currentTarget).innerHeight() / 2 >=
-                        $(e.currentTarget)[0].scrollHeight - 450
-                } else {
-                    loadMore =
-                        $(e.currentTarget).scrollTop() + $(e.currentTarget).innerHeight() >=
-                        $(e.currentTarget)[0].scrollHeight - 150
-                }
+        let $mediaList = $('.rv-media-main .rv-media-items')
 
-                if (loadMore) {
-                    if (typeof RV_MEDIA_CONFIG.pagination != 'undefined' && RV_MEDIA_CONFIG.pagination.has_more) {
-                        _self.MediaService.getMedia(false, false, true)
-                    }
-                }
+        // Handle both mouse wheel and touch scroll events
+        $mediaList.on('wheel scroll', function (e) {
+            let $target = $(e.currentTarget)
+            let scrollHeight = $target[0].scrollHeight
+            let scrollTop = $target.scrollTop()
+            let innerHeight = $target.innerHeight()
+
+            let threshold = $target.closest('.media-modal').length > 0 ? 450 : 150
+            let loadMore = scrollTop + innerHeight >= scrollHeight - threshold
+
+            if (loadMore && RV_MEDIA_CONFIG.pagination?.has_more) {
+                _self.MediaService.getMedia(false, false, true)
             }
         })
     }

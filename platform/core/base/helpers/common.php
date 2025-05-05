@@ -27,7 +27,7 @@ if (! function_exists('language_flag')) {
 
             return str_replace(
                 '<svg',
-                rtrim(sprintf('<svg style="height: %spx; width: auto;" title="%s" class="flag" loading="lazy"', $width, $name)),
+                rtrim(sprintf('<svg style="height: %spx; width: auto;" class="flag"', $width)),
                 $contents
             );
         }
@@ -87,7 +87,7 @@ if (! function_exists('get_cms_version')) {
 if (! function_exists('get_core_version')) {
     function get_core_version(): string
     {
-        return '7.5.0';
+        return '7.5.5';
     }
 }
 

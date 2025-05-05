@@ -23,7 +23,6 @@ use Botble\Setting\Supports\DatabaseSettingStore;
 use Botble\Setting\Supports\SettingStore;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Routing\Events\RouteMatched;
 
 class SettingServiceProvider extends ServiceProvider
 {
@@ -78,7 +77,7 @@ class SettingServiceProvider extends ServiceProvider
 
         $events = $this->app['events'];
 
-        $events->listen(RouteMatched::class, function (): void {
+        $this->app->booted(function (): void {
             EmailHandler::addTemplateSettings('base', config('core.setting.email', []), 'core');
         });
 

@@ -8,8 +8,13 @@ $(() => {
 
         $this.val(quantity)
 
-        const $section = $this.closest('.shortcode-admin-config')
-        const $template = $section.find('.shortcode-template').first().clone().removeClass('shortcode-template');
+        let $section = $this.closest('.shortcode-tabs-field-wrapper')
+
+        if (! $section.length) {
+            $section = $this.closest('.shortcode-admin-config')
+        }
+
+        $section.find('.shortcode-template').first().clone().removeClass('shortcode-template');
 
         for (let index = 1; index <= $this.data('max'); index++) {
             const $el = key ? $section.find(`[data-tab-id=${key}_${index}]`) : $section.find(`[data-tab-id=${index}]`)

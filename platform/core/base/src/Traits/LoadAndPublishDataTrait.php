@@ -63,12 +63,12 @@ trait LoadAndPublishDataTrait
 
     protected function getDashedNamespace(): string
     {
-        return str_replace('.', '/', $this->namespace);
+        return str_replace('.', '/', (string) $this->namespace);
     }
 
     protected function getDotedNamespace(): string
     {
-        return str_replace('/', '.', $this->namespace);
+        return str_replace('/', '.', (string) $this->namespace);
     }
 
     protected function loadRoutes(array|string $fileNames = ['web']): static
@@ -166,7 +166,7 @@ trait LoadAndPublishDataTrait
     {
         $this->app['blade.compiler']->anonymousComponentPath(
             $this->getViewsPath() . '/components',
-            str_replace('/', '-', $this->namespace)
+            str_replace('/', '-', (string) $this->namespace)
         );
 
         return $this;

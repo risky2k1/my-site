@@ -461,17 +461,19 @@ class ThemeSupport
             return $html;
         }, 1180);
 
-        add_filter(BASE_FILTER_PUBLIC_COMMENT_AREA, function ($html) {
-            if (
-                theme_option('facebook_comment_enabled_in_post', 'yes') == 'yes' ||
-                theme_option('facebook_comment_enabled_in_gallery', 'yes') == 'yes' ||
-                theme_option('facebook_comment_enabled_in_product', 'yes') == 'yes'
-            ) {
-                return $html . view('packages/theme::partials.facebook-comments')->render();
+        add_filter(BASE_FILTER_PUBLIC_COMMENT_AREA, function (?string $html, ?object $object = null): ?string {
+            if (! $object) {
+                return $html;
+            }
+
+            $commentHtml = apply_filters('facebook_comment_html', '', $object);
+
+            if (! empty($commentHtml)) {
+                return $html . $commentHtml;
             }
 
             return $html;
-        }, 1180);
+        }, 1180, 2);
     }
 
     public static function registerSocialLinks(): void
@@ -672,6 +674,7 @@ class ThemeSupport
             $year = Carbon::now()->format('Y');
 
             $copyright = str_replace('%Y', $year, $copyright);
+            $copyright = str_replace('%y', $year, $copyright);
             $copyright = str_replace(':year', $year, $copyright);
         }
 
@@ -946,9 +949,10 @@ class ThemeSupport
             'M/d/Y',
             'd/m/Y',
             'd/M/Y',
+            'd.m.Y',
         ];
 
-        if ($extraDateFormat = config('packages.theme.extra_date_format')) {
+        if ($extraDateFormat = config('packages.theme.general.extra_date_format')) {
             $formats[] = $extraDateFormat;
         }
 

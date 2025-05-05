@@ -1,4 +1,7 @@
 @if (function_exists('get_galleries') && $galleries->isNotEmpty())
+    @php
+        Gallery::registerAssets();
+    @endphp
     <div class="gallery-wrap">
         @foreach ($galleries as $gallery)
             <div class="gallery-item">

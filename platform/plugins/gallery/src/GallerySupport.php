@@ -52,11 +52,11 @@ class GallerySupport
 
     public function saveGallery(Request $request, ?Model $data): void
     {
-        if ($data && in_array(get_class($data), $this->getSupportedModules()) && $request->has('gallery')) {
+        if ($data && in_array($data::class, $this->getSupportedModules()) && $request->has('gallery')) {
             $meta = GalleryMeta::query()
                 ->where([
                     'reference_id' => $data->getKey(),
-                    'reference_type' => get_class($data),
+                    'reference_type' => $data::class,
                 ])
                 ->first();
 
@@ -77,7 +77,7 @@ class GallerySupport
                 if (! $meta) {
                     $meta = new GalleryMeta();
                     $meta->reference_id = $data->getKey();
-                    $meta->reference_type = get_class($data);
+                    $meta->reference_type = $data::class;
                     $meta->images = json_decode($gallery, true);
                     $meta->save();
                 }
@@ -91,7 +91,7 @@ class GallerySupport
                 if (! $meta) {
                     $meta = new GalleryMeta();
                     $meta->reference_id = $data->getKey();
-                    $meta->reference_type = get_class($data);
+                    $meta->reference_type = $data::class;
                 }
 
                 $meta->images = json_decode($gallery, true);
@@ -102,11 +102,11 @@ class GallerySupport
 
     public function deleteGallery(?Model $data): bool
     {
-        if (in_array(get_class($data), $this->getSupportedModules())) {
+        if (in_array($data::class, $this->getSupportedModules())) {
             GalleryMeta::query()
                 ->where([
                     'reference_id' => $data->getKey(),
-                    'reference_type' => get_class($data),
+                    'reference_type' => $data::class,
                 ])
                 ->delete();
         }

@@ -75,22 +75,14 @@ class BaseHelper
         return number_format($bytes, $precision, ',', '.') . ' ' . $units[$pow];
     }
 
-    public function getFileData(string $file, bool $convertToArray = true)
+    public function getFileData(string $file, bool $convertToArray = true): mixed
     {
         $file = File::get($file);
-        if (! empty($file)) {
-            if ($convertToArray) {
-                return json_decode($file, true);
-            }
-
-            return $file;
+        if (empty($file)) {
+            return $convertToArray ? [] : null;
         }
 
-        if (! $convertToArray) {
-            return null;
-        }
-
-        return [];
+        return $convertToArray ? json_decode($file, true) : $file;
     }
 
     public function saveFileData(string $path, array|string|null $data, bool $json = true): bool
@@ -119,18 +111,22 @@ class BaseHelper
 
     public function scanFolder(string $path, array $ignoreFiles = []): array
     {
-        if (! $path) {
+        if (empty($path) || ! File::isDirectory($path)) {
             return [];
         }
 
-        if (File::isDirectory($path)) {
-            $data = array_diff(scandir($path), array_merge(['.', '..', '.DS_Store'], $ignoreFiles));
-            natsort($data);
+        $ignoreFiles = array_merge(['.', '..', '.DS_Store'], $ignoreFiles);
+        $files = [];
 
-            return $data;
+        foreach (new \DirectoryIterator($path) as $file) {
+            if (! $file->isDot() && ! in_array($file->getFilename(), $ignoreFiles)) {
+                $files[] = $file->getFilename();
+            }
         }
 
-        return [];
+        natsort($files);
+
+        return $files;
     }
 
     public function getAdminPrefix(): string

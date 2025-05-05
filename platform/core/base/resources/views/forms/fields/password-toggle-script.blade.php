@@ -11,6 +11,11 @@
     input[data-bb-password]:valid, input[data-bb-password].is-valid {
         background-image: unset;
     }
+
+    body[dir="rtl"] .input-password-toggle {
+        right: unset;
+        left: 0;
+    }
 </style>
 
 <script>

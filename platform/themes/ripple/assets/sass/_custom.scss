@@ -821,7 +821,6 @@ figure.image {
             .nav-top-right {
                 svg {
                     margin-right: 5px;
-                    width: 16px;
                 }
             }
         }
@@ -1044,4 +1043,9 @@ form.contact-form {
         background: var(--primary-color-hover);
         border: var(--primary-color-hover);
     }
+}
+
+.social--simple li a i, .social--simple li a svg {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
 }

@@ -13,6 +13,8 @@ return [
     'enable_post_approval_helper' => 'When it is enabled, properties which posted by an agent will need to be approved by an admin before they are published and display on your site.',
     'default_avatar' => 'Default avatar',
     'default_avatar_helper' => 'Default avatar for member when they do not have an avatar. If you do not select any image, it will be generated using your logo or the first character of member name.',
+    'show_terms_checkbox' => 'Show Terms and Policy checkbox?',
+    'show_terms_checkbox_helper' => 'When it is enabled, users will need to agree to your Terms and Privacy Policy before they can register an account.',
     'email' => [
         'templates' => [
             'confirm_email' => [

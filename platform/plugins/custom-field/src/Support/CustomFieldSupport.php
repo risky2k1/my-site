@@ -124,7 +124,7 @@ class CustomFieldSupport
     {
         $fieldGroups = FieldGroup::query()
             ->wherePublished()
-            ->orderBy('order')
+            ->oldest('order')
             ->get();
 
         $result = [];
@@ -411,7 +411,7 @@ class CustomFieldSupport
         if ($key === null || ! trim($key)) {
             return CustomField::query()
                 ->where([
-                    'use_for' => get_class($data),
+                    'use_for' => $data::class,
                     'use_for_id' => $data->getKey(),
                 ])
                 ->first();
@@ -419,7 +419,7 @@ class CustomFieldSupport
 
         $field = CustomField::query()
             ->where([
-                'use_for' => get_class($data),
+                'use_for' => $data::class,
                 'use_for_id' => $data->getKey(),
                 'slug' => $key,
             ])

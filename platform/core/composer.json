@@ -1,7 +1,11 @@
 {
     "name": "botble/platform",
     "description": "The Botble Platform based on Laravel Framework.",
-    "keywords": ["botble", "botble cms", "botble platform"],
+    "keywords": [
+        "botble",
+        "botble cms",
+        "botble platform"
+    ],
     "homepage": "https://botble.com",
     "support": {
         "issues": "https://botble.ticksy.com",
@@ -17,14 +21,17 @@
     "require": {
         "ext-zip": "*",
         "ext-gd": "*",
-        "barryvdh/laravel-dompdf": "^3.0",
+        "barryvdh/laravel-dompdf": "^3.1",
         "botble/assets": "^1.0",
         "botble/form-builder": "^1.0",
         "intervention/image": "^3.4",
         "maennchen/zipstream-php": "3.1.*",
+        "mobiledetect/mobiledetectlib": "^4.8",
+        "mpdf/mpdf": "^8.2",
         "tightenco/ziggy": "^2.0",
-        "yajra/laravel-datatables-buttons": "^11.0",
-        "yajra/laravel-datatables-oracle": "^11.0",
+        "yajra/laravel-datatables-buttons": "^12.0",
+        "yajra/laravel-datatables-oracle": "^12.0",
+        "yajra/laravel-datatables-html": "12.0.1",
         "mews/purifier": "^3.3",
         "maatwebsite/excel": "^3.1",
         "symfony/http-client": "^7.2",

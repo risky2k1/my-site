@@ -60,6 +60,14 @@ class MemberSettingForm extends SettingForm
                     ->label(trans('plugins/member::settings.default_avatar'))
                     ->helperText(trans('plugins/member::settings.default_avatar_helper'))
                     ->value(setting('member_default_avatar'))
+            )
+            ->add(
+                'member_show_terms_checkbox',
+                OnOffCheckboxField::class,
+                OnOffFieldOption::make()
+                    ->label(trans('plugins/member::settings.show_terms_checkbox'))
+                    ->helperText(trans('plugins/member::settings.show_terms_checkbox_helper'))
+                    ->value(setting('member_show_terms_checkbox', true))
             );
     }
 }

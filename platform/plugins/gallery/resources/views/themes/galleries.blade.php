@@ -1,3 +1,7 @@
+@php
+    Gallery::registerAssets();
+@endphp
+
 <section class="section page-intro pt-100 pb-100 bg-cover">
     <div
         class="bg-overlay"
@@ -27,7 +31,7 @@
                                             <a href="{{ $gallery->url }}">{{ $gallery->name }}</a>
                                         </div>
                                         @if (trim($gallery->user->name))
-                                            <div class="gallery-author">{{ __('By') }} {{ $gallery->user->name }}</div>
+                                            <div class="gallery-author">{{ __('By :name', ['name' => $gallery->user->name]) }}</div>
                                         @endif
                                     </div>
                                 </div>

@@ -15,6 +15,7 @@ class MemberSettingRequest extends Request
             'member_enabled_registration' => [$onOffRule],
             'verify_account_email' => [$onOffRule],
             'member_enable_post_approval' => [$onOffRule],
+            'member_show_terms_checkbox' => [$onOffRule],
             'member_default_avatar' => ['nullable', new MediaImageRule()],
         ];
     }

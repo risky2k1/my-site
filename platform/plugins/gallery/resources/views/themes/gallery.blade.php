@@ -13,9 +13,9 @@
         <div class="page-content">
             <article class="post post--single">
                 <div class="post__content">
-                    <p>
-                        {{ $gallery->description }}
-                    </p>
+                    <div class="ck-content">
+                        {!! BaseHelper::clean($gallery->description) !!}
+                    </div>
                     <div id="list-photo">
                         @foreach (gallery_meta_data($gallery) as $image)
                             @continue(! $image)

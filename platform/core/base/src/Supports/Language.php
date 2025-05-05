@@ -3,6 +3,8 @@
 namespace Botble\Base\Supports;
 
 use Botble\Base\Facades\BaseHelper;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 
 class Language
@@ -381,7 +383,7 @@ class Language
         return self::$flags;
     }
 
-    public static function getAvailableLocales(): array
+    public static function getAvailableLocales(bool $original = false): array
     {
         $languages = [];
         $locales = BaseHelper::scanFolder(lang_path());
@@ -403,6 +405,7 @@ class Language
                         'code' => $language[1],
                         'name' => $language[2],
                         'flag' => $language[4],
+                        'is_rtl' => $language[3] === 'rtl',
                     ];
 
                     break;
@@ -415,6 +418,7 @@ class Language
                         'code' => $language[1],
                         'name' => $language[2],
                         'flag' => $language[4],
+                        'is_rtl' => $language[3] === 'rtl',
                     ];
                 }
             }
@@ -425,8 +429,13 @@ class Language
                     'code' => $locale,
                     'name' => $locale,
                     'flag' => $locale,
+                    'is_rtl' => Arr::get($languages, "$locale.3") === 'rtl',
                 ];
             }
+        }
+
+        if ($original) {
+            return $languages;
         }
 
         return apply_filters('core_available_locales', $languages);
@@ -481,5 +490,16 @@ class Language
     public static function getLanguageCodes(): array
     {
         return collect(static::getListLanguages())->pluck('1')->unique()->all();
+    }
+
+    public static function getCurrentLocale(): array
+    {
+        $locale = static::getDefaultLanguage();
+
+        if (array_key_exists($currentLocale = App::getLocale(), $availableLocales = static::getAvailableLocales())) {
+            return Arr::get($availableLocales, $currentLocale, $locale);
+        }
+
+        return $locale;
     }
 }

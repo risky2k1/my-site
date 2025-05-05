@@ -7,14 +7,12 @@ use Botble\Base\Forms\FieldOptions\TextFieldOption;
 use Botble\Base\Forms\Fields\HtmlField;
 use Botble\Base\Forms\FormAbstract;
 use Botble\Member\Http\Requests\UpdatePasswordRequest;
-use Botble\Member\Models\Member;
 
 class ChangePasswordForm extends FormAbstract
 {
     public function setup(): void
     {
         $this
-            ->model(Member::class)
             ->setMethod('PUT')
             ->setValidatorClass(UpdatePasswordRequest::class)
             ->setFormOption('template', 'core/base::forms.form-content-only')

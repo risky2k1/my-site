@@ -22,8 +22,8 @@ class Authenticate extends BaseAuthenticate
                 $flag = $route->getName();
             }
 
-            $flag = preg_replace('/.create.store$/', '.create', $flag);
-            $flag = preg_replace('/.edit.update$/', '.edit', $flag);
+            $flag = preg_replace('/.store$/', '.create', $flag);
+            $flag = preg_replace('/.update$/', '.edit', $flag);
 
             if ($flag && ! $request->user()->hasAnyPermission((array) $flag)) {
                 if ($request->expectsJson()) {
@@ -37,9 +37,15 @@ class Authenticate extends BaseAuthenticate
         return $next($request);
     }
 
-    protected function redirectTo($request)
+    protected function redirectTo($request): ?string
     {
         if ($this->guards || $request->expectsJson()) {
+            $redirectCallback = apply_filters('cms_unauthenticated_redirect_to', null, $request);
+
+            if ($redirectCallback) {
+                return $redirectCallback;
+            }
+
             return parent::redirectTo($request);
         }
 

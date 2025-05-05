@@ -16,8 +16,7 @@ class RequestLogController extends BaseSystemController
         $limit = $request->integer('paginate', 10);
         $limit = $limit > 0 ? $limit : 10;
 
-        $requests = RequestLog::query()
-            ->orderByDesc('created_at')
+        $requests = RequestLog::query()->latest()
             ->paginate($limit);
 
         return $this
@@ -34,9 +33,9 @@ class RequestLogController extends BaseSystemController
         return $dataTable->renderTable();
     }
 
-    public function destroy(RequestLog $log)
+    public function destroy(RequestLog $requestLog)
     {
-        return DeleteResourceAction::make($log);
+        return DeleteResourceAction::make($requestLog);
     }
 
     public function deleteAll()

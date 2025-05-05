@@ -1,6 +1,6 @@
 @php
-    Theme::asset()->add('fob-comment-css', asset('vendor/core/plugins/fob-comment/css/comment.css'));
-    Theme::asset()->container('footer')->add('fob-comment-js', asset('vendor/core/plugins/fob-comment/js/comment.js'));
+    Theme::asset()->add('fob-comment-css', asset('vendor/core/plugins/fob-comment/css/comment.css'), version: '1.1.19');
+    Theme::asset()->container('footer')->add('fob-comment-js', asset('vendor/core/plugins/fob-comment/js/comment.js'), ['jquery'], version: '1.1.19');
 
     Theme::registerToastNotification();
 
@@ -21,7 +21,9 @@
 </div>
 
 <div class="fob-comment-form-section">
-    <h4 class="fob-comment-title fob-comment-form-title">{{ trans('plugins/fob-comment::comment.front.form.title') }}</h4>
+    <h4 class="fob-comment-title fob-comment-form-title">
+        <span class="d-inline-block">{{ trans('plugins/fob-comment::comment.front.form.title') }}</span>
+    </h4>
     <p class="fob-comment-form-note">{{ trans('plugins/fob-comment::comment.front.form.description') }}</p>
 
     {!! CommentForm::createWithReference($model)->renderForm() !!}

@@ -78,19 +78,26 @@ class RegisterForm extends AuthForm
                     ->placeholder(__('Password confirmation'))
                     ->icon('ti ti-lock')
             )
-            ->add(
-                'agree_terms_and_policy',
-                OnOffCheckboxField::class,
-                CheckboxFieldOption::make()
-                    ->when(
-                        $privacyPolicyUrl = theme_option('term_and_privacy_policy_url'),
-                        function (CheckboxFieldOption $fieldOption, string $url): void {
-                            $fieldOption->label(__('I agree to the :link', ['link' => Html::link($url, __('Terms and Privacy Policy'), attributes: ['class' => 'text-decoration-underline', 'target' => '_blank'])]));
-                        }
-                    )
-                    ->when(! $privacyPolicyUrl, function (CheckboxFieldOption $fieldOption): void {
-                        $fieldOption->label(__('I agree to the Terms and Privacy Policy'));
-                    })
+            ->when(
+                setting('member_show_terms_checkbox', true),
+                function (AuthForm $form): void {
+                    $privacyPolicyUrl = theme_option('term_and_privacy_policy_url');
+
+                    $form->add(
+                        'agree_terms_and_policy',
+                        OnOffCheckboxField::class,
+                        CheckboxFieldOption::make()
+                            ->when(
+                                $privacyPolicyUrl,
+                                function (CheckboxFieldOption $fieldOption, string $url): void {
+                                    $fieldOption->label(__('I agree to the :link', ['link' => Html::link($url, __('Terms and Privacy Policy'), attributes: ['class' => 'text-decoration-underline', 'target' => '_blank'])]));
+                                }
+                            )
+                            ->when(! $privacyPolicyUrl, function (CheckboxFieldOption $fieldOption): void {
+                                $fieldOption->label(__('I agree to the Terms and Privacy Policy'));
+                            })
+                    );
+                }
             )
             ->submitButton(sprintf('%s %s', __('Register'), BaseHelper::renderIcon('ti ti-arrow-narrow-right', null, ['class' => 'ms-1'])))
             ->add(

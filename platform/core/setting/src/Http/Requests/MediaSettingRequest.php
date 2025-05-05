@@ -12,12 +12,13 @@ class MediaSettingRequest extends Request
     public function rules(): array
     {
         $rules = [
-            'media_driver' => ['required', 'string', 'in:public,s3,r2,do_spaces,wasabi,bunnycdn,backblaze'],
+            'media_driver' => ['required', 'string', Rule::in(array_keys(RvMedia::getAvailableDrivers()))],
             'media_aws_access_key_id' => ['nullable', 'string', 'required_if:media_driver,s3'],
             'media_aws_secret_key' => ['nullable', 'string', 'required_if:media_driver,s3'],
             'media_aws_default_region' => ['nullable', 'string', 'required_if:media_driver,s3'],
             'media_aws_bucket' => ['nullable', 'string', 'required_if:media_driver,s3'],
             'media_aws_url' => ['nullable', 'string', 'required_if:media_driver,s3'],
+            'media_s3_path' => ['nullable', 'string', 'max:255'],
             'media_aws_endpoint' => ['nullable', 'string'],
             'media_aws_use_path_style_endpoint' => $onOffRule = new OnOffRule(),
 
@@ -55,6 +56,8 @@ class MediaSettingRequest extends Request
             'media_backblaze_endpoint' => ['nullable', 'string', 'required_if:media_driver,backblaze'],
             'media_backblaze_url' => ['nullable', 'url'],
             'media_backblaze_use_path_style_endpoint' => $onOffRule,
+            'media_backblaze_cdn_enabled' => $onOffRule,
+            'media_backblaze_cdn_custom_domain' => ['nullable', 'url', 'required_if:media_backblaze_cdn_enabled,1'],
 
             'media_turn_off_automatic_url_translation_into_latin' => $onOffRule,
             'media_use_original_name_for_file_path' => $onOffRule,

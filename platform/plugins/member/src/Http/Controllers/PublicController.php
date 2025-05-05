@@ -73,8 +73,7 @@ class PublicController extends BaseController
             ->where([
                 'author_id' => $author->getKey(),
                 'author_type' => Member::class,
-            ])
-            ->orderByDesc('created_at')
+            ])->latest()
             ->paginate(12);
 
         return Theme::scope('author', compact('author', 'posts'), 'plugins/member::themes.author')->render();

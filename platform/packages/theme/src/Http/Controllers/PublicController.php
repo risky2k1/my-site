@@ -34,7 +34,7 @@ class PublicController extends BaseController
             }
         }
 
-        SeoHelper::setTitle(theme_option('site_title'));
+        SeoHelper::setTitle(Theme::getSiteTitle());
 
         event(RenderingHomePageEvent::class);
 
@@ -72,7 +72,7 @@ class PublicController extends BaseController
         }
 
         if (isset($result['slug']) && $result['slug'] !== $key) {
-            $prefix = SlugHelper::getPrefix(get_class(Arr::first($result['data'])));
+            $prefix = SlugHelper::getPrefix(Arr::first($result['data'])::class);
 
             return redirect()->route('public.single', empty($prefix) ? $result['slug'] : "$prefix/{$result['slug']}");
         }
@@ -107,7 +107,7 @@ class PublicController extends BaseController
             event(new RenderingSiteMapEvent($key));
         }
 
-        // show your site map (options: 'xml' (default), 'html', 'txt', 'ror-rss', 'ror-rdf')
+        // show your site map (options: 'xml' (default), 'xml-mobile', 'html', 'txt', 'ror-rss', 'ror-rdf', 'google-news')
         return SiteMapManager::render($key ? $extension : 'sitemapindex');
     }
 

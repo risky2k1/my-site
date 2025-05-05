@@ -44,6 +44,7 @@ use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
 class BaseServiceProvider extends ServiceProvider
 {
@@ -88,7 +89,7 @@ class BaseServiceProvider extends ServiceProvider
 
         $this->prepareAliasesIfMissing();
 
-        config()->set(['session.cookie' => config('core.base.general.session_cookie', 'botble_session')]);
+        config()->set(['session.cookie' => Str::slug(config('core.base.general.session_cookie', 'botble_session'), '_')]);
 
         $this->overrideDefaultConfigs();
 
@@ -167,48 +168,53 @@ class BaseServiceProvider extends ServiceProvider
 
     protected function configureIni(): void
     {
-        $currentLimit = @ini_get('memory_limit');
-        $currentLimitInt = Helper::convertHrToBytes($currentLimit);
+        static $memoryLimit = null;
+        static $maxExecutionTime = null;
 
+        if ($memoryLimit === null) {
+            $memoryLimit = @ini_get('memory_limit');
+        }
+
+        $currentLimitInt = Helper::convertHrToBytes($memoryLimit);
         $baseConfig = $this->getBaseConfig();
+        $configMemoryLimit = Arr::get($baseConfig, 'memory_limit');
 
-        $memoryLimit = Arr::get($baseConfig, 'memory_limit');
-
-        if (! $memoryLimit) {
-            if (Helper::isIniValueChangeable('memory_limit') === false) {
-                $memoryLimit = $currentLimit;
-            } else {
-                $memoryLimit = '256M';
-            }
+        if (! $configMemoryLimit) {
+            $configMemoryLimit = Helper::isIniValueChangeable('memory_limit') === false
+                ? $memoryLimit
+                : '256M';
         }
 
-        $limitInt = Helper::convertHrToBytes($memoryLimit);
+        $limitInt = Helper::convertHrToBytes($configMemoryLimit);
         if ($currentLimitInt !== -1 && ($limitInt === -1 || $limitInt > $currentLimitInt)) {
-            BaseHelper::iniSet('memory_limit', $memoryLimit);
+            BaseHelper::iniSet('memory_limit', $configMemoryLimit);
         }
 
-        $maxExecutionTime = Arr::get($baseConfig, 'max_execution_time');
-
-        $currentExecutionTimeLimit = @ini_get('max_execution_time');
-
-        if ($currentExecutionTimeLimit < $maxExecutionTime) {
-            BaseHelper::iniSet('max_execution_time', $maxExecutionTime);
+        if ($maxExecutionTime === null) {
+            $maxExecutionTime = @ini_get('max_execution_time');
         }
+
+        $configMaxExecutionTime = Arr::get($baseConfig, 'max_execution_time');
+        if ($maxExecutionTime < $configMaxExecutionTime) {
+            BaseHelper::iniSet('max_execution_time', $configMaxExecutionTime);
+        }
+    }
+
+    protected function getConfigValue(string $key, mixed $default = null): mixed
+    {
+        return config("core.base.general.{$key}", $default);
     }
 
     protected function forceSSL(): void
     {
-        $baseConfig = $this->getBaseConfig();
-
-        $forceUrl = Arr::get($baseConfig, 'force_root_url');
+        $forceUrl = $this->getConfigValue('force_root_url');
         if (! empty($forceUrl)) {
-            URL::forceRootUrl($forceUrl);
+            URL::useOrigin($forceUrl);
         }
 
-        $forceSchema = Arr::get($baseConfig, 'force_schema');
+        $forceSchema = $this->getConfigValue('force_schema');
         if (! empty($forceSchema)) {
             $this->app['request']->server->set('HTTPS', 'on');
-
             URL::forceScheme($forceSchema);
         }
     }
@@ -261,6 +267,18 @@ class BaseServiceProvider extends ServiceProvider
             'debugbar.capture_ajax' => false,
             'debugbar.remote_sites_path' => '',
             'core.base.general.google_fonts' => GoogleFonts::getFonts(),
+            'scribe.type' => 'static',
+            'scribe.assets_directory' => 'vendor/core/packages/api',
+            'scribe.routes' => [
+                [
+                    'match' => [
+                        'prefixes' => ['api/*'],
+                        'domains' => ['*'],
+                    ],
+                    'include' => [],
+                    'exclude' => [],
+                ],
+            ],
         ]);
 
         if (
@@ -335,6 +353,7 @@ class BaseServiceProvider extends ServiceProvider
             'excel.exports.csv.use_bom' => true,
             'dompdf.public_path' => public_path(),
             'database.connections.mysql.strict' => Arr::get($baseConfig, 'db_strict_mode'),
+            'database.connections.mysql.prefix' => Arr::get($baseConfig, 'db_prefix'),
             'excel.imports.ignore_empty' => true,
             'excel.imports.csv.input_encoding' => Arr::get($baseConfig, 'csv_import_input_encoding', 'UTF-8'),
         ]);

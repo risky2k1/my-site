@@ -15,7 +15,7 @@ class PublicController extends BaseController
         $galleries = GalleryModel::query()
             ->wherePublished()
             ->with(['slugable', 'user'])
-            ->orderBy('order')->latest()
+            ->oldest('order')->latest()
             ->get();
 
         SeoHelper::setTitle(__('Galleries'));

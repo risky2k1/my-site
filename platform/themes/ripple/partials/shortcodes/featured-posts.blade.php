@@ -1,5 +1,5 @@
 @if ($posts->isNotEmpty())
-    <section class="section pt-50 pb-50 bg-lightgray" @if ($shortcode->background_color) style="background-color: {{ $shortcode->background_color }} !important;" @endif>
+    <section {!! $shortcode->htmlAttributes() !!} class="section pt-50 pb-50 bg-lightgray">
         <div class="container">
             <div class="post-group post-group--hero">
                 @foreach ($posts as $post)

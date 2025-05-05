@@ -82,14 +82,14 @@ class HookServiceProvider extends ServiceProvider
         }, 10, 2);
 
         add_filter('core_email_template_site_logo', function (?string $defaultLogo): string {
-            if (! $defaultLogo && ($logo = theme_option('logo'))) {
+            if (! $defaultLogo && ($logo = Theme::getLogo())) {
                 $defaultLogo = RvMedia::getImageUrl($logo);
             }
 
             return $defaultLogo;
         });
 
-        add_filter('email_template_logo', fn ($logo) => empty($logo) ? theme_option('logo') : $logo);
+        add_filter('email_template_logo', fn ($logo) => empty($logo) ? Theme::getLogo() : $logo);
         add_filter('email_template_logo_helper_text', function ($helperText) {
             return trans('packages/theme::theme.email_template_logo_helper_text')
                 . '<br />'
@@ -97,7 +97,7 @@ class HookServiceProvider extends ServiceProvider
         });
         add_filter(
             'email_template_copyright_text',
-            fn ($copyrightText) => empty($copyrightText) ? theme_option('copyright') : $copyrightText
+            fn ($copyrightText) => empty($copyrightText) ? Theme::getSiteCopyright() : $copyrightText
         );
         add_filter('email_template_copyright_helper_text', function ($helperText) {
             return $helperText;
@@ -183,6 +183,15 @@ class HookServiceProvider extends ServiceProvider
                                 ],
                             ],
                             [
+                                'id' => 'seo_keywords',
+                                'type' => 'helper',
+                                'label' => false,
+                                'attributes' => [
+                                    'value' => null,
+                                    'content' => view('packages/theme::partials.no-meta-keywords')->render(),
+                                ],
+                            ],
+                            [
                                 'id' => 'seo_index',
                                 'type' => 'customRadio',
                                 'label' => trans('packages/theme::theme.theme_option_seo_index'),
@@ -200,6 +209,7 @@ class HookServiceProvider extends ServiceProvider
                                 'id' => 'seo_og_image',
                                 'type' => 'mediaImage',
                                 'label' => trans('packages/theme::theme.theme_option_seo_open_graph_image'),
+                                'helper' => trans('packages/theme::theme.theme_option_seo_open_graph_image_helper'),
                                 'attributes' => [
                                     'name' => 'seo_og_image',
                                     'value' => null,
@@ -431,6 +441,7 @@ class HookServiceProvider extends ServiceProvider
                                 ->rows(3)
                                 ->addAttribute('data-shortcode-attribute', 'content')
                                 ->value($content)
+                                ->maxLength(100000)
                         );
                 });
             }
@@ -604,7 +615,7 @@ class HookServiceProvider extends ServiceProvider
 
     public function addStatsWidgets(array $widgets, Collection $widgetSettings): array
     {
-        $themes = count(BaseHelper::scanFolder(theme_path()));
+        $themes = fn () => count(BaseHelper::scanFolder(theme_path()));
 
         return (new DashboardWidgetInstance())
             ->setType('stats')

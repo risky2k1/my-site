@@ -7,7 +7,8 @@ Route::group(['namespace' => 'Botble\RequestLog\Http\Controllers'], function ():
     AdminHelper::registerRoutes(function (): void {
         Route::group(['prefix' => 'request-logs', 'as' => 'request-log.'], function (): void {
             Route::resource('', 'RequestLogController')
-                ->only(['index', 'destroy'])->parameters(['' => 'request-log']);
+                ->only(['index', 'destroy'])
+                ->parameters(['' => 'request-log']);
 
             Route::get('widgets/request-errors', [
                 'as' => 'widget.request-errors',

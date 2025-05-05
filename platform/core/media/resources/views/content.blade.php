@@ -843,6 +843,7 @@
         </x-core::table.body.cell>
         <x-core::table.body.cell>
             <span class="file-status text-__status__">__message__</span>
+            <span class="progress-percent"></span>
         </x-core::table.body.cell>
     </x-core::table.body.row>
 </x-core::custom-template>

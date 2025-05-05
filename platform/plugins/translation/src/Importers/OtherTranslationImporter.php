@@ -25,7 +25,8 @@ class OtherTranslationImporter extends Importer implements WithMapping
     {
         $columns = [
             ImportColumn::make('key')
-                ->rules(['required', 'string'], trans('plugins/translation::translation.import.rules.key')),
+                ->rules(['required', 'string'], trans('plugins/translation::translation.import.rules.key'))
+                ->heading('key'),
         ];
 
         foreach (Language::getAvailableLocales() as $locale) {
@@ -102,5 +103,10 @@ class OtherTranslationImporter extends Importer implements WithMapping
         }
 
         return $count;
+    }
+
+    public function headerToSnakeCase(): bool
+    {
+        return false;
     }
 }

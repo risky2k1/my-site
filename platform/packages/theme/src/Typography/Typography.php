@@ -153,6 +153,8 @@ class Typography
             );
         }
 
+        $styles .= '}';
+
         if ($fontSizes) {
             foreach (['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'body'] as $tag) {
                 if (! isset($fontSizes[$tag])) {
@@ -169,7 +171,7 @@ class Typography
             }
         }
 
-        $styles .= '}</style>';
+        $styles .= '</style>';
 
         return $fontFaces . $styles;
     }

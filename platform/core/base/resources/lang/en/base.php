@@ -17,6 +17,8 @@ return [
         'site_social_links' => 'Site social links (data type: array)',
         'date_time' => 'Current date time',
         'date_year' => 'Current year',
+        'html_attributes' => 'HTML attributes',
+        'body_attributes' => 'Body attributes',
         'settings' => 'Setting Values',
         'email_css' => 'Email CSS',
         'variable' => 'Variable',

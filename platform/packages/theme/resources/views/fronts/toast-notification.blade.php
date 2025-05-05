@@ -1,5 +1,5 @@
 @once
-    <script src="{{ asset('vendor/core/packages/theme/js/toast.js') }}"></script>
+    <script src="{{ asset('vendor/core/packages/theme/js/toast.js') }}?v={{ get_cms_version() }}"></script>
 
     @if (
         session()->has('success_msg')

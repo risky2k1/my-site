@@ -1,7 +1,9 @@
 <style>
     @font-face {
         font-family: FreeSerif;
-        src: url('{{ url('vendor/core/core/base/fonts/FreeSerif.ttf') }}');
+        font-style: normal;
+        font-weight: normal;
+        src: url('{{ url('vendor/core/core/base/fonts/FreeSerif.ttf') }}') format('truetype');
     }
 
     body {

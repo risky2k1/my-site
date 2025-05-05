@@ -5,6 +5,7 @@ namespace Botble\SeoHelper\Entities;
 use Botble\Base\Facades\BaseHelper;
 use Botble\SeoHelper\Contracts\Entities\TitleContract;
 use Botble\SeoHelper\Exceptions\InvalidArgumentException;
+use Botble\Theme\Facades\Theme;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -28,7 +29,7 @@ class Title implements TitleContract
     protected function init(): void
     {
         $this->set(null);
-        $this->title = theme_option('site_title');
+        $this->title = Theme::getSiteTitle();
 
         if (theme_option('show_site_name', false)) {
             $this->setSiteName($this->title);
@@ -198,7 +199,7 @@ class Title implements TitleContract
         }
     }
 
-    protected function renderTitleFirst(string $separator): string
+    protected function renderTitleFirst(?string $separator): ?string
     {
         $output = [];
         $output[] = $this->getTitleOnly();

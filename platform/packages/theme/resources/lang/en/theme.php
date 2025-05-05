@@ -47,6 +47,7 @@ return [
     'theme_option_general' => 'General',
     'theme_option_general_description' => 'General settings',
     'theme_option_seo_open_graph_image' => 'SEO default Open Graph image',
+    'theme_option_seo_open_graph_image_helper' => 'Default Open Graph image when sharing on social networks. If not set, it will get from theme options logo in Admin -> Appearance -> Theme Options -> Logo. That image type must be PNG, JPG or GIF, do not use modern image type such as WebP or Avif. The image dimensions must be at least 200x200 pixels.',
     'theme_option_seo_index' => 'SEO Index',
     'theme_option_seo_index_helper' => 'When "No Index" is selected, search engines are blocked from indexing the site, preventing it from appearing in search engine results.',
     'seo_index_options' => [
@@ -79,4 +80,5 @@ return [
     ],
     'term_and_privacy_policy_url' => 'Terms and Privacy Policy URL',
     'site_title_separator' => 'SEO title separator',
+    'no_meta_keywords' => "Meta keywords was removed by Google, you don't need to add meta keywords to your website. Learn more: :link",
 ];

@@ -178,12 +178,9 @@ class CustomFieldServiceProvider extends ServiceProvider
                 trans('plugins/custom-field::rules.post_format'),
                 Post::class . '_post_format',
                 function () {
-                    $formats = [];
-                    foreach (get_post_formats() as $key => $format) {
-                        $formats[$key] = $format['name'];
-                    }
-
-                    return $formats;
+                    return array_map(function ($format) {
+                        return $format['name'];
+                    }, get_post_formats());
                 }
             )
             ->expandRule('other', trans('plugins/custom-field::rules.model_name'), 'model_name', function () {

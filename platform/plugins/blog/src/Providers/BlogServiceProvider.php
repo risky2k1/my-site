@@ -77,8 +77,11 @@ class BlogServiceProvider extends ServiceProvider
             SiteMapManager::registerKey([
                 'blog-categories',
                 'blog-tags',
-                'blog-posts-((?:19|20|21|22)\d{2})-(0?[1-9]|1[012])',
+                'blog-posts',
             ]);
+
+            // Register monthly archive sitemaps for blog posts
+            SiteMapManager::registerMonthlyArchives('blog-posts');
         });
 
         SlugHelper::registering(function (): void {

@@ -55,6 +55,3 @@ storage/framework/laravel-excel/
 .phpactor.json
 
 storage/framework/maintenance.php
-
-composer.lock
-vendor

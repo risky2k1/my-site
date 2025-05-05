@@ -10,7 +10,7 @@ use Illuminate\Support\Arr;
 
 trait HasPageSeeder
 {
-    protected function getPageId(string $name): int|string
+    protected function getPageId(string $name): int|string|null
     {
         return Page::query()->where('name', $name)->value('id');
     }

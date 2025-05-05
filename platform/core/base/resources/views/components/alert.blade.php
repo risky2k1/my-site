@@ -4,12 +4,13 @@
     'dismissible' => false,
     'icon' => null,
     'important' => false,
+    'class' => null,
 ])
 
 @php
     $color = match ($type) {
         'success' => 'alert-success',
-        'warning' => 'alert-warning',
+        'warning' => 'alert-warning bg-warning text-white',
         'danger' => 'alert-danger',
         default => 'alert-info',
     };
@@ -20,22 +21,24 @@
         'warning' => 'ti ti-alert-circle',
         default => 'ti ti-info-circle',
     };
+
+    $iconClass = $type === 'warning' ? 'text-white' : null;
 @endphp
 
 <div
     role="alert"
-    {{ $attributes->class(['alert', $color, 'alert-dismissible' => $dismissible, 'alert-important' => $important]) }}
+    {{ $attributes->class(['alert', $color, $class, 'alert-dismissible' => $dismissible, 'alert-important' => $important]) }}
 >
     @if ($icon)
-        <div class="d-flex">
+        <div class="d-flex gap-1">
             <div>
-                <x-core::icon :name="$icon" class="alert-icon" />
+                <x-core::icon :name="$icon" class="alert-icon {{ $iconClass ?: '' }}" />
             </div>
             <div class="w-100">
     @endif
 
     @if ($title)
-        <h4 @class(['alert-title' => !$important, 'mb-0'])>{!! $title !!}</h4>
+        <h4 @class(['alert-title' => !$important, 'mb-0'])>{!! BaseHelper::clean($title) !!}</h4>
     @endif
 
     {{ $slot }}

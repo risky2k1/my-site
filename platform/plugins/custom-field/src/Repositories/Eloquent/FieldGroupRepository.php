@@ -31,7 +31,7 @@ class FieldGroupRepository extends RepositoriesAbstract implements FieldGroupInt
     {
         return $this->model
             ->where($condition)
-            ->orderBy('order')
+            ->oldest('order')
             ->get();
     }
 
@@ -41,7 +41,7 @@ class FieldGroupRepository extends RepositoriesAbstract implements FieldGroupInt
         $withValue = false,
         $morphClass = null,
         $morphId = null
-    ) {
+    ): array {
         $result = [];
 
         $fieldItems = $this->fieldItemRepository->getGroupItems($groupId, $parentId);
@@ -76,6 +76,10 @@ class FieldGroupRepository extends RepositoriesAbstract implements FieldGroupInt
 
                 if ($row->type == 'file' && ! empty($item['value'])) {
                     $item['full_url'] = RvMedia::url($item['value']);
+                }
+
+                if ($row->type == 'checkbox' && Str::isJson($item['value'])) {
+                    $item['value'] = json_decode($item['value'], true);
                 }
             }
 

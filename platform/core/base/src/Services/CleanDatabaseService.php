@@ -34,7 +34,7 @@ class CleanDatabaseService
         try {
             $tables = array_map(function (array $table) {
                 return $table['name'];
-            }, Schema::getTables());
+            }, Schema::getTables(Schema::getConnection()->getDatabaseName()));
 
             $tables = array_diff($tables, $except);
         } catch (Throwable) {

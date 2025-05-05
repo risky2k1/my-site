@@ -104,7 +104,13 @@ class LanguageManager
                 is_in_admin() ||
                 ! in_array($language->lang_id, json_decode(setting('language_hide_languages', '[]'), true))
             ) {
-                $locales[$language->lang_locale] = [
+                $key = $language->lang_locale;
+
+                if (isset($locales[$key])) {
+                    $key = $language->lang_code;
+                }
+
+                $locales[$key] = [
                     'lang_name' => $language->lang_name,
                     'lang_locale' => $language->lang_locale,
                     'lang_code' => $language->lang_code,
@@ -145,7 +151,7 @@ class LanguageManager
         }
 
         $this->activeLanguages = Language::query()
-            ->orderBy('lang_order')
+            ->oldest('lang_order')
             ->select($select)
             ->get();
 
@@ -897,7 +903,7 @@ class LanguageManager
                         $uniqueKey = LanguageMeta::query()
                             ->where([
                                 'reference_id' => $refFrom,
-                                'reference_type' => get_class($data),
+                                'reference_type' => $data::class,
                             ])
                             ->value('lang_meta_origin');
                     }
@@ -905,7 +911,7 @@ class LanguageManager
                     if (! $meta) {
                         $meta = new LanguageMeta();
                         $meta->reference_id = $data->getKey();
-                        $meta->reference_type = get_class($data);
+                        $meta->reference_type = $data::class;
                         $meta->lang_meta_origin = $uniqueKey;
                     }
 

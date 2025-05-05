@@ -93,7 +93,8 @@ class HookServiceProvider extends ServiceProvider
             }
 
             return [
-                'locale' => $default->lang_code,
+                'locale' => $default->lang_locale,
+                'code' => $default->lang_code,
                 'name' => $default->lang_name,
                 'flag' => $default->lang_flag,
                 'is_rtl' => $default->lang_is_rtl,
@@ -101,6 +102,19 @@ class HookServiceProvider extends ServiceProvider
         }, 50);
 
         add_filter('core_available_locales', function (array $availableLocales) {
+            if (in_array(
+                Route::currentRouteName(),
+                [
+                    'translations.locales',
+                    'translations.index',
+                    'translations.theme-translations',
+                    'tools.data-synchronize.export.theme-translations.index',
+                    'tools.data-synchronize.export.other-translations.index',
+                ]
+            )) {
+                return $availableLocales;
+            }
+
             $languages = Language::getActiveLanguage(['lang_locale', 'lang_code', 'lang_name', 'lang_flag', 'lang_is_rtl']);
 
             if ($languages->isEmpty()) {
@@ -110,7 +124,13 @@ class HookServiceProvider extends ServiceProvider
             $availableLocales = [];
 
             foreach ($languages as $language) {
-                $availableLocales[$language->lang_locale] = [
+                $key = $language->lang_locale;
+
+                if (isset($availableLocales[$key])) {
+                    $key = $language->lang_code;
+                }
+
+                $availableLocales[$key] = [
                     'locale' => $language->lang_locale,
                     'code' => $language->lang_code,
                     'name' => $language->lang_name,

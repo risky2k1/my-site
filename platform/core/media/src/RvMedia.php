@@ -34,7 +34,6 @@ use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\ImageManager;
-use League\Flysystem\UnableToRetrieveMetadata;
 use League\Flysystem\UnableToWriteFile;
 use Symfony\Component\Mime\MimeTypes;
 use Throwable;
@@ -250,6 +249,16 @@ class RvMedia
             }
 
             return str_replace('.digitaloceanspaces.com', '.cdn.digitaloceanspaces.com', Storage::url($path));
+        } else {
+            if ($this->getMediaDriver() === 'backblaze' && (int) setting('media_backblaze_cdn_enabled')) {
+                $customDomain = setting('media_backblaze_cdn_custom_domain');
+                $currentEndpoint = setting('media_backblaze_endpoint');
+                if ($customDomain) {
+                    return $customDomain . '/' . ltrim($path, '/');
+                }
+
+                return str_replace($currentEndpoint, $customDomain, Storage::url($path));
+            }
         }
 
         return Storage::url($path);
@@ -412,6 +421,14 @@ class RvMedia
             ->header('Content-Type', 'text/html');
     }
 
+    protected function getCustomS3Path(): string
+    {
+        $customPath = trim(setting('media_s3_path', $this->getConfig('custom_s3_path')), '/');
+        $customPath = apply_filters('core_media_custom_s3_path', $customPath);
+
+        return $customPath ? $customPath . '/' : '';
+    }
+
     public function handleUpload(
         ?UploadedFile $fileUpload,
         int|string|null $folderId = 0,
@@ -436,10 +453,21 @@ class RvMedia
 
         $allowedMimeTypes = $this->getConfig('allowed_mime_types');
 
+        $allowedToUploadAnyFileTypes = AdminHelper::isInAdmin(true) && $this->getConfig(
+            'allowed_admin_to_upload_any_file_types',
+            false
+        );
+
         if (! $this->isChunkUploadEnabled()) {
             if (! $skipValidation) {
+                $rules = ['required'];
+
+                if (! $allowedToUploadAnyFileTypes) {
+                    $rules[] = ValidationFile::types(explode(',', $allowedMimeTypes));
+                }
+
                 $validator = Validator::make(['uploaded_file' => $fileUpload], [
-                    'uploaded_file' => ['required', ValidationFile::types(explode(',', $allowedMimeTypes))],
+                    'uploaded_file' => $rules,
                 ]);
 
                 if ($validator->fails()) {
@@ -488,7 +516,11 @@ class RvMedia
         try {
             $fileExtension = $fileUpload->getClientOriginalExtension() ?: $fileUpload->guessExtension();
 
-            if (! $skipValidation && ! in_array(strtolower($fileExtension), explode(',', $allowedMimeTypes))) {
+            if (
+                ! $skipValidation
+                && ! in_array(strtolower($fileExtension), explode(',', $allowedMimeTypes))
+                && ! $allowedToUploadAnyFileTypes
+            ) {
                 return [
                     'error' => true,
                     'message' => trans('core/media::media.can_not_detect_file_type'),
@@ -508,7 +540,11 @@ class RvMedia
 
             $file = new MediaFile();
 
-            $fileName = apply_filters('core_media_upload_filename', File::name($fileUpload->getClientOriginalName()), $fileUpload);
+            $fileName = apply_filters(
+                'core_media_upload_filename',
+                File::name($fileUpload->getClientOriginalName()),
+                $fileUpload
+            );
 
             $file->name = MediaFile::createName($fileName, $folderId);
 
@@ -524,6 +560,11 @@ class RvMedia
 
             if ($folderPath) {
                 $filePath = $folderPath . '/' . $filePath;
+            }
+
+            // Add custom S3 path if using S3 driver
+            if ($this->getMediaDriver() === 's3') {
+                $filePath = $this->getCustomS3Path() . $filePath;
             }
 
             if ($this->canGenerateThumbnails($fileUpload->getMimeType())) {
@@ -747,9 +788,18 @@ class RvMedia
         $imageSource->place(
             $watermark,
             setting('media_watermark_position', $this->getConfig('watermark.position')),
-            (int) setting('media_watermark_position_x', setting('watermark_position_x') ?: $this->getConfig('watermark.x')),
-            (int) setting('media_watermark_position_y', setting('watermark_position_y') ?: $this->getConfig('watermark.y')),
-            (int) setting('media_watermark_opacity', setting('watermark_opacity') ?: $this->getConfig('watermark.opacity'))
+            (int) setting(
+                'media_watermark_position_x',
+                setting('watermark_position_x') ?: $this->getConfig('watermark.x')
+            ),
+            (int) setting(
+                'media_watermark_position_y',
+                setting('watermark_position_y') ?: $this->getConfig('watermark.y')
+            ),
+            (int) setting(
+                'media_watermark_opacity',
+                setting('watermark_opacity') ?: $this->getConfig('watermark.opacity')
+            )
         );
 
         $destinationPath = sprintf(
@@ -763,13 +813,26 @@ class RvMedia
         return true;
     }
 
-    public function getRealPath(?string $url): string
+    public function getRealPath(?string $url): ?string
     {
-        $path = $this->isUsingCloud()
-            ? Storage::url($url)
-            : Storage::path($url);
+        if (empty($url)) {
+            return null;
+        }
 
-        return Arr::first(explode('?v=', $path));
+        try {
+            $path = $this->isUsingCloud()
+                ? Storage::url($url)
+                : Storage::path($url);
+
+            return Arr::first(explode('?v=', $path));
+        } catch (Throwable $exception) {
+            logger()->error('Failed to get real path: ' . $exception->getMessage(), [
+                'url' => $url,
+                'exception' => $exception,
+            ]);
+
+            return null;
+        }
     }
 
     public function isImage(string $mimeType): bool
@@ -803,7 +866,10 @@ class RvMedia
             if ($response->failed() || ! $response->body()) {
                 return [
                     'error' => true,
-                    'message' => $response->reason() ?: trans('core/media::media.unable_download_image_from', ['url' => $url]),
+                    'message' => $response->reason() ?: trans(
+                        'core/media::media.unable_download_image_from',
+                        ['url' => $url]
+                    ),
                 ];
             }
 
@@ -917,7 +983,7 @@ class RvMedia
         return $this;
     }
 
-    public function getMimeType(string $url): ?string
+    public function getMimeType(?string $url): ?string
     {
         if (! $url) {
             return null;
@@ -925,6 +991,10 @@ class RvMedia
 
         try {
             $realPath = $this->getRealPath($url);
+
+            if (empty($realPath)) {
+                return null;
+            }
 
             $fileExtension = File::extension($realPath);
 
@@ -939,7 +1009,12 @@ class RvMedia
             $mimeTypeDetection = new MimeTypes();
 
             return Arr::first($mimeTypeDetection->getMimeTypes($fileExtension));
-        } catch (UnableToRetrieveMetadata) {
+        } catch (Throwable $exception) {
+            logger()->error('Failed to get MIME type: ' . $exception->getMessage(), [
+                'url' => $url,
+                'exception' => $exception,
+            ]);
+
             return null;
         }
     }
@@ -1002,10 +1077,10 @@ class RvMedia
 
     public function isChunkUploadEnabled(): bool
     {
-        return (int) $this->getConfig('chunk.enabled') == 1;
+        return (bool) setting('media_chunk_enabled', (int) $this->getConfig('chunk.enabled') == 1);
     }
 
-    public function getConfig(?string $key = null, string|null|array $default = null)
+    public function getConfig(?string $key = null, bool|string|null|array $default = null)
     {
         $configs = config('core.media.media');
 
@@ -1188,8 +1263,16 @@ class RvMedia
                 'region' => $config['region'],
                 'bucket' => $config['bucket'],
                 'url' => $config['url'],
-                'endpoint' => str_starts_with($config['endpoint'], 'https://') ? $config['endpoint'] : 'https://' . $config['endpoint'],
+                'endpoint' => str_starts_with(
+                    $config['endpoint'],
+                    'https://'
+                ) ? $config['endpoint'] : 'https://' . $config['endpoint'],
                 'use_path_style_endpoint' => (bool) $config['use_path_style_endpoint'],
+                'options' => [
+                    'StorageClass' => 'STANDARD',
+                ],
+                'request_checksum_calculation' => 'when_required',
+                'response_checksum_validation' => 'when_required',
             ],
         ]);
     }
@@ -1228,7 +1311,14 @@ class RvMedia
             return Html::tag('img', '', [...$attributes, 'src' => $url, 'alt' => $alt]);
         }
 
-        return apply_filters('core_media_image', Html::image($url, $alt, $attributes, $secure), $url, $alt, $attributes, $secure);
+        return apply_filters(
+            'core_media_image',
+            Html::image($url, $alt, $attributes, $secure),
+            $url,
+            $alt,
+            $attributes,
+            $secure
+        );
     }
 
     public function getFileSize(?string $path): ?string
@@ -1359,5 +1449,36 @@ class RvMedia
             && ! App::runningInConsole()
             && auth()->check()
             && ! auth()->user()->isSuperUser();
+    }
+
+    public function responseDownloadFile(string $filePath)
+    {
+        $filePath = $this->getRealPath($filePath);
+
+        if (! $this->isUsingCloud()) {
+            if (! File::exists($filePath)) {
+                return RvMedia::responseError(trans('core/media::media.file_not_exists'));
+            }
+
+            return response()->download($filePath, File::name($filePath));
+        }
+
+        return response()->make(Http::withoutVerifying()->get($filePath)->body(), 200, [
+            'Content-type' => $this->getMimeType($filePath),
+            'Content-Disposition' => sprintf('attachment; filename="%s"', File::basename($filePath)),
+        ]);
+    }
+
+    public function getAvailableDrivers(): array
+    {
+        return apply_filters('core_media_drivers', [
+            'public' => trans('core/setting::setting.media.local_disk'),
+            's3' => 'Amazon S3',
+            'r2' => 'Cloudflare R2',
+            'do_spaces' => 'DigitalOcean Spaces',
+            'wasabi' => 'Wasabi',
+            'bunnycdn' => 'BunnyCDN',
+            'backblaze' => 'Backblaze B2',
+        ]);
     }
 }

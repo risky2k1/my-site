@@ -67,7 +67,7 @@ class ShortcodeTabsFieldOption extends FormFieldOptions
 
         $tabKey = $this->getAttribute('tab_key');
 
-        if (! Arr::has($data['shortcode_attributes'], $tabKey ? "{$tabKey}_quantity" : 'quantity')) {
+        if (isset($data['shortcode_attributes']) && ! Arr::has($data['shortcode_attributes'], $tabKey ? "{$tabKey}_quantity" : 'quantity')) {
             $data['shortcode_attributes']['quantity'] = min(Arr::get($data, 'max'), 6);
         }
 

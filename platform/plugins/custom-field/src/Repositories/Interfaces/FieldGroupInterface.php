@@ -21,5 +21,5 @@ interface FieldGroupInterface extends RepositoryInterface
         $withValue = false,
         $morphClass = null,
         $morphId = null
-    );
+    ): array;
 }
