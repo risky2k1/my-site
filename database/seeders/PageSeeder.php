@@ -21,12 +21,15 @@ class PageSeeder extends BaseSeeder
             [
                 'name' => 'Homepage',
                 'content' =>
-                    Html::tag('div', '[featured-posts][/featured-posts]') .
-                    Html::tag('div', '[recent-posts title="What\'s new?"][/recent-posts]') .
-                    Html::tag('div', '[featured-categories-posts title="Best for you" category_id="' . Category::query()->skip(1)->value('id') . '" enable_lazy_loading="yes"][/featured-categories-posts]') .
-                    Html::tag('div', '[all-galleries limit="6" title="Galleries" enable_lazy_loading="yes"][/all-galleries]')
+                    Html::tag('div', '[homepage-banner][/homepage-banner]') .
+                    Html::tag('div', '[homepage-about-section][/homepage-about-section]') .
+                    Html::tag('div', '[homepage-service-section][/homepage-service-section]') .
+                    Html::tag('div', '[homepage-stat-section][/homepage-stat-section]') .
+                    Html::tag('div', '[homepage-portfolio-section][/homepage-portfolio-section]') .
+                    Html::tag('div', '[homepage-blog-section][/homepage-blog-section]') .
+                    Html::tag('div', '[homepage-testimonials-section][/homepage-testimonials-section]') .
+                    Html::tag('div', '[homepage-contact-section][/homepage-contact-section]')
                 ,
-                'template' => 'no-sidebar',
             ],
             [
                 'name' => 'Blog',
@@ -35,9 +38,9 @@ class PageSeeder extends BaseSeeder
             [
                 'name' => 'Contact',
                 'content' => Html::tag(
-                    'p',
-                    'Address: North Link Building, 10 Admiralty Street, 757695 Singapore'
-                ) .
+                        'p',
+                        'Address: North Link Building, 10 Admiralty Street, 757695 Singapore'
+                    ) .
                     Html::tag('p', 'Hotline: 18006268') .
                     Html::tag('p', 'Email: contact@botble.com') .
                     Html::tag(
