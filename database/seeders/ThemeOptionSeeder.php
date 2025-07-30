@@ -38,7 +38,6 @@ class ThemeOptionSeeder extends BaseSeeder
             'lazy_load_placeholder_image' => $this->filePath('general/preloader.gif'),
             'my_name' => 'PhmTuns',
             'my_address' => 'Việt Nam',
-            'my_name' => 'PhmTuns',
             'my_skills' => [
                 [
                     ['key' => 'skill_name', 'value' => 'HTML'],

@@ -12,7 +12,7 @@
                 <!--About Content-->
                 <div class="about-content">
                     <div class="about-heading">
-                        <h2>About Me.</h2>
+                        <h2>{{ __('About Me') }}.</h2>
                         <span>UI/UX Designer & Web Developer</span>
                     </div>
                     <p>I'm <b>Kalvin Doe</b> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to specimen book.</p>
