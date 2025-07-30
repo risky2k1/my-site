@@ -13,9 +13,9 @@
                 <div class="about-content">
                     <div class="about-heading">
                         <h2>{{ __('About Me') }}.</h2>
-                        <span>UI/UX Designer & Web Developer</span>
+                        <span>Developer</span>
                     </div>
-                    <p>I'm <b>Kalvin Doe</b> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to specimen book.</p>
+                    <p>I'm <b>Tuns</b> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to specimen book.</p>
                     <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
                     <!--About Social Icons-->
                     <div class="social-icons">
