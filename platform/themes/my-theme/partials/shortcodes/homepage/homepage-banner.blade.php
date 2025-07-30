@@ -7,14 +7,15 @@
     <div class="container">
         <!--Banner Content-->
         <div class="banner-caption">
-            <h1>Hi! I'm Kalvin.</h1>
+            <h1>{{ __('Hi! Im :name.', ['name' => theme_option('my_name', 'PhmTuns')]) }}</h1>
             <p class="cd-headline clip mt-30">
-                <span>Creative Designer & Developer located in New York.</span><br>
-                <span class="blc">Specialized in</span>
+                <span>{{ __('Developer located in :locale', ['locale' => theme_option('my_address','Ha Noi - Viet Nam')]) }}.</span><br>
+                <span class="blc">{{ __('Specialized in') }}</span>
                 <span class="cd-words-wrapper">
-                        <b class="is-visible">Creating Websites.</b>
-                        <b>Designing Logo.</b>
-                        <b>Designing UI/UX.</b>
+                    @foreach(json_decode(theme_option('my_skills'), true) as $skill)
+                        <b class="@if($loop->first) is-visible @endif">{{ $skill[0]['value'] }}
+                            {!! BaseHelper::renderIcon($skill[1]['value']) !!}</b>
+                    @endforeach
                     </span>
             </p>
         </div>
