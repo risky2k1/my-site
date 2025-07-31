@@ -33,14 +33,6 @@ class AdministrativeUnitServiceProvider extends ServiceProvider
             DashboardMenu::make()
                 ->registerItem(
                     DashboardMenuItem::make()
-                        ->id('cms-plugins-administrative-unit')
-                        ->priority(5)
-                        ->name('plugins/administrative-unit::administrative-unit.name')
-                        ->icon('ti ti-box')
-                        ->route('posts.index')
-                )
-                ->registerItem(
-                    DashboardMenuItem::make()
                         ->id('cms-plugins-administrative-unit-provinces')
                         ->priority(10)
                         ->parentId('cms-plugins-administrative-unit')

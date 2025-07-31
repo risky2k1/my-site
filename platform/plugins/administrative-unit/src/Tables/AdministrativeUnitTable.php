@@ -23,14 +23,9 @@ class AdministrativeUnitTable extends TableAbstract
     {
         $this
             ->model(AdministrativeUnit::class)
-//            ->addHeaderAction(CreateHeaderAction::make()->route('administrative-unit.create'))
-            ->addActions([
-                EditAction::make()->route('administrative-unit.edit'),
-//                DeleteAction::make()->route('administrative-unit.destroy'),
-            ])
             ->addColumns([
                 IdColumn::make(),
-                NameColumn::make()->route('administrative-unit.edit'),
+                NameColumn::make()->route('administrative-unit.province.edit'),
                 CreatedAtColumn::make(),
                 StatusColumn::make(),
             ])

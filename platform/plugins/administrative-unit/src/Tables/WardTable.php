@@ -3,6 +3,7 @@
 namespace Botble\AdministrativeUnit\Tables;
 
 use Botble\AdministrativeUnit\Models\AdministrativeUnit;
+use Botble\AdministrativeUnit\Models\Ward;
 use Botble\Table\Abstracts\TableAbstract;
 use Botble\Table\Actions\DeleteAction;
 use Botble\Table\Actions\EditAction;
@@ -22,25 +23,15 @@ class WardTable extends TableAbstract
     public function setup(): void
     {
         $this
-            ->model(AdministrativeUnit::class)
-//            ->addHeaderAction(CreateHeaderAction::make()->route('administrative-unit.create'))
+            ->model(Ward::class)
             ->addActions([
-                EditAction::make()->route('administrative-unit.edit'),
-//                DeleteAction::make()->route('administrative-unit.destroy'),
+                EditAction::make()->route('administrative-unit.ward.edit'),
             ])
             ->addColumns([
                 IdColumn::make(),
-                NameColumn::make()->route('administrative-unit.edit'),
+                NameColumn::make(),
                 CreatedAtColumn::make(),
                 StatusColumn::make(),
-            ])
-            ->addBulkActions([
-                DeleteBulkAction::make()->permission('administrative-unit.destroy'),
-            ])
-            ->addBulkChanges([
-                NameBulkChange::make(),
-                StatusBulkChange::make(),
-                CreatedAtBulkChange::make(),
             ])
             ->queryUsing(function (Builder $query) {
                 $query->select([

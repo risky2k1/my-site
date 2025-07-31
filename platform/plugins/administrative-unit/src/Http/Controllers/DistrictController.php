@@ -2,6 +2,7 @@
 
 namespace Botble\AdministrativeUnit\Http\Controllers;
 
+use Botble\AdministrativeUnit\Tables\DistrictTable;
 use Botble\Base\Http\Actions\DeleteResourceAction;
 use Botble\AdministrativeUnit\Http\Requests\AdministrativeUnitRequest;
 use Botble\AdministrativeUnit\Models\AdministrativeUnit;
@@ -15,12 +16,12 @@ class DistrictController extends BaseController
     {
         $this
             ->breadcrumb()
-            ->add(trans(trans('plugins/administrative unit::administrative-unit.name')), route('administrative-unit.index'));
+            ->add(trans(trans('plugins/administrative unit::administrative-unit.district.index')), route('administrative-unit.district.index'));
     }
 
-    public function index(AdministrativeUnitTable $table)
+    public function index(DistrictTable $table)
     {
-        $this->pageTitle(trans('plugins/administrative-unit::administrative-unit.name'));
+        $this->pageTitle(trans('plugins/administrative-unit::administrative-unit.district'));
 
         return $table->renderTable();
     }

@@ -2,6 +2,7 @@
 
 namespace Botble\AdministrativeUnit\Http\Controllers;
 
+use Botble\AdministrativeUnit\Models\Province;
 use Botble\AdministrativeUnit\Tables\ProvincesTable;
 use Botble\Base\Http\Actions\DeleteResourceAction;
 use Botble\AdministrativeUnit\Http\Requests\AdministrativeUnitRequest;
@@ -23,5 +24,12 @@ class ProvinceController extends BaseController
     {
         $this->pageTitle(trans('plugins/administrative-unit::administrative-unit.provinces'));
         return $table->renderTable();
+    }
+
+    public function edit(Province $province)
+    {
+        $this->pageTitle(trans('core/base::forms.edit_item', ['name' => $province->name]));
+
+        return AdministrativeUnitForm::createFromModel($province)->renderForm();
     }
 }

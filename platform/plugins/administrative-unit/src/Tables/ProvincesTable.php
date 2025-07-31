@@ -24,9 +24,12 @@ class ProvincesTable extends TableAbstract
     {
         $this
             ->model(Province::class)
+            ->addActions([
+                EditAction::make()->route('administrative-unit.province.edit'),
+            ])
             ->addColumns([
                 IdColumn::make(),
-                NameColumn::make()/*->route('administrative-unit.edit')*/,
+                NameColumn::make(),
                 CreatedAtColumn::make(),
                 StatusColumn::make(),
             ])
@@ -36,6 +39,8 @@ class ProvincesTable extends TableAbstract
                     'name',
                     'created_at',
                     'status',
+//                    'code',
+//                    'type',
                 ]);
             });
     }
