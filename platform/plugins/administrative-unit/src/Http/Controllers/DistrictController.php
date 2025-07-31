@@ -16,12 +16,12 @@ class DistrictController extends BaseController
     {
         $this
             ->breadcrumb()
-            ->add(trans(trans('plugins/administrative unit::administrative-unit.district.index')), route('administrative-unit.district.index'));
+            ->add(trans(trans('plugins/administrative-unit::administrative-unit.districts')), route('administrative-unit.district.index'));
     }
 
     public function index(DistrictTable $table)
     {
-        $this->pageTitle(trans('plugins/administrative-unit::administrative-unit.district'));
+        $this->pageTitle(trans('plugins/administrative-unit::administrative-unit.districts'));
 
         return $table->renderTable();
     }

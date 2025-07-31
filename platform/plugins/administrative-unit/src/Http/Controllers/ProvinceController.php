@@ -17,7 +17,7 @@ class ProvinceController extends BaseController
     {
         $this
             ->breadcrumb()
-            ->add(trans(trans('plugins/administrative-unit::administrative-unit.name')), route('administrative-unit.province.index'));
+            ->add(trans(trans('plugins/administrative-unit::administrative-unit.provinces')), route('administrative-unit.province.index'));
     }
 
     public function index(ProvincesTable $table): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Symfony\Component\HttpFoundation\Response

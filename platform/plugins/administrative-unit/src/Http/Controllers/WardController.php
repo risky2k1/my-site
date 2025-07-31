@@ -16,12 +16,12 @@ class WardController extends BaseController
     {
         $this
             ->breadcrumb()
-            ->add(trans(trans('plugins/administrative unit::administrative-unit.ward.index')), route('administrative-unit.ward.index'));
+            ->add(trans(trans('plugins/administrative-unit::administrative-unit.wards')), route('administrative-unit.ward.index'));
     }
 
     public function index(WardTable $table)
     {
-        $this->pageTitle(trans('plugins/administrative-unit::administrative-unit.ward'));
+        $this->pageTitle(trans('plugins/administrative-unit::administrative-unit.wards'));
 
         return $table->renderTable();
     }
