@@ -7,4 +7,9 @@ return [
     'place_category' => 'Place Category',
     'moods' => 'Place Moods',
     'reviews' => 'Place Review',
+    'enums' => [
+        'low' => 'low',
+        'medium' => 'medium',
+        'high' => 'high',
+    ]
 ];

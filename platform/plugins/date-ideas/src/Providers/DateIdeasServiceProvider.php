@@ -7,6 +7,8 @@ use Botble\Base\Supports\ServiceProvider;
 use Botble\Base\Traits\LoadAndPublishDataTrait;
 use Botble\Base\Facades\DashboardMenu;
 use Botble\DateIdeas\Models\DateIdeas;
+use Botble\DateIdeas\Models\Place;
+use Botble\Gallery\Facades\Gallery;
 
 class DateIdeasServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,8 @@ class DateIdeasServiceProvider extends ServiceProvider
             ->loadRoutes()
             ->loadAndPublishViews()
             ->loadMigrations();
+
+        Gallery::registerModule(Place::class);
 
         if (defined('LANGUAGE_ADVANCED_MODULE_SCREEN_NAME')) {
             \Botble\LanguageAdvanced\Supports\LanguageAdvancedManager::registerModule(DateIdeas::class, [
@@ -68,7 +72,7 @@ class DateIdeasServiceProvider extends ServiceProvider
                 )
                 ->registerItem(
                     DashboardMenuItem::make()
-                        ->id('cms-plugins-date-ideas-wards')
+                        ->id('cms-plugins-date-ideas-review')
                         ->priority(10)
                         ->parentId('cms-plugins-date-ideas')
                         ->name('plugins/date-ideas::date-ideas.reviews')

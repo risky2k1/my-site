@@ -9,13 +9,13 @@ use Botble\Base\Http\Controllers\BaseController;
 use Botble\DateIdeas\Tables\DateIdeasTable;
 use Botble\DateIdeas\Forms\DateIdeasForm;
 
-class DateIdeasController extends BaseController
+class PlaceReviewController extends BaseController
 {
     public function __construct()
     {
         $this
             ->breadcrumb()
-            ->add(trans(trans('plugins/date ideas::date-ideas.name')), route('date-ideas.index'));
+            ->add(trans(trans('plugins/date ideas::date-ideas.name')), route('date-ideas.place-review.index'));
     }
 
     public function index(DateIdeasTable $table)
@@ -40,8 +40,8 @@ class DateIdeasController extends BaseController
 
         return $this
             ->httpResponse()
-            ->setPreviousUrl(route('date-ideas.index'))
-            ->setNextUrl(route('date-ideas.edit', $form->getModel()->getKey()))
+            ->setPreviousUrl(route('date-ideas.place-review.index'))
+            ->setNextUrl(route('date-ideas.place-review.edit', $form->getModel()->getKey()))
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
@@ -60,7 +60,7 @@ class DateIdeasController extends BaseController
 
         return $this
             ->httpResponse()
-            ->setPreviousUrl(route('date-ideas.index'))
+            ->setPreviousUrl(route('date-ideas.place-review.index'))
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 

@@ -7,4 +7,9 @@ return [
     'place_category' => 'Danh mục địa điểm',
     'moods' => 'Mood',
     'reviews' => 'Đánh giá địa điểm',
+    'enums' => [
+        'low' => 'Thấp',
+        'medium' => 'Bình thường',
+        'high' => 'Cao',
+    ]
 ];

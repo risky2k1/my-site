@@ -21,6 +21,7 @@ class AdministrativeUnitServiceProvider extends ServiceProvider
             ->loadAndPublishTranslations()
             ->loadRoutes()
             ->loadAndPublishViews()
+            ->publishAssets()
             ->loadMigrations();
 
             if (defined('LANGUAGE_ADVANCED_MODULE_SCREEN_NAME')) {
