@@ -264,6 +264,26 @@ class HookServiceProvider extends ServiceProvider
                                 ],
                             ],
                             [
+                                'id' => 'favicon_type',
+                                'type' => 'customSelect',
+                                'label' => trans('packages/theme::theme.theme_option_favicon_type'),
+                                'attributes' => [
+                                    'name' => 'favicon_type',
+                                    'list' => [
+                                        'image/x-icon' => 'ICO',
+                                        'image/png' => 'PNG',
+                                        'image/svg+xml' => 'SVG',
+                                        'image/gif' => 'GIF',
+                                        'image/jpeg' => 'JPEG',
+                                        'image/webp' => 'WebP',
+                                    ],
+                                    'value' => 'image/x-icon',
+                                    'options' => [
+                                        'class' => 'form-control',
+                                    ],
+                                ],
+                            ],
+                            [
                                 'id' => 'logo',
                                 'type' => 'mediaImage',
                                 'label' => trans('packages/theme::theme.theme_option_logo'),
@@ -300,6 +320,26 @@ class HookServiceProvider extends ServiceProvider
 
             if ($shortcode->height) {
                 $data['height'] = $shortcode->height;
+            }
+
+            if ($shortcode->centered && $shortcode->centered === 'yes') {
+                $data['centered'] = true;
+            }
+
+            if ($shortcode->margin_top || $shortcode->margin_top === '0') {
+                $data['margin_top'] = (int) $shortcode->margin_top;
+            }
+
+            if ($shortcode->margin_bottom || $shortcode->margin_bottom === '0') {
+                $data['margin_bottom'] = (int) $shortcode->margin_bottom;
+            }
+
+            if ($shortcode->margin_start || $shortcode->margin_start === '0') {
+                $data['margin_start'] = (int) $shortcode->margin_start;
+            }
+
+            if ($shortcode->margin_end || $shortcode->margin_end === '0') {
+                $data['margin_end'] = (int) $shortcode->margin_end;
             }
 
             $type = null;
@@ -368,6 +408,32 @@ class HookServiceProvider extends ServiceProvider
                 ->add('height', NumberField::class, [
                     'label' => __('Height'),
                     'default_value' => 315,
+                ])
+                ->add('centered', RadioField::class, [
+                    'label' => __('Center Video'),
+                    'values' => [
+                        'no' => __('No'),
+                        'yes' => __('Yes'),
+                    ],
+                    'default_value' => 'no',
+                ])
+                ->add('margin_top', NumberField::class, [
+                    'label' => __('Margin Top (px)'),
+                    'default_value' => 0,
+                ])
+                ->add('margin_bottom', NumberField::class, [
+                    'label' => __('Margin Bottom (px)'),
+                    'default_value' => 20,
+                ])
+                ->add('margin_start', NumberField::class, [
+                    'label' => __('Margin Start (px)'),
+                    'default_value' => 0,
+                    'helper' => __('Left margin in LTR, right margin in RTL'),
+                ])
+                ->add('margin_end', NumberField::class, [
+                    'label' => __('Margin End (px)'),
+                    'default_value' => 0,
+                    'helper' => __('Right margin in LTR, left margin in RTL'),
                 ]);
         });
 
@@ -404,6 +470,8 @@ class HookServiceProvider extends ServiceProvider
                     ],
                 ]);
         });
+
+        shortcode()->ignoreLazyLoading(['media', 'audio']);
 
         add_filter(THEME_FRONT_HEADER, function (?string $html): ?string {
             $file = Theme::getStyleIntegrationPath();
@@ -444,6 +512,8 @@ class HookServiceProvider extends ServiceProvider
                                 ->maxLength(100000)
                         );
                 });
+
+                shortcode()->ignoreLazyLoading(['custom-html']);
             }
 
             if (config('packages.theme.general.enable_custom_js')) {
@@ -465,6 +535,11 @@ class HookServiceProvider extends ServiceProvider
                     }, 15);
                 }
             }
+
+            // Add Google Tag Manager noscript to body
+            add_filter(THEME_FRONT_BODY, function (?string $html): string {
+                return ThemeSupport::renderGoogleTagManagerNoscript() . $html;
+            }, 10);
 
             if (config('packages.theme.general.enable_custom_html')) {
                 if (setting('custom_header_html')) {

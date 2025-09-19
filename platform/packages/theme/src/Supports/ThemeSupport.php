@@ -118,6 +118,8 @@ class ThemeSupport
                         'default_value' => 500,
                     ]);
             });
+
+        shortcode()->ignoreLazyLoading(['google-map']);
     }
 
     public static function getCustomJS(string $location): string
@@ -204,6 +206,7 @@ class ThemeSupport
                             'class' => 'form-control',
                         ],
                     ],
+                    'priority' => 35,
                 ])
                 ->when(count(static::getPreloaderVersions()) > 1, function () {
                     return theme_option()
@@ -220,6 +223,7 @@ class ThemeSupport
                                     'class' => 'form-control',
                                 ],
                             ],
+                            'priority' => 40,
                         ]);
                 });
         });
@@ -318,34 +322,6 @@ class ThemeSupport
                     'icon' => 'ti ti-brand-facebook',
                     'fields' => [
                         [
-                            'id' => 'facebook_chat_enabled',
-                            'type' => 'customSelect',
-                            'label' => __('Enable Facebook chat?'),
-                            'attributes' => [
-                                'name' => 'facebook_chat_enabled',
-                                'list' => [
-                                    'no' => __('No'),
-                                    'yes' => __('Yes'),
-                                ],
-                                'value' => 'no',
-                                'options' => [
-                                    'class' => 'form-control',
-                                ],
-                            ],
-                            'helper' => __(
-                                'To show chat box on that website, please go to :link and add :domain to whitelist domains!',
-                                [
-                                    'domain' => Html::link(url('')),
-                                    'link' => Html::link(
-                                        sprintf(
-                                            'https://www.facebook.com/%s/settings/?tab=messenger_platform',
-                                            theme_option('facebook_page_id', '[PAGE_ID]')
-                                        )
-                                    ),
-                                ]
-                            ),
-                        ],
-                        [
                             'id' => 'facebook_page_id',
                             'type' => 'text',
                             'label' => __('Facebook page ID'),
@@ -439,25 +415,6 @@ class ThemeSupport
                 }
             }
 
-            if (theme_option('facebook_chat_enabled', 'no') == 'yes' && theme_option('facebook_page_id')) {
-                $html .= '<link href="//connect.facebook.net" rel="dns-prefetch" />';
-            }
-
-            return $html;
-        }, 1180);
-
-        add_filter(THEME_FRONT_FOOTER, function (?string $html): string {
-            if (AdminHelper::isInAdmin()) {
-                return $html;
-            }
-
-            if (
-                theme_option('facebook_comment_enabled_in_post', 'no') == 'yes'
-                || (theme_option('facebook_chat_enabled', 'no') == 'yes' && theme_option('facebook_page_id'))
-            ) {
-                return $html . view('packages/theme::partials.facebook-integration')->render();
-            }
-
             return $html;
         }, 1180);
 
@@ -469,6 +426,14 @@ class ThemeSupport
             $commentHtml = apply_filters('facebook_comment_html', '', $object);
 
             if (! empty($commentHtml)) {
+                add_filter(THEME_FRONT_FOOTER, function (?string $html): string {
+                    if (AdminHelper::isInAdmin()) {
+                        return $html;
+                    }
+
+                    return $html . view('packages/theme::partials.facebook-integration')->render();
+                }, 1180);
+
                 return $html . $commentHtml;
             }
 
@@ -588,9 +553,9 @@ class ThemeSupport
         return static::convertSocialLinksToArray($data);
     }
 
-    public static function convertSocialLinksToArray(array $data): array
+    public static function convertSocialLinksToArray(array|string $data): array
     {
-        if (empty($data)) {
+        if (empty($data) || is_string($data)) {
             return [];
         }
 
@@ -726,6 +691,7 @@ class ThemeSupport
         ) {
             if (
                 AdminHelper::isInAdmin()
+                || request()->expectsJson()
                 || Arr::get($attributes, 'data-bb-lazy') !== 'true'
             ) {
                 return $html;
@@ -762,7 +728,7 @@ class ThemeSupport
                     });
 
                     document.addEventListener('shortcode.loaded', function () {
-                        Theme.lazyLoadInstance.update()
+                        Theme.lazyLoadInstance.update();
                     });
                 </script>
             HTML;
@@ -1002,34 +968,50 @@ class ThemeSupport
 
     public static function renderGoogleTagManagerScript(): string
     {
-        $googleTagManagerCode = setting('google_tag_manager_code');
-        $googleTagManagerId = setting('google_tag_manager_id', setting('google_analytics'));
-        $renderType = setting(
-            'google_tag_manager_type',
-            $googleTagManagerCode ? 'code' : 'id'
-        );
+        return GoogleTagManagerEnhanced::renderGoogleTagManagerScript();
+    }
 
-        if (! BaseHelper::hasDemoModeEnabled() && $renderType === 'code' && $googleTagManagerCode) {
-            return trim($googleTagManagerCode);
+    public static function renderGoogleTagManagerNoscript(): string
+    {
+        return GoogleTagManagerEnhanced::renderGoogleTagManagerNoscript();
+    }
+
+    public static function isGoogleTagManagerEnabled(): bool
+    {
+        $type = setting('google_tag_manager_type');
+
+        return match ($type) {
+            'gtm' => (bool) setting('gtm_container_id'),
+            'id' => (bool) (setting('google_tag_manager_id') || setting('google_analytics')),
+            'custom', 'code' => (bool) (setting('custom_tracking_header_js') || setting('custom_tracking_body_html') || setting('google_tag_manager_code')),
+            default => (bool) (setting('gtm_container_id') || setting('google_tag_manager_id') || setting('google_analytics') || setting('custom_tracking_header_js') || setting('custom_tracking_body_html') || setting('google_tag_manager_code'))
+        };
+    }
+
+    public static function isGoogleTagManagerDebugEnabled(): bool
+    {
+        return (bool) setting('gtm_debug_mode', false);
+    }
+
+    public static function getGoogleTagManagerType(): ?string
+    {
+        $type = setting('google_tag_manager_type');
+
+        if ($type === 'code') {
+            return 'custom';
         }
 
-        if ($renderType === 'id' && $googleTagManagerId) {
-            return trim(
-                <<<HTML
-                <!-- Global site tag (gtag.js) - Google Analytics -->
-                <script async defer src='https://www.googletagmanager.com/gtag/js?id=$googleTagManagerId'></script>
-                <script>
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-
-                  gtag('config', '$googleTagManagerId');
-                </script>
-            HTML
-            );
+        if (! $type) {
+            if (setting('gtm_container_id')) {
+                return 'gtm';
+            } elseif (setting('custom_tracking_header_js') || setting('custom_tracking_body_html') || setting('google_tag_manager_code')) {
+                return 'custom';
+            } elseif (setting('google_tag_manager_id') || setting('google_analytics')) {
+                return 'id';
+            }
         }
 
-        return '';
+        return $type;
     }
 
     public static function registerSiteLogoHeight(int $defaultValue = 50): void

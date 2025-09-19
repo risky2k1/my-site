@@ -4,7 +4,6 @@ namespace FriendsOfBotble\Comment\Database\Seeders;
 
 use Botble\Base\Supports\BaseSeeder;
 use Botble\Blog\Models\Post;
-use Botble\Slug\Facades\SlugHelper;
 use FriendsOfBotble\Comment\Enums\CommentStatus;
 use FriendsOfBotble\Comment\Models\Comment;
 use Illuminate\Support\Str;
@@ -17,7 +16,7 @@ class CommentSeeder extends BaseSeeder
 
         $fake = $this->fake();
 
-        if (!is_plugin_active('blog')) {
+        if (! is_plugin_active('blog')) {
             return;
         }
 
@@ -29,14 +28,12 @@ class CommentSeeder extends BaseSeeder
 
         foreach ($this->getData() as $comment) {
             $post = $posts->random();
-            $slug = SlugHelper::getSlug(null, SlugHelper::getPrefix(Post::class), null, $post->id);
-            $url = url($slug->key);
 
             Comment::query()->create([
                 ...$comment,
                 'reference_type' => Post::class,
                 'reference_id' => $post->id,
-                'reference_url' => $url,
+                'reference_url' => route('public.single', Str::slug($post->name)),
                 'name' => $fake->name,
                 'email' => $fake->email,
                 'website' => 'https://friendsofbotble.com',

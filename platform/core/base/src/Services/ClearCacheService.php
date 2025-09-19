@@ -2,6 +2,7 @@
 
 namespace Botble\Base\Services;
 
+use Botble\Base\Events\CacheCleared;
 use Botble\Media\Facades\RvMedia;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Filesystem\Filesystem;
@@ -28,6 +29,7 @@ class ClearCacheService
         Cache::flush();
 
         Event::dispatch('cache:cleared');
+        Event::dispatch(new CacheCleared('framework'));
     }
 
     public function clearGoogleFontsCache(): void
@@ -124,5 +126,7 @@ class ClearCacheService
         $this->clearDebugbar();
 
         RvMedia::refreshCache();
+
+        Event::dispatch(new CacheCleared('all'));
     }
 }

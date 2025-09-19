@@ -76,7 +76,8 @@ class HookServiceProvider extends ServiceProvider
             ->addScriptsDirectly([
                 'vendor/core/plugins/custom-field/js/use-custom-fields.js',
             ])
-            ->addScripts(['jquery-ui']);
+            ->addScripts(['jquery-ui', 'timepicker'])
+            ->addStyles(['timepicker']);
 
         CustomField::renderAssets();
 

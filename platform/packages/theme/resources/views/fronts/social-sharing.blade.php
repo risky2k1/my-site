@@ -42,10 +42,12 @@
     .bb-social-sharing .bb-social-sharing__item svg {
         width: 1.25rem;
         height: 1.25rem;
+        margin-bottom: 0;
     }
     .bb-social-sharing .bb-social-sharing__item img {
         width: 1.25rem;
         height: 1.25rem;
+        margin-bottom: 0;
     }
     .bb-social-sharing .bb-social-sharing-text {
         display: none;
@@ -79,7 +81,7 @@
 
 @once
     <script>
-        window.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
             function toggleClipboardActionIcon(element) {
                 const copiedState = element.querySelector('[data-clipboard-icon="copy"]');
                 const copyState = element.querySelector('[data-clipboard-icon="copied"]');

@@ -30,4 +30,14 @@ return [
     'primary_sidebar_name' => 'Primary sidebar',
     'primary_sidebar_description' => 'Primary sidebar section',
     'drag_widget_to_sidebar' => 'Drag and drop widgets to this area.',
+    'widget_areas' => 'Widget Areas',
+    'manage_widgets' => 'Manage Widgets',
+
+    'cache_suggestion' => [
+        'title' => 'Performance Suggestion',
+        'description' => 'You can improve your site performance by enabling widget caching.',
+        'benefits' => 'This can significantly reduce page load times by caching rendered widgets.',
+        'enable_button' => 'Enable widget caching',
+        'dismiss_button' => 'Dismiss for a week',
+    ],
 ];

@@ -34,7 +34,6 @@ class DatabaseSeeder extends BaseSeeder
             CommentSeeder::class,
             WidgetSeeder::class,
             ThemeOptionSeeder::class,
-            AdministrativeUnitSeeder::class,
         ]);
 
         $this->finished();

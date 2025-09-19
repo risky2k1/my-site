@@ -32,7 +32,6 @@ class BlockServiceProvider extends ServiceProvider
             ->loadAndPublishConfigurations(['permissions'])
             ->loadAndPublishTranslations()
             ->loadRoutes()
-            ->loadAndPublishViews()
             ->loadMigrations();
 
         DashboardMenu::default()->beforeRetrieving(function (): void {

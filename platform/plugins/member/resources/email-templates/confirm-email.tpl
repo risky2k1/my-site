@@ -19,13 +19,13 @@
                                         </tbody>
                                     </table>
 
-                                    <h1 class="bb-text-center bb-m-0 bb-mt-md">Verify Email</h1>
+                                    <h1 class="bb-text-center bb-m-0 bb-mt-md">{{ 'plugins/member::member.email_templates.confirm_email_title' | trans }}</h1>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="bb-content bb-text-center">
-                                    <p class="h1">We're glad to have you here, {{ member_name }}!</p>
-                                    <p>Please verify your email address in order to access this website. Click on the button below to verify your email..</p>
+                                    <p class="h1">{{ 'plugins/member::member.email_templates.confirm_email_welcome' | trans({'member_name': member_name}) }}</p>
+                                    <p>{{ 'plugins/member::member.email_templates.confirm_email_instruction' | trans }}</p>
                                 </td>
                             </tr>
                             <tr>
@@ -39,7 +39,7 @@
                                                         <tr>
                                                             <td align="center" valign="top" class="lh-1">
                                                                 <a href="{{ verify_link }}" class="bb-btn bb-bg-blue bb-border-blue">
-                                                                    <span class="btn-span">Confirm&nbsp;your&nbsp;email&nbsp;address</span>
+                                                                    <span class="btn-span">{{ 'plugins/member::member.email_templates.confirm_email_button' | trans }}</span>
                                                                 </a>
                                                             </td>
                                                         </tr>

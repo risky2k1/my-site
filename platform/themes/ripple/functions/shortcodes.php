@@ -53,6 +53,8 @@ app('events')->listen(RouteMatched::class, function (): void {
 
         Shortcode::setPreviewImage('featured-posts', Theme::asset()->url('images/ui-blocks/featured-posts.png'));
 
+        Shortcode::registerLoadingState('featured-posts', Theme::getThemeNamespace('partials.shortcodes.featured-posts-skeleton'));
+
         Shortcode::register(
             'recent-posts',
             __('Recent posts'),
@@ -87,9 +89,12 @@ app('events')->listen(RouteMatched::class, function (): void {
                     SelectFieldOption::make()
                         ->label(__('With top sidebar?'))
                         ->choices(['yes' => __('Yes'), 'no' => __('No')])
+                        ->defaultValue('yes')
                 )
                 ->withHtmlAttributes('#fff', '#666');
         });
+
+        Shortcode::registerLoadingState('recent-posts', Theme::getThemeNamespace('partials.shortcodes.recent-posts-skeleton'));
 
         Shortcode::register(
             'featured-categories-posts',
@@ -185,9 +190,12 @@ app('events')->listen(RouteMatched::class, function (): void {
                     SelectFieldOption::make()
                         ->label(__('With primary sidebar?'))
                         ->choices(['yes' => __('Yes'), 'no' => __('No')])
+                        ->defaultValue('yes')
                 )
                 ->withHtmlAttributes('#ecf0f1', '#666');
         });
+
+        Shortcode::registerLoadingState('featured-categories-posts', Theme::getThemeNamespace('partials.shortcodes.featured-categories-posts-skeleton'));
     }
 
     if (is_plugin_active('contact')) {
@@ -228,5 +236,7 @@ app('events')->listen(RouteMatched::class, function (): void {
                 )
                 ->withHtmlAttributes('#fff', '#666');
         });
+
+        Shortcode::registerLoadingState('all-galleries', Theme::getThemeNamespace('partials.shortcodes.all-galleries-skeleton'));
     }
 });

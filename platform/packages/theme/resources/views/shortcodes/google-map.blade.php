@@ -1,4 +1,5 @@
 <div
+    class="google-map-iframe"
     @if(! $width && ! $height)
         style="position: relative; display: block; height: 0; padding-bottom: 56.25%; overflow: hidden;"
     @else

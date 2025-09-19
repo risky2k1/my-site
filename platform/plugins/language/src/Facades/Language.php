@@ -60,6 +60,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string|int|null getRefFrom()
  * @method static void initModelRelations()
  * @method static array getTableHeading()
+ * @method static void clearCache()
  *
  * @see \Botble\Language\LanguageManager
  */

@@ -222,6 +222,11 @@ class UseCustomFields {
             number: $('#_render_custom_field_number_template').html(),
             email: $('#_render_custom_field_email_template').html(),
             password: $('#_render_custom_field_password_template').html(),
+            url: $('#_render_custom_field_url_template').html(),
+            date: $('#_render_custom_field_date_template').html(),
+            datetime: $('#_render_custom_field_datetime_template').html(),
+            time: $('#_render_custom_field_time_template').html(),
+            color: $('#_render_custom_field_color_template').html(),
             textarea: $('#_render_custom_field_textarea_template').html(),
             checkbox: $('#_render_custom_field_checkbox_template').html(),
             radio: $('#_render_custom_field_radio_template').html(),
@@ -259,6 +264,36 @@ class UseCustomFields {
                 if (box.type === 'wysiwyg') {
                     initWYSIWYG($skeleton.find('.meta-box-wrap .wysiwyg-editor'))
                 }
+
+                if (box.type === 'date' || box.type === 'datetime') {
+                    setTimeout(() => {
+                        Botble.initDatePicker($skeleton.find('.meta-box-wrap .datepicker'))
+                    }, 100)
+                }
+
+                if (box.type === 'time') {
+                    setTimeout(() => {
+                        if (jQuery().timepicker) {
+                            $skeleton.find('.meta-box-wrap .timepicker-24').timepicker({
+                                autoclose: true,
+                                minuteStep: 5,
+                                showSeconds: false,
+                                showMeridian: false,
+                                defaultTime: false,
+                                icons: {
+                                    up: 'icon fa fa-chevron-up',
+                                    down: 'icon fa fa-chevron-down',
+                                },
+                            })
+                        }
+                    }, 100)
+                }
+
+                if (box.type === 'color') {
+                    setTimeout(() => {
+                        Botble.initColorPicker()
+                    }, 100)
+                }
             })
         }
 
@@ -274,8 +309,24 @@ class UseCustomFields {
                 case 'number':
                 case 'email':
                 case 'password':
+                case 'url':
                     result = result.replace(/__placeholderText__/gi, box.options.placeholderText || '')
                     result = result.replace(/__value__/gi, box.value || box.options.defaultValue || '')
+                    break
+                case 'date':
+                    result = result.replace(/__dateFormat__/gi, box.options.dateFormat || 'Y-m-d')
+                    result = result.replace(/__value__/gi, box.value || box.options.defaultValue || '')
+                    break
+                case 'datetime':
+                    result = result.replace(/__dateFormat__/gi, box.options.dateFormat || 'Y-m-d')
+                    result = result.replace(/__timeFormat__/gi, box.options.timeFormat || 'H:i')
+                    result = result.replace(/__value__/gi, box.value || box.options.defaultValue || '')
+                    break
+                case 'time':
+                    result = result.replace(/__value__/gi, box.value || box.options.defaultValue || '')
+                    break
+                case 'color':
+                    result = result.replace(/__value__/gi, box.value || box.options.defaultValue || '#000000')
                     break
                 case 'textarea':
                     result = result.replace(/__rows__/gi, box.options.rows || 3)
@@ -394,6 +445,30 @@ class UseCustomFields {
                 if (item.type === 'wysiwyg') {
                     initWYSIWYG($result.find('> .repeater-item-input .wysiwyg-editor'))
                 }
+
+                if (item.type === 'date' || item.type === 'datetime') {
+                    setTimeout(() => {
+                        Botble.initDatePicker($result.find('> .repeater-item-input .datepicker'))
+                    }, 100)
+                }
+
+                if (item.type === 'time') {
+                    setTimeout(() => {
+                        if (jQuery().timepicker) {
+                            $result.find('> .repeater-item-input .timepicker-24').timepicker({
+                                autoclose: true,
+                                minuteStep: 5,
+                                showSeconds: false,
+                                showMeridian: false,
+                                defaultTime: false,
+                                icons: {
+                                    up: 'icon ti ti-chevron-up',
+                                    down: 'icon ti ti-chevron-down',
+                                },
+                            })
+                        }
+                    }, 100)
+                }
             })
             return $appendTo
         }
@@ -454,6 +529,24 @@ class UseCustomFields {
             registerRepeaterItem(registeredData, [registeredData], $groupWrapper)
 
             Botble.initMediaIntegrate()
+
+            // Initialize date/time pickers for new repeater items
+            setTimeout(() => {
+                Botble.initDatePicker($groupWrapper.find('.datepicker'))
+                if (jQuery().timepicker) {
+                    $groupWrapper.find('.timepicker-24').timepicker({
+                        autoclose: true,
+                        minuteStep: 5,
+                        showSeconds: false,
+                        showMeridian: false,
+                        defaultTime: false,
+                        icons: {
+                            up: 'icon ti ti-chevron-up',
+                            down: 'icon ti ti-chevron-down',
+                        },
+                    })
+                }
+            }, 100)
         })
 
         /**
@@ -508,6 +601,11 @@ class UseCustomFields {
                 case 'number':
                 case 'email':
                 case 'password':
+                case 'url':
+                case 'date':
+                case 'datetime':
+                case 'time':
+                case 'color':
                 case 'image':
                 case 'file':
                     customFieldData.value = $item.find('> .meta-box-wrap input').val()
@@ -563,6 +661,11 @@ class UseCustomFields {
                 case 'number':
                 case 'email':
                 case 'password':
+                case 'url':
+                case 'date':
+                case 'datetime':
+                case 'time':
+                case 'color':
                 case 'image':
                 case 'file':
                     customFieldData.value = $item.find('> .repeater-item-input input').val()

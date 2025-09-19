@@ -24,6 +24,8 @@ class HookServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        LanguageAdvancedManager::registerImportersAndExporters();
+
         if (! $this->app->runningInConsole()) {
             add_action(BASE_ACTION_META_BOXES, [$this, 'addLanguageBox'], 1134, 2);
             add_action(BASE_ACTION_TOP_FORM_CONTENT_NOTIFICATION, [$this, 'addCurrentLanguageEditingAlert'], 1134, 3);
@@ -64,6 +66,7 @@ class HookServiceProvider extends ServiceProvider
         if (
             $priority == 'top' &&
             ! empty($object) &&
+            $object instanceof Model &&
             $object->getKey() &&
             LanguageAdvancedManager::isSupported($object) &&
             Language::getActiveLanguage([

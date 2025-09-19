@@ -172,6 +172,8 @@ class ManageCustomFields {
             selectChoices: $('#_options-selectchoices_template').html(),
             buttonLabel: $('#_options-buttonlabel_template').html(),
             rows: $('#_options-rows_template').html(),
+            dateFormat: $('#_options-dateformat_template').html(),
+            timeFormat: $('#_options-timeformat_template').html(),
         }
 
         /**
@@ -186,7 +188,20 @@ class ManageCustomFields {
                 case 'email':
                 case 'password':
                 case 'number':
+                case 'url':
                     htmlSrc += FIELD_OPTIONS.defaultValue + FIELD_OPTIONS.placeholderText
+                    break
+                case 'date':
+                    htmlSrc += FIELD_OPTIONS.defaultValue + FIELD_OPTIONS.dateFormat
+                    break
+                case 'datetime':
+                    htmlSrc += FIELD_OPTIONS.defaultValue + FIELD_OPTIONS.dateFormat + FIELD_OPTIONS.timeFormat
+                    break
+                case 'time':
+                    htmlSrc += FIELD_OPTIONS.defaultValue + FIELD_OPTIONS.timeFormat
+                    break
+                case 'color':
+                    htmlSrc += FIELD_OPTIONS.defaultValue
                     break
                 case 'image':
                 case 'file':
@@ -388,6 +403,12 @@ class ManageCustomFields {
                     .find('.line[data-option=buttonlabel] input')
                     .val(Helpers.arrayGet(field.options, 'buttonLabel', ''))
                 $template.find('.line[data-option=rows] input').val(Helpers.arrayGet(field.options, 'rows', ''))
+                $template
+                    .find('.line[data-option=dateformat] select')
+                    .val(Helpers.arrayGet(field.options, 'dateFormat', 'Y-m-d'))
+                $template
+                    .find('.line[data-option=timeformat] select')
+                    .val(Helpers.arrayGet(field.options, 'timeFormat', 'H:i'))
 
                 $template.find('.field-label').html(Helpers.arrayGet(field, 'title', 'Text'))
                 $template.find('.field-slug').html(Helpers.arrayGet(field, 'slug', 'text'))
@@ -466,6 +487,14 @@ class ManageCustomFields {
                     rows:
                         $current
                             .find('> .item-details > .options > .line[data-option=rows] input[type=number]')
+                            .val() || null,
+                    dateFormat:
+                        $current
+                            .find('> .item-details > .options > .line[data-option=dateformat] select')
+                            .val() || null,
+                    timeFormat:
+                        $current
+                            .find('> .item-details > .options > .line[data-option=timeformat] select')
                             .val() || null,
                 }
                 object.items = []

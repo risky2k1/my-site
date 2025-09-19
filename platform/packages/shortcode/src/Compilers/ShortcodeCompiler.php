@@ -4,8 +4,10 @@ namespace Botble\Shortcode\Compilers;
 
 use Botble\Shortcode\View\View;
 use Botble\Theme\Facades\Theme;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class ShortcodeCompiler
@@ -19,6 +21,12 @@ class ShortcodeCompiler
     protected array $registered = [];
 
     protected string $editLink;
+
+    protected static array $ignoredCaches = [];
+
+    protected static array $ignoredLazyLoading = [];
+
+    protected static array $loadingStates = [];
 
     public function enable(): self
     {
@@ -133,11 +141,10 @@ class ShortcodeCompiler
 
     public function render(array $matches): string|null|View
     {
-        // Compile the shortcode
         $compiled = $this->compileShortcode($matches);
         $name = $compiled->getName();
 
-        if ($compiled->enable_lazy_loading === 'yes' && ! request()->ajax()) {
+        if ($compiled->enable_lazy_loading === 'yes' && ! request()->expectsJson() && ! $this->shouldIgnoreLazyLoading($name)) {
             add_filter(THEME_FRONT_FOOTER, function (?string $html) {
                 return $html . view('packages/shortcode::partials.lazy-loading-script')->render();
             }, 120);
@@ -148,16 +155,18 @@ class ShortcodeCompiler
                 $placeholderView = 'packages/shortcode::partials.lazy-loading-placeholder';
             }
 
+            $loadingView = static::getLoadingStateView($name);
+
             return view($placeholderView, [
                 'name' => $name,
                 'attributes' => Arr::except($compiled->toArray(), 'enable_lazy_loading'),
+                'loadingView' => $loadingView,
             ]);
         }
 
         $callback = apply_filters('shortcode_get_callback', $this->getCallback($name), $name);
 
-        // Render the shortcode through the callback
-        return apply_filters(
+        $renderedContent = apply_filters(
             'shortcode_content_compiled',
             call_user_func_array($callback, [
                 $compiled,
@@ -169,6 +178,60 @@ class ShortcodeCompiler
             $callback,
             $this
         );
+
+        $containsForms = $this->containsFormElements($renderedContent);
+
+        if (
+            setting('shortcode_cache_enabled', false)
+            && ! request()->expectsJson()
+            && ! $this->shouldIgnoreCache($name)
+            && $compiled->enable_caching !== 'no'
+            && empty(request()->getQueryString())
+            && ! $containsForms
+        ) {
+            $locale = app()->getLocale();
+            $authorized = auth()->check();
+            $attributes = $compiled->toArray();
+            $content = $compiled->getContent();
+            $appUrl = url('/');
+
+            $cacheKey = 'shortcode_render_' . md5($name . $appUrl . serialize($attributes) . ($content ?? '') . $locale . $authorized);
+
+            $cacheTtl = (int) setting('shortcode_cache_ttl', 1800);
+            $cacheDuration = Carbon::now()->addSeconds($cacheTtl);
+
+            Cache::put($cacheKey, $renderedContent, $cacheDuration);
+        }
+
+        return $renderedContent;
+    }
+
+    protected function containsFormElements($content): bool
+    {
+        if (! is_string($content)) {
+            if ($content instanceof View) {
+                $content = $content->render();
+            } else {
+                return false;
+            }
+        }
+
+        $patterns = [
+            '<form',
+            'csrf_token',
+            '_token',
+            'g-recaptcha',
+            'FormBuilder',
+            'renderForm()',
+        ];
+
+        foreach ($patterns as $pattern) {
+            if (stripos($content, $pattern) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function compileShortcode($matches): Shortcode
@@ -271,9 +334,6 @@ class ShortcodeCompiler
         return '\\[(\\[?)(' . $name . ')(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*+(?:\\[(?!\\/\\2\\])[^\\[]*+)*+)\\[\\/\\2\\])?)(\\]?)';
     }
 
-    /**
-     * Remove all shortcode tags from the given content.
-     */
     public function strip(?string $content, array $except = []): ?string
     {
         if (empty($this->registered) || ! $content) {
@@ -293,6 +353,46 @@ class ShortcodeCompiler
     public function setStrip(bool $strip): void
     {
         $this->strip = $strip;
+    }
+
+    public static function ignoreCaches(array $shortcodes): void
+    {
+        static::$ignoredCaches = array_merge(static::$ignoredCaches, $shortcodes);
+    }
+
+    public static function getIgnoredCaches(): array
+    {
+        return static::$ignoredCaches;
+    }
+
+    public static function ignoreLazyLoading(array $shortcodes): void
+    {
+        static::$ignoredLazyLoading = array_merge(static::$ignoredLazyLoading, $shortcodes);
+    }
+
+    public static function getIgnoredLazyLoading(): array
+    {
+        return static::$ignoredLazyLoading;
+    }
+
+    public static function registerLoadingState(string $shortcodeName, string $view): void
+    {
+        static::$loadingStates[$shortcodeName] = $view;
+    }
+
+    public static function getLoadingStateView(string $shortcodeName): ?string
+    {
+        return static::$loadingStates[$shortcodeName] ?? null;
+    }
+
+    protected function shouldIgnoreCache(string $name): bool
+    {
+        return in_array($name, static::$ignoredCaches);
+    }
+
+    protected function shouldIgnoreLazyLoading(string $name): bool
+    {
+        return in_array($name, static::$ignoredLazyLoading);
     }
 
     protected function stripTag(array $match): ?string
@@ -338,4 +438,5 @@ class ShortcodeCompiler
     {
         return apply_filters('core_whitelist_shortcodes', ['media', 'youtube-video']);
     }
+
 }

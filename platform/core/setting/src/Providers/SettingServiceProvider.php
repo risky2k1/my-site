@@ -100,6 +100,16 @@ class SettingServiceProvider extends ServiceProvider
                     ->withPriority(50)
                     ->withRoute('system.cronjob')
             );
+
+            PanelSectionManager::registerItem(
+                SystemPanelSection::class,
+                fn () => PanelSectionItem::make('security')
+                    ->setTitle(trans('core/setting::setting.security.title'))
+                    ->withIcon('ti ti-shield-check')
+                    ->withDescription(trans('core/setting::setting.security.menu_description'))
+                    ->withPriority(55)
+                    ->withRoute('system.security')
+            );
         });
 
         $events->listen(PanelSectionsRendering::class, PushDashboardMenuToOtherSectionPanel::class);

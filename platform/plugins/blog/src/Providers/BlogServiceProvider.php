@@ -3,7 +3,6 @@
 namespace Botble\Blog\Providers;
 
 use Botble\ACL\Models\User;
-use Botble\Api\Facades\ApiHelper;
 use Botble\Base\Facades\DashboardMenu;
 use Botble\Base\Facades\PanelSectionManager;
 use Botble\Base\PanelSections\PanelSectionItem;
@@ -67,7 +66,7 @@ class BlogServiceProvider extends ServiceProvider
             ->loadMigrations()
             ->publishAssets();
 
-        if (class_exists('ApiHelper') && ApiHelper::enabled()) {
+        if (class_exists('ApiHelper')) {
             $this->loadRoutes(['api']);
         }
 
@@ -80,7 +79,6 @@ class BlogServiceProvider extends ServiceProvider
                 'blog-posts',
             ]);
 
-            // Register monthly archive sitemaps for blog posts
             SiteMapManager::registerMonthlyArchives('blog-posts');
         });
 

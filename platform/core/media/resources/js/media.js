@@ -145,6 +145,11 @@ class MediaManagement {
                 ActionsService.handleDropdown()
 
                 _self.MediaService.getFileDetails($current.data())
+
+                // Add to recent items when a file is clicked
+                if (!$current.data('is_folder')) {
+                    Helpers.addToRecent($current.data('id'))
+                }
             })
             .on('dblclick doubletap', '.js-media-list-title', (event) => {
                 event.preventDefault()
@@ -152,7 +157,7 @@ class MediaManagement {
                 let data = $(event.currentTarget).data()
                 if (data.is_folder === true) {
                     Helpers.resetPagination()
-                    _self.FolderService.changeFolder(data.id)
+                    _self.FolderService.changeFolderAndAddToRecent(data.id)
                 } else {
                     if (!Helpers.isUseInModal()) {
                         ActionsService.handlePreview()
@@ -166,7 +171,7 @@ class MediaManagement {
 
                 return false
             })
-            .on('dblclick doubletap', '.js-up-one-level', (event) => {
+            .on('click', '.js-up-one-level', (event) => {
                 event.preventDefault()
                 let count = $('.rv-media-breadcrumb .breadcrumb li').length
                 $(`.rv-media-breadcrumb .breadcrumb li:nth-child(${count - 1}) a`).trigger('click')
@@ -328,7 +333,7 @@ class MediaManagement {
                 event.preventDefault()
                 let folderId = $(event.currentTarget).data('folder')
                 Helpers.resetPagination()
-                _self.FolderService.changeFolder(folderId)
+                _self.FolderService.changeFolderAndAddToRecent(folderId)
             })
             .off('click', '.js-files-action')
             .on('click', '.js-files-action', (event) => {

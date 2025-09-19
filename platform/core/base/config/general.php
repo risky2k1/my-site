@@ -31,6 +31,7 @@ return [
     'enable_https_support' => env('ENABLE_HTTPS_SUPPORT', false),
     'force_root_url' => env('FORCE_ROOT_URL'),
     'force_schema' => env('FORCE_SCHEMA'),
+    'enable_http_security_headers' => env('ENABLE_HTTP_SECURITY_HEADERS', true),
     'max_execution_time' => env('CMS_MAX_EXECUTION_TIME', 300),
     'memory_limit' => env('CMS_MEMORY_LIMIT'),
     'date_format' => [
@@ -41,7 +42,6 @@ return [
             'date_time' => env('CMS_JS_DATE_TIME_FORMAT', 'yyyy-mm-dd H:i:s'),
         ],
     ],
-    'locale' => env('APP_LOCALE', 'en'),
     'demo' => [
         'account' => [
             'username' => env('CMS_DEMO_ACCOUNT_USERNAME', 'admin'),
@@ -309,6 +309,7 @@ return [
         'default' => [
             'HTML.Doctype' => 'HTML 4.01 Transitional',
             'HTML.Allowed' => 'div,b,strong,i,em,u,a[href|title|rel|style|target|dofollow|nofollow],ul,ol,li,p[style],br,span[style],img[width|height|alt|src|style|loading],button,ins[style|data-ad-client|data-ad-slot|data-ad-format|data-full-width-responsive],video[src|type|width|height|preload|controls|autoplay|autostart|poster|id|class,muted,loop],meta[name|content|property],link[media|type|rel|href]',
+            'URI.AllowedSchemes' => 'http,https,mailto,tel,viber,ftp,data',
             'HTML.AllowedElements' => [
                 'a',
                 'b',
@@ -475,4 +476,6 @@ return [
     'session_cookie' => env('CMS_SESSION_COOKIE_KEY_NAME', 'botble_session'),
     'allowed_iframe_urls' => env('CMS_IFRAME_ALLOWED_URLS', ''),
     'iframe_regex' => env('CMS_IFRAME_FILTER_URL_REGEX', ''),
+    'static_ip' => env('CMS_STATIC_IP'),
+    'license_storage_method' => env('CMS_LICENSE_STORAGE_METHOD', 'file'), // 'file' or 'database'
 ];

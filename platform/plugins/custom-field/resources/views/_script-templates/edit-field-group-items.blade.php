@@ -97,6 +97,40 @@
     </div>
 </x-core::custom-template>
 
+<x-core::custom-template id="_options-dateformat_template">
+    <div class="line row border-bottom py-3" data-option="dateformat">
+        <div class="col-3">
+            <x-core::form.label class="mb-0">{{ trans('plugins/custom-field::base.form.date_format') }}</x-core::form.label>
+            <div class="form-control-plaintext">{{ trans('plugins/custom-field::base.form.date_format_helper') }}</div>
+        </div>
+        <div class="col-9">
+            <x-core::form.label>{{ trans('plugins/custom-field::base.form.date_format') }}</x-core::form.label>
+            <select class="form-control">
+                <option value="Y-m-d">YYYY-MM-DD (2024-01-15)</option>
+                <option value="m/d/Y">MM/DD/YYYY (01/15/2024)</option>
+                <option value="d/m/Y">DD/MM/YYYY (15/01/2024)</option>
+                <option value="F j, Y">Month DD, YYYY (January 15, 2024)</option>
+            </select>
+        </div>
+    </div>
+</x-core::custom-template>
+
+<x-core::custom-template id="_options-timeformat_template">
+    <div class="line row border-bottom py-3" data-option="timeformat">
+        <div class="col-3">
+            <x-core::form.label class="mb-0">{{ trans('plugins/custom-field::base.form.time_format') }}</x-core::form.label>
+            <div class="form-control-plaintext">{{ trans('plugins/custom-field::base.form.time_format_helper') }}</div>
+        </div>
+        <div class="col-9">
+            <x-core::form.label>{{ trans('plugins/custom-field::base.form.time_format') }}</x-core::form.label>
+            <select class="form-control">
+                <option value="H:i">24 Hour (14:30)</option>
+                <option value="g:i A">12 Hour (2:30 PM)</option>
+            </select>
+        </div>
+    </div>
+</x-core::custom-template>
+
 <x-core::custom-template id="_new-field-source_template">
     <li class="ui-sortable-handle active">
         <div class="field-column">
@@ -142,6 +176,11 @@
                             <option value="number">{{ trans('plugins/custom-field::base.form.types.number') }}</option>
                             <option value="email">{{ trans('plugins/custom-field::base.form.types.email') }}</option>
                             <option value="password">{{ trans('plugins/custom-field::base.form.types.password') }}</option>
+                            <option value="url">{{ trans('plugins/custom-field::base.form.types.url') }}</option>
+                            <option value="date">{{ trans('plugins/custom-field::base.form.types.date') }}</option>
+                            <option value="datetime">{{ trans('plugins/custom-field::base.form.types.datetime') }}</option>
+                            <option value="time">{{ trans('plugins/custom-field::base.form.types.time') }}</option>
+                            <option value="color">{{ trans('plugins/custom-field::base.form.types.color') }}</option>
                         </optgroup>
                         <optgroup label="{{ trans('plugins/custom-field::base.form.groups.content') }}">
                             <option value="wysiwyg">{{ trans('plugins/custom-field::base.form.types.wysiwyg') }}</option>

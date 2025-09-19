@@ -33,7 +33,6 @@ class HookServiceProvider extends ServiceProvider
     {
         add_action(BASE_ACTION_META_BOXES, [$this, 'addGalleryBox'], 13, 2);
 
-        // Register Facebook comments for gallery items
         add_filter('facebook_comment_html', [$this, 'renderGalleryFacebookComments'], 10, 2);
 
         if (function_exists('shortcode')) {
@@ -75,6 +74,8 @@ class HookServiceProvider extends ServiceProvider
                             ->multiple()
                     );
             });
+
+            shortcode()->registerLoadingState('gallery', 'plugins/gallery::shortcodes.gallery-skeleton');
         }
 
         add_filter(BASE_FILTER_PUBLIC_SINGLE_DATA, [$this, 'handleSingleView'], 11);
@@ -131,7 +132,7 @@ class HookServiceProvider extends ServiceProvider
     {
         $limit = (int) $shortcode->limit;
 
-        $galleryIds = \Botble\Shortcode\Facades\Shortcode::fields()->parseIds($shortcode->gallery_ids);
+        $galleryIds = shortcode()->fields()->parseIds($shortcode->gallery_ids);
 
         $galleries = GalleryModel::query()
             ->with(['slugable', 'user'])
@@ -209,13 +210,6 @@ class HookServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * Render Facebook comments for gallery items
-     *
-     * @param string $html The current HTML content
-     * @param object|null $object The object being displayed
-     * @return string The HTML content with Facebook comments if applicable
-     */
     public function renderGalleryFacebookComments(string $html, ?object $object = null): string
     {
         if ($object instanceof GalleryModel && theme_option('facebook_comment_enabled_in_gallery', 'no') === 'yes') {

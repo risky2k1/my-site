@@ -38,7 +38,7 @@ trait HasMenuSeeder
                 ]);
 
                 if (is_plugin_active('language')) {
-                    LanguageMeta::saveMetaData($menuLocation, 'vi');
+                    LanguageMeta::saveMetaData($menuLocation);
                 }
             }
 
@@ -47,7 +47,7 @@ trait HasMenuSeeder
             }
 
             if (is_plugin_active('language')) {
-                LanguageMeta::saveMetaData($menu,'vi');
+                LanguageMeta::saveMetaData($menu);
             }
 
             $this->createMetadata($menu, $item);

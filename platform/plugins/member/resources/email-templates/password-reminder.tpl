@@ -19,12 +19,12 @@
                                         </tbody>
                                     </table>
 
-                                    <h1 class="bb-text-center bb-m-0 bb-mt-md">Reset Password Instruction</h1>
+                                    <h1 class="bb-text-center bb-m-0 bb-mt-md">{{ 'plugins/member::member.email_templates.password_reminder_title' | trans }}</h1>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="bb-content bb-text-center">
-                                    <p>You are receiving this email because we received a password reset request for your account.</p>
+                                    <p>{{ 'plugins/member::member.email_templates.password_reminder_message' | trans }}</p>
                                 </td>
                             </tr>
                             <tr>
@@ -38,7 +38,7 @@
                                                             <tr>
                                                                 <td align="center" valign="top" class="lh-1">
                                                                     <a href="{{ reset_link }}" class="bb-btn bb-bg-blue bb-border-blue">
-                                                                        <span class="btn-span">Reset password</span>
+                                                                        <span class="btn-span">{{ 'plugins/member::member.email_templates.password_reminder_button' | trans }}</span>
                                                                     </a>
                                                                 </td>
                                                             </tr>
@@ -52,7 +52,7 @@
                             </tr>
                             <tr>
                                 <td class="bb-content bb-text-muted bb-pt-0 bb-text-center">
-                                    If you’re having trouble clicking the "Reset Password" button, copy and paste the URL below into your web browser: <a href="{{ reset_link }}">{{ reset_link }}</a> and paste it into your browser. If you didn't request a password reset, please ignore this message or contact us if you have any questions.
+                                    {{ 'plugins/member::member.email_templates.password_reminder_trouble' | trans({'reset_link': reset_link}) }}
                                 </td>
                             </tr>
                         </tbody>

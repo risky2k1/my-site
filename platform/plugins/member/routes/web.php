@@ -13,6 +13,12 @@ Route::group([
         Route::group(['prefix' => 'members', 'as' => 'member.'], function (): void {
             Route::resource('', 'MemberController')->parameters(['' => 'member']);
 
+            Route::get('search', [
+                'as' => 'search',
+                'uses' => 'MemberController@search',
+                'permission' => 'member.index',
+            ]);
+
             Route::post('verify-email/{id}', [
                 'as' => 'verify-email',
                 'uses' => 'MemberController@verifyEmail',

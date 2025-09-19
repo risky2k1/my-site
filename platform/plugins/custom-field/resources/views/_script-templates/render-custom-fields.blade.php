@@ -45,6 +45,54 @@
            class="form-control">
 </x-core::custom-template>
 
+<x-core::custom-template id="_render_custom_field_url_template">
+    <input type="url"
+           value="__value__"
+           placeholder="__placeholderText__"
+           class="form-control">
+</x-core::custom-template>
+
+<x-core::custom-template id="_render_custom_field_date_template">
+    <div class="datepicker">
+        <input type="text"
+               value="__value__"
+               data-date-format="__dateFormat__"
+               data-input
+               readonly="readonly"
+               class="form-control">
+    </div>
+</x-core::custom-template>
+
+<x-core::custom-template id="_render_custom_field_datetime_template">
+    <div class="datepicker">
+        <input type="text"
+               value="__value__"
+               data-date-format="__dateFormat__ __timeFormat__"
+               data-options='{"enableTime": true}'
+               data-input
+               readonly="readonly"
+               class="form-control">
+    </div>
+</x-core::custom-template>
+
+<x-core::custom-template id="_render_custom_field_time_template">
+    <div class="input-group">
+        <input type="text"
+               value="__value__"
+               class="form-control time-picker timepicker timepicker-24">
+        <button type="button" class="btn btn-outline-secondary">
+            <x-core::icon name="ti ti-clock" class="me-0" />
+        </button>
+    </div>
+</x-core::custom-template>
+
+<x-core::custom-template id="_render_custom_field_color_template">
+    <input type="text"
+           value="__value__"
+           class="form-control"
+           data-bb-color-picker />
+</x-core::custom-template>
+
 <x-core::custom-template id="_render_custom_field_textarea_template">
     <textarea rows="__rows__"
               placeholder="__placeholderText__"

@@ -23,7 +23,7 @@ class SystemController extends BaseSystemController
 {
     public function getIndex(): View
     {
-        $this->pageTitle(trans('core/base::base.panel.system'));
+        $this->pageTitle(trans('core/base::base.panel.platform_administration'));
 
         return view('core/base::system.index');
     }
@@ -33,6 +33,47 @@ class SystemController extends BaseSystemController
         $authorization->authorize();
 
         return $this->httpResponse();
+    }
+
+    public function checkLicense(Core $core): BaseHttpResponse
+    {
+        try {
+            $cacheKey = 'license_check_time';
+            $lastCheckTime = session($cacheKey);
+
+            if ($lastCheckTime) {
+                $threeDaysInSeconds = 3 * 24 * 60 * 60;
+                if (time() - $lastCheckTime < $threeDaysInSeconds) {
+                    return $this->httpResponse()->setData(['verified' => true]);
+                }
+            }
+
+            $verified = $core->verifyLicense(true, 15);
+
+            if ($verified) {
+                session([$cacheKey => time()]);
+
+                return $this->httpResponse()->setData(['verified' => true]);
+            }
+
+            return $this->httpResponse()
+                ->setError()
+                ->setCode(401)
+                ->setData([
+                    'verified' => false,
+                    'html' => view('core/base::system.license-invalid')->render(),
+                    'redirectUrl' => route('unlicensed', ['redirect_url' => request()->headers->get('referer')]),
+                ]);
+        } catch (ConnectionException) {
+            $core->skipLicenseReminder();
+            session([$cacheKey => time()]);
+
+            return $this->httpResponse()->setData(['verified' => true]);
+        } catch (Exception $e) {
+            report($e);
+
+            return $this->httpResponse()->setData(['verified' => true]);
+        }
     }
 
     public function getMenuItemsCount(): BaseHttpResponse
@@ -182,7 +223,7 @@ class SystemController extends BaseSystemController
                     ->setMessage(strip_tags(trans('core/base::system.cleanup.not_enabled_yet')));
             }
 
-            $request->validate(['tables' => 'array']);
+            $request->validate(['tables' => ['array']]);
 
             $cleanDatabaseService->execute($request->input('tables', []));
 
