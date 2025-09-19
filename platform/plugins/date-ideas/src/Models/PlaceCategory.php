@@ -1,20 +1,17 @@
 <?php
 
-namespace Botble\AdministrativeUnit\Models;
+namespace Botble\DateIdeas\Models;
 
 use Botble\Base\Casts\SafeContent;
 use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Base\Models\BaseModel;
 
-class Commune extends BaseModel
+class PlaceCategory extends BaseModel
 {
-    protected $table = 'au_communes';
+    protected $table = 'di_place_categories';
 
     protected $fillable = [
-        'code',
         'name',
-        'type',
-        'city_id',
         'status',
     ];
 
@@ -23,8 +20,8 @@ class Commune extends BaseModel
         'name' => SafeContent::class,
     ];
 
-    public function city(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function places(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsTo(City::class, 'city_id', 'id');
+        return $this->belongsToMany(Place::class, 'di_place_category_place', 'category_id', 'place_id');
     }
 }

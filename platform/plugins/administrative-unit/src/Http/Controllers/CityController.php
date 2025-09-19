@@ -5,7 +5,6 @@ namespace Botble\AdministrativeUnit\Http\Controllers;
 use Botble\AdministrativeUnit\Forms\CityForm;
 use Botble\AdministrativeUnit\Models\City;
 use Botble\AdministrativeUnit\Tables\CityTable;
-use Botble\AdministrativeUnit\Tables\ProvincesTable;
 use Botble\Base\Http\Actions\DeleteResourceAction;
 use Botble\AdministrativeUnit\Http\Requests\AdministrativeUnitRequest;
 use Botble\Base\Http\Controllers\BaseController;

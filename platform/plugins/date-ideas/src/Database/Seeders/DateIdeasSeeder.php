@@ -1,12 +1,13 @@
 <?php
 
-namespace Database\Seeders;
+namespace Botble\DateIdeas\Database\Seeders;
 
 use App\Models\User;
-use Botble\Base\Facades\Html;
 use Botble\Base\Supports\BaseSeeder;
-use Botble\Blog\Models\Category;
-use Botble\CookieConsent\Database\Traits\HasCookieConsentSeeder;
+use Botble\Block\Models\Block;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Botble\DateIdeas\Models\Place;
 use Botble\DateIdeas\Models\PlaceCategory;
 use Botble\DateIdeas\Models\PlaceMood;
@@ -72,7 +73,7 @@ class DateIdeasSeeder extends BaseSeeder
             for ($i = 1; $i <= rand(2, 5); $i++) {
                 PlaceReview::create([
                     'place_id' => $place->id,
-                    'user_id' => User::inRandomOrder()->first()->id ?? 1, // fallback user 1
+                    'user_id' => User::query()->inRandomOrder()->first()->id ?? 1,
                     'rating' => rand(3, 5),
                     'comment' => $faker->sentence(10),
                     'status' => 'published',
@@ -81,6 +82,5 @@ class DateIdeasSeeder extends BaseSeeder
         }
 
         $this->command->info('✅ DateIdeasSeeder đã seed dữ liệu mẫu thành công!');
-
     }
 }

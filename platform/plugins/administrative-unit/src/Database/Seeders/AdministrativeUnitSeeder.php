@@ -1,7 +1,9 @@
 <?php
 
-namespace Botble\Block\Database\Seeders;
+namespace Botble\AdministrativeUnit\Database\Seeders;
 
+use Botble\AdministrativeUnit\Models\City;
+use Botble\AdministrativeUnit\Models\Commune;
 use Botble\Base\Supports\BaseSeeder;
 use Botble\Block\Models\Block;
 use Illuminate\Support\Str;
@@ -12,9 +14,12 @@ class AdministrativeUnitSeeder extends BaseSeeder
 {
     public function run(): void
     {
-        $path = database_path('seeders/files/general/dvhcvn.json');
+        $path = database_path('seeders/files/general/vn_cities_communes.json');
         $json = File::get($path);
         $data = json_decode($json, true);
+
+        Commune::query()->truncate();
+        City::query()->truncate();
         foreach ($data as $level1) {
             // Insert province
             $cityId = DB::table('au_cities')->insertGetId([

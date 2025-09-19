@@ -18,7 +18,7 @@ use Botble\Table\Columns\StatusColumn;
 use Botble\Table\HeaderActions\CreateHeaderAction;
 use Illuminate\Database\Eloquent\Builder;
 
-class CityTable extends TableAbstract
+class DistrictTable extends TableAbstract
 {
     public function setup(): void
     {

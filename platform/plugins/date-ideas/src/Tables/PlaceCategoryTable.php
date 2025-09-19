@@ -1,8 +1,9 @@
 <?php
 
-namespace Botble\AdministrativeUnit\Tables;
+namespace Botble\DateIdeas\Tables;
 
-use Botble\AdministrativeUnit\Models\City;
+use Botble\DateIdeas\Models\DateIdeas;
+use Botble\DateIdeas\Models\PlaceCategory;
 use Botble\Table\Abstracts\TableAbstract;
 use Botble\Table\Actions\DeleteAction;
 use Botble\Table\Actions\EditAction;
@@ -17,31 +18,38 @@ use Botble\Table\Columns\StatusColumn;
 use Botble\Table\HeaderActions\CreateHeaderAction;
 use Illuminate\Database\Eloquent\Builder;
 
-class CityTable extends TableAbstract
+class PlaceCategoryTable extends TableAbstract
 {
     public function setup(): void
     {
         $this
-            ->model(City::class)
+            ->model(PlaceCategory::class)
+            ->addHeaderAction(CreateHeaderAction::make()->route('date-ideas.place-category.create'))
             ->addActions([
-                EditAction::make()->route('administrative-unit.city.edit'),
+                EditAction::make()->route('date-ideas.place-category.edit'),
+                DeleteAction::make()->route('date-ideas.place-category.destroy'),
             ])
             ->addColumns([
                 IdColumn::make(),
-                NameColumn::make(),
+                NameColumn::make()->route('date-ideas.place-category.edit'),
                 CreatedAtColumn::make(),
                 StatusColumn::make(),
             ])
+//            ->addBulkActions([
+//                DeleteBulkAction::make()->permission('date-ideas.place-category.destroy'),
+//            ])
+//            ->addBulkChanges([
+//                NameBulkChange::make(),
+//                StatusBulkChange::make(),
+//                CreatedAtBulkChange::make(),
+//            ])
             ->queryUsing(function (Builder $query) {
                 $query->select([
                     'id',
                     'name',
                     'created_at',
                     'status',
-//                    'code',
-//                    'type',
-                ])
-                ->orderBy('id');
+                ]);
             });
     }
 }

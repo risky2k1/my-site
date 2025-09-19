@@ -33,7 +33,7 @@ class CommentSeeder extends BaseSeeder
                 ...$comment,
                 'reference_type' => Post::class,
                 'reference_id' => $post->id,
-                'reference_url' => route('public.single', Str::slug($post->name)),
+                'reference_url' => '#',
                 'name' => $fake->name,
                 'email' => $fake->email,
                 'website' => 'https://friendsofbotble.com',

@@ -1,8 +1,10 @@
 <?php
 
-namespace Botble\AdministrativeUnit\Tables;
+namespace Botble\DateIdeas\Tables;
 
-use Botble\AdministrativeUnit\Models\City;
+use Botble\DateIdeas\Models\DateIdeas;
+use Botble\DateIdeas\Models\PlaceCategory;
+use Botble\DateIdeas\Models\PlaceMood;
 use Botble\Table\Abstracts\TableAbstract;
 use Botble\Table\Actions\DeleteAction;
 use Botble\Table\Actions\EditAction;
@@ -17,18 +19,20 @@ use Botble\Table\Columns\StatusColumn;
 use Botble\Table\HeaderActions\CreateHeaderAction;
 use Illuminate\Database\Eloquent\Builder;
 
-class CityTable extends TableAbstract
+class PlaceMoodTable extends TableAbstract
 {
     public function setup(): void
     {
         $this
-            ->model(City::class)
+            ->model(PlaceMood::class)
+            ->addHeaderAction(CreateHeaderAction::make()->route('date-ideas.place-mood.create'))
             ->addActions([
-                EditAction::make()->route('administrative-unit.city.edit'),
+                EditAction::make()->route('date-ideas.place-mood.edit'),
+                DeleteAction::make()->route('date-ideas.place-mood.destroy'),
             ])
             ->addColumns([
                 IdColumn::make(),
-                NameColumn::make(),
+                NameColumn::make()->route('date-ideas.place-mood.edit'),
                 CreatedAtColumn::make(),
                 StatusColumn::make(),
             ])
@@ -38,10 +42,7 @@ class CityTable extends TableAbstract
                     'name',
                     'created_at',
                     'status',
-//                    'code',
-//                    'type',
-                ])
-                ->orderBy('id');
+                ]);
             });
     }
 }
