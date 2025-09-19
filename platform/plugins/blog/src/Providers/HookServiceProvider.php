@@ -300,6 +300,7 @@ class HookServiceProvider extends ServiceProvider
             }
 
             return view($view, [
+                'featuredPost' => get_featured_posts(1)->first(),
                 'posts' => get_all_posts(true, (int) theme_option('number_of_posts_in_a_category', 12)),
             ])->render();
         }
