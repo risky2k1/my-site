@@ -25,7 +25,11 @@ class DateIdeasServiceProvider extends ServiceProvider
             ->loadAndPublishViews()
             ->loadMigrations();
 
-        Gallery::registerModule(Place::class);
+        $this->app->booted(function () {
+            if (is_plugin_active('gallery')) {
+                Gallery::registerModule(Place::class);
+            }
+        });
 
         if (defined('LANGUAGE_ADVANCED_MODULE_SCREEN_NAME')) {
             \Botble\LanguageAdvanced\Supports\LanguageAdvancedManager::registerModule(DateIdeas::class, [
