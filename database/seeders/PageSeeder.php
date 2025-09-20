@@ -21,10 +21,11 @@ class PageSeeder extends BaseSeeder
             [
                 'name' => 'Homepage',
                 'content' =>
-                    Html::tag('div', '[featured-posts enable_lazy_loading="yes"][/featured-posts]') .
-                    Html::tag('div', '[recent-posts title="What’s new?" enable_lazy_loading="yes"][/recent-posts]') .
-                    Html::tag('div', '[featured-categories-posts title="Best for you" category_id="' . Category::query()->skip(1)->value('id') . '" enable_lazy_loading="yes"][/featured-categories-posts]') .
-                    Html::tag('div', '[all-galleries limit="6" title="Galleries" enable_lazy_loading="yes"][/all-galleries]')
+                    Html::tag('div', '[home-hero-section title="Hello, Im PhmTuns" description="Creative Developer & Designer crafting amazing digital experiences with modern technologies" background_color="#ecf0f1" text_color="#666" enable_lazy_loading="no"][/home-hero-section]') .
+                    Html::tag('div', '[home-services-section title="What I Do" description="I specialize in creating modern, responsive, and user-friendly digital solutions"][/home-services-section]') .
+                    Html::tag('div', '[home-featured-works-section][/home-featured-works-section]') .
+                    Html::tag('div', '[home-about-section][/home-about-section]').
+                    Html::tag('div', '[home-contact-section][/home-contact-section]')
                 ,
                 'template' => 'no-sidebar',
             ],

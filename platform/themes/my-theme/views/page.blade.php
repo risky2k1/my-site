@@ -1,7 +1,9 @@
+@php
+    Theme::set('page', $page);
+@endphp
 @if (!BaseHelper::isHomepage($page->id))
     @php
         Theme::set('section-name', SeoHelper::getTitle());
-        Theme::set('page', $page);
         $page->loadMissing('metadata');
 
         $bannerImage = $page->getMetaData('banner_image', true);
