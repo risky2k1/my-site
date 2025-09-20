@@ -21,6 +21,14 @@
                 },
             };
         </script>
+        <script defer src="https://unpkg.com/alpinejs@3.15.0/dist/cdn.min.js"></script>
+
+        <style>
+            .whitespace-nowrap{
+                color: black;
+            }
+        </style>
+
         {!! Theme::header() !!}
     </head>
     <body {!! Theme::bodyAttributes() !!}>
@@ -53,36 +61,22 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center py-4">
                     <div class="text-2xl font-bold text-primary">Portfolio</div>
-                    <div class="hidden md:flex space-x-8">
-                        <a
-                            href="{{ BaseHelper::getHomepageUrl() }}"
-                            class="text-gray-700 hover:text-primary transition-colors font-medium"
-                        >Home</a
-                        >
-                        <a
-                            href="#"
-                            class="text-gray-700 hover:text-primary transition-colors font-medium"
-                        >Blog</a
-                        >
-                        <a
-                            href="#"
-                            class="text-gray-700 hover:text-primary transition-colors font-medium"
-                        >Favorites</a
-                        >
-                        <a
-                            href="#about"
-                            class="text-gray-700 hover:text-primary transition-colors font-medium"
-                        >About</a
-                        >
-                        <a
-                            href="#contact"
-                            class="text-gray-700 hover:text-primary transition-colors font-medium"
-                        >Contact</a
-                        >
+                    <div class="flex items-center">
+                        <div class="hidden md:flex space-x-8 me-3">
+                            {!!
+                                Menu::renderMenuLocation('main-menu', [
+                                    'options' => ['class' => 'menu sub-menu--slideLeft'],
+                                    'view'    => 'main-menu',
+                                ])
+                            !!}
+                        </div>
+                        <button class="md:hidden text-gray-700">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+
+                        {{--thêm vào đây dropdown đổi cờ--}}
+                        {!! Theme::partial('switcher') !!}
                     </div>
-                    <button class="md:hidden text-gray-700">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
                 </div>
             </div>
         </nav>

@@ -30,13 +30,23 @@ class LanguageSeeder extends BaseSeeder
         }
 
         Language::query()->create([
+            'lang_name' => 'Tiếng Việt',
+            'lang_locale' => 'vi',
+            'lang_is_default' => true,
+            'lang_code' => 'vi',
+            'lang_is_rtl' => false,
+            'lang_flag' => 'vn',
+            'lang_order' => 0,
+        ]);
+
+        Language::query()->create([
             'lang_name' => 'English',
             'lang_locale' => 'en',
-            'lang_is_default' => true,
+            'lang_is_default' => false,
             'lang_code' => 'en_US',
             'lang_is_rtl' => false,
             'lang_flag' => 'us',
-            'lang_order' => 0,
+            'lang_order' => 1,
         ]);
 
         Setting::set([
@@ -45,5 +55,7 @@ class LanguageSeeder extends BaseSeeder
             'language_display' => 'all',
             'language_hide_languages' => '[]',
         ])->save();
+
+
     }
 }
