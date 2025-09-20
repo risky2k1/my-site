@@ -21,13 +21,13 @@ class PageSeeder extends BaseSeeder
             [
                 'name' => 'Homepage',
                 'content' =>
-                    Html::tag('div', '[home-hero-section title="Hello, Im PhmTuns" description="Creative Developer & Designer crafting amazing digital experiences with modern technologies" background_color="#ecf0f1" text_color="#666" enable_lazy_loading="no"][/home-hero-section]') .
-                    Html::tag('div', '[home-services-section title="What I Do" description="I specialize in creating modern, responsive, and user-friendly digital solutions"][/home-services-section]') .
+                    Html::tag('div', '[home-hero-section title="Hello, Im PhmTuns" description="Creative Developer &amp; Designer crafting amazing digital experiences with modern technologies" background_color="#ecf0f1" text_color="#666" enable_lazy_loading="no"][/home-hero-section]') .
+                    Html::tag('div', '[home-services-section title="What I Do" description="I specialize in creating modern, responsive, and user-friendly digital solutions" background_color="#ecf0f1" text_color="#666" enable_lazy_loading="no"][/home-services-section]') .
                     Html::tag('div', '[home-featured-works-section][/home-featured-works-section]') .
                     Html::tag('div', '[home-about-section][/home-about-section]').
                     Html::tag('div', '[home-contact-section][/home-contact-section]')
                 ,
-                'template' => 'no-sidebar',
+                'template' => 'default',
             ],
             [
                 'name' => 'Blog',

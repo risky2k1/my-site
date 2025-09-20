@@ -2,6 +2,7 @@
     $page = Theme::get('page');
 @endphp
 @if(!empty($page) && BaseHelper::isHomepage($page->id))
+
 @else
     @if (Theme::breadcrumb()->getCrumbs())
         {{--<nav aria-label="{{ __('Breadcrumb') }}">
