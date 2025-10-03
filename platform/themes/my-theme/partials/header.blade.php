@@ -13,19 +13,24 @@
                 theme: {
                     extend: {
                         colors: {
-                            primary: "#667eea",
-                            secondary: "#764ba2",
-                            accent: "#f093fb",
-                        },
-                    },
-                },
-            };
+                            primary: '#667eea',
+                            secondary: '#764ba2',
+                            accent: '#f093fb',
+                            rose: '#f43f5e',
+                            pink: '#ec4899'
+                        }
+                    }
+                }
+            }
         </script>
         <script defer src="https://unpkg.com/alpinejs@3.15.0/dist/cdn.min.js"></script>
 
         <style>
             .whitespace-nowrap{
                 color: black;
+            }
+            body.show-admin-bar nav {
+                top: 40px;
             }
         </style>
 

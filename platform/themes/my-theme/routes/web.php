@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Route;
 Theme::registerRoutes(function (): void {
     // Add your custom route here
     // Ex: Route::get('hello', 'getHello');
+    Route::get('timeline', function () {
+        return view(Theme::getThemeNamespace() . '::views.timeline');
+    });
 });
 
 Theme::routes();

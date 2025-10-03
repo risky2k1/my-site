@@ -1,8 +1,7 @@
 @php
     $page = Theme::get('page');
 @endphp
-@if(!empty($page) && BaseHelper::isHomepage($page->id))
-
+@if(!empty($page) )
 @else
     @if (Theme::breadcrumb()->getCrumbs())
         {{--<nav aria-label="{{ __('Breadcrumb') }}">

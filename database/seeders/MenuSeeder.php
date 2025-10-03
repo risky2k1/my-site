@@ -44,6 +44,10 @@ class MenuSeeder extends BaseSeeder
                         'title' => 'Contact',
                         'url' => '/#contact',
                     ],
+                    [
+                        'title' => 'Our Journey',
+                        'url' => '/our-journey',
+                    ],
                 ],
             ],
 
