@@ -26,9 +26,9 @@ class MemberSeeder extends BaseSeeder
         $data = [
             [
                 'id' => BaseModel::isUsingIntegerId() ? 1 : $faker->uuid(),
-                'first_name' => $faker->firstName(),
-                'last_name' => $faker->lastName(),
-                'email' => 'member@gmail.com',
+                'first_name' => 'Phm',
+                'last_name' => 'Tuns',
+                'email' => 'theloneranger241@gmail.com',
                 'password' => Hash::make('12345678'),
                 'confirmed_at' => $now,
                 'created_at' => $now,

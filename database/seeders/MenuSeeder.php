@@ -50,38 +50,6 @@ class MenuSeeder extends BaseSeeder
                     ],
                 ],
             ],
-
-            [
-                'name' => 'Social',
-                'slug' => 'social',
-                'items' => [
-                    [
-                        'title' => 'Facebook',
-                        'url' => 'https://facebook.com',
-                        'icon_font' => 'ti ti-brand-facebook',
-                        'target' => '_blank',
-                    ],
-                    [
-                        'title' => 'Twitter',
-                        'url' => 'https://twitter.com',
-                        'icon_font' => 'ti ti-brand-x',
-                        'target' => '_blank',
-                    ],
-                    [
-                        'title' => 'GitHub',
-                        'url' => 'https://github.com',
-                        'icon_font' => 'ti ti-brand-github',
-                        'target' => '_blank',
-                    ],
-
-                    [
-                        'title' => 'Linkedin',
-                        'url' => 'https://linkedin.com',
-                        'icon_font' => 'ti ti-brand-linkedin',
-                        'target' => '_blank',
-                    ],
-                ],
-            ],
         ];
 
         $this->createMenus($data);
