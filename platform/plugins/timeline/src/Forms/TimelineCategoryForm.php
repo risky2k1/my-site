@@ -9,15 +9,16 @@ use Botble\Base\Forms\Fields\TextField;
 use Botble\Base\Forms\FormAbstract;
 use Botble\Timeline\Http\Requests\TimelineRequest;
 use Botble\Timeline\Models\Timeline;
+use Botble\Timeline\Models\TimelineCategory;
 
-class TimelineForm extends FormAbstract
+class TimelineCategoryForm extends FormAbstract
 {
     public function setup(): void
     {
         $this
-            ->model(Timeline::class)
+            ->model(TimelineCategory::class)
             ->setValidatorClass(TimelineRequest::class)
-            ->add('title', TextField::class, NameFieldOption::make()->required())
+            ->add('name', TextField::class, NameFieldOption::make()->required())
             ->add('status', SelectField::class, StatusFieldOption::make())
             ->setBreakFieldPoint('status');
     }

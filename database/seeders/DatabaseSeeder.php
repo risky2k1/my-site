@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Botble\ACL\Database\Seeders\UserSeeder;
 use Botble\AdministrativeUnit\Database\Seeders\AdministrativeUnitSeeder;
 use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Supports\BaseSeeder;
@@ -19,7 +18,7 @@ class DatabaseSeeder extends BaseSeeder
 
         BaseHelper::maximumExecutionTimeAndMemoryLimit();
 
-        $this->call(UserSeeder::class);
+        $this->call(CustomUserSeeder::class);
 
         $this->when(is_plugin_active('language'), fn () => $this->call(LanguageSeeder::class));
 

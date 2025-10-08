@@ -1,6 +1,7 @@
 <?php
 
 use Botble\Base\Facades\AdminHelper;
+use Botble\Timeline\Http\Controllers\TimelineCategoryController;
 use Botble\Timeline\Http\Controllers\TimelineController;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +11,6 @@ AdminHelper::registerRoutes(function () {
     });
 
     Route::group(['prefix' => 'timeline-categories', 'as' => 'timeline-category.'], function () {
-        Route::resource('', TimelineController::class)->parameters(['' => 'timeline-category']);
+        Route::resource('', TimelineCategoryController::class)->parameters(['' => 'timeline-category']);
     });
 });

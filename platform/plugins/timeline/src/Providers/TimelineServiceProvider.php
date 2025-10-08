@@ -59,7 +59,7 @@ class TimelineServiceProvider extends ServiceProvider
                         ->parentId('cms-plugins-timeline')
                         ->name('plugins/timeline::timeline.categories')
                         ->icon('ti ti-file-text')
-                        ->route('date-ideas.place.index')
+                        ->route('timeline-category.index')
                 )
                 ->registerItem(
                     DashboardMenuItem::make()
