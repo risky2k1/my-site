@@ -17,42 +17,35 @@
     @if (setting('language_switcher_display', 'dropdown') == 'dropdown')
         {!! Arr::get($options, 'before') !!}
 
-        <div class="relative" x-data="{ open: false }" @keydown.escape.window="open = false">
+        <div class="dropdown">
             <button
                 type="button"
-                class="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm font-medium text-white backdrop-blur hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/40"
-                @click="open = !open"
-                aria-haspopup="true"
-                :aria-expanded="open.toString()"
+                class="btn btn-sm btn-light d-inline-flex align-items-center gap-2 text-nowrap {{ Arr::get($options, 'class') }}"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
             >
                 @if (Arr::get($options, 'lang_flag', true) && ($languageDisplay == 'all' || $languageDisplay == 'flag'))
                     {!! language_flag(Language::getCurrentLocaleFlag(), Language::getCurrentLocaleName()) !!}
                 @endif
                 @if (Arr::get($options, 'lang_name', true) && ($languageDisplay == 'all' || $languageDisplay == 'name'))
-                    <span class="whitespace-nowrap">{{ Language::getCurrentLocaleName() }}</span>
-                @endif>
-                <i class="fas fa-chevron-down text-xs opacity-80"></i>
+                    <span class="text-nowrap">{{ Language::getCurrentLocaleName() }}</span>
+                @endif
+                <i class="fas fa-chevron-down opacity-75 small"></i>
             </button>
 
-            <ul
-                x-cloak
-                x-show="open"
-                @click.outside="open = false"
-                x-transition.origin.top.right
-                class="absolute right-0 z-50 mt-2 w-44 overflow-hidden rounded-xl border border-white/20 bg-white/90 shadow-lg backdrop-blur language_bar_chooser {{ Arr::get($options, 'class') }}"
-            >
+            <ul class="dropdown-menu dropdown-menu-end shadow language_bar_chooser">
                 @foreach ($supportedLocales as $localeCode => $properties)
                     @if ($localeCode != Language::getCurrentLocale())
                         <li>
                             <a
                                 href="{{ Language::getSwitcherUrl($localeCode, $properties['lang_code']) }}"
-                                class="flex items-center gap-2 px-3 py-2 text-sm text-gray-800 hover:bg-white"
+                                class="dropdown-item d-flex align-items-center gap-2"
                             >
                                 @if (Arr::get($options, 'lang_flag', true) && ($languageDisplay == 'all' || $languageDisplay == 'flag'))
                                     {!! language_flag($properties['lang_flag'], $properties['lang_name']) !!}
                                 @endif
                                 @if (Arr::get($options, 'lang_name', true) && ($languageDisplay == 'all' || $languageDisplay == 'name'))
-                                    <span class="truncate">{{ $properties['lang_name'] }}</span>
+                                    <span class="text-truncate">{{ $properties['lang_name'] }}</span>
                                 @endif
                             </a>
                         </li>
@@ -64,13 +57,13 @@
         {!! Arr::get($options, 'after') !!}
     @else
         {{-- Dạng list (không dropdown) --}}
-        <ul class="language_bar_list flex items-center gap-2 {{ Arr::get($options, 'class') }}">
+        <ul class="language_bar_list d-flex align-items-center gap-2 list-unstyled mb-0 {{ Arr::get($options, 'class') }}">
             @foreach ($supportedLocales as $localeCode => $properties)
                 @if ($localeCode != Language::getCurrentLocale())
                     <li>
                         <a
                             href="{{ Language::getSwitcherUrl($localeCode, $properties['lang_code']) }}"
-                            class="inline-flex items-center gap-2 rounded-md px-2 py-1 text-sm text-white/90 hover:bg-white/10"
+                            class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-2"
                         >
                             @if (Arr::get($options, 'lang_flag', true) && ($languageDisplay == 'all' || $languageDisplay == 'flag'))
                                 {!! language_flag($properties['lang_flag'], $properties['lang_name']) !!}

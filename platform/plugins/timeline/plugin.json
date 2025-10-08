@@ -1,0 +1,11 @@
+{
+    "id": "risky2k1/timeline",
+    "name": "Timeline",
+    "namespace": "Botble\\Timeline\\",
+    "provider": "Botble\\Timeline\\Providers\\TimelineServiceProvider",
+    "author": "",
+    "url": "",
+    "version": "1.0.0",
+    "description": "",
+    "minimum_core_version": "7.5.9.1"
+}

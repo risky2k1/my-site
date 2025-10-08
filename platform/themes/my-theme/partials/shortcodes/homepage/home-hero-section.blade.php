@@ -1,52 +1,29 @@
 <!-- Hero Section -->
-<section
-    class="gradient-bg hero-section min-h-screen flex items-center relative overflow-hidden"
->
-    <div class="absolute inset-0 bg-black/10"></div>
-    <div
-        class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
-    >
+<section class="gradient-bg hero-section d-flex align-items-center">
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.10);"></div>
+    <div class="container position-relative z-1 text-center py-5">
         <div class="animate-fade-in-up">
-            <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">
+            <h1 class="display-4 display-md-2 fw-bold text-white mb-3">
                 {{ $shortcode->title }}
-                {{--Hello, I'm <span class="text-accent">Your Name</span>--}}
             </h1>
-            <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
+            <p class="fs-5 text-white-50 mb-4 mx-auto" style="max-width: 720px;">
                 {{ $shortcode->description }}
-                {{--Creative Developer & Designer crafting amazing digital experiences
-                with modern technologies--}}
             </p>
-            <div
-                class="flex flex-col sm:flex-row gap-4 justify-center items-center"
-            >
-                <button
-                    class="bg-white text-primary px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
-                >
-                    View My Work
-                </button>
-                <button
-                    class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-primary transition-all duration-300"
-                >
-                    Download CV
-                </button>
+            <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center align-items-center">
+                <a href="#featured" class="btn btn-light text-primary fw-semibold px-4 py-2 rounded-pill">View My Work</a>
+                <a href="#" class="btn btn-outline-light fw-semibold px-4 py-2 rounded-pill">Download CV</a>
             </div>
         </div>
     </div>
 
     <!-- Floating Elements -->
-    <div class="absolute top-20 left-20 animate-float">
-        <div class="w-16 h-16 bg-white/20 rounded-full"></div>
+    <div class="position-absolute" style="top: 5rem; left: 5rem;">
+        <div class="animate-float rounded-circle" style="width: 4rem; height: 4rem; background: rgba(255,255,255,0.2);"></div>
     </div>
-    <div
-        class="absolute bottom-40 right-20 animate-float"
-        style="animation-delay: 2s"
-    >
-        <div class="w-12 h-12 bg-accent/30 rounded-full"></div>
+    <div class="position-absolute" style="bottom: 10rem; right: 5rem; animation-delay: 2s;">
+        <div class="animate-float rounded-circle" style="width: 3rem; height: 3rem; background: rgba(240,147,251,0.3);"></div>
     </div>
-    <div
-        class="absolute top-1/2 left-10 animate-float"
-        style="animation-delay: 4s"
-    >
-        <div class="w-8 h-8 bg-white/30 rounded-full"></div>
+    <div class="position-absolute" style="top: 50%; left: 2.5rem; animation-delay: 4s;">
+        <div class="animate-float rounded-circle" style="width: 2rem; height: 2rem; background: rgba(255,255,255,0.3);"></div>
     </div>
 </section>

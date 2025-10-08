@@ -1,71 +1,44 @@
 @if ($posts->isNotEmpty())
-    {{--@foreach ($posts as $post)
-        <article class="post post__horizontal mb-40 clearfix">
-            <div class="post__thumbnail">
-                {{ RvMedia::image($post->image, $post->name, 'medium') }}
-                <a
-                    class="post__overlay"
-                    href="{{ $post->url }}"
-                    title="{{ $post->name }}"
-                ></a>
-            </div>
-            <div class="post__content-wrap">
-                <header class="post__header">
-                    <h3 class="post__title"><a
-                            href="{{ $post->url }}"
-                            title="{{ $post->name }}"
-                        >{{ $post->name }}</a></h3>
-                    <div class="post__meta">
-                        {!! Theme::partial('blog.post-meta', compact('post')) !!}
-                    </div>
-                </header>
-                <div class="post__content p-0">
-                    <p data-number-line="4">{{ $post->description }}</p>
-                </div>
-            </div>
-        </article>
-    @endforeach
-    <div class="page-pagination text-right">
-        {!! $posts->withQueryString()->links() !!}
-    </div>--}}
-
     <!-- Blog Posts Section -->
-    <section class="py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="py-5">
+        <div class="container">
             <!-- Featured Post -->
-            <div class="mb-16">
-                <h2 class="text-3xl font-bold text-gray-900 mb-8">{{ __('Featured Post') }}</h2>
-                <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg">
-                    <div class="md:flex">
-                        <div class="md:w-1/2 h-64 md:h-auto gradient-bg flex items-center justify-center">
-                            <i class="fas fa-code text-6xl text-white"></i>
+            <div class="mb-5">
+                <h2 class="h3 fw-bold text-dark mb-4">Featured Post</h2>
+                <div
+                    class="card card-hover border-0 shadow-lg overflow-hidden rounded-4"
+                >
+                    <div class="row g-0">
+                        <div
+                            class="col-md-6 gradient-bg d-flex align-items-center justify-content-center"
+                            style="min-height: 260px"
+                        >
+                            <i class="fas fa-code text-white display-4"></i>
                         </div>
-                        <div class="md:w-1/2 p-8">
-                            <div class="flex items-center space-x-4 mb-4">
-                                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
-                                    {{ $featuredPost?->categories->first()?->name }}
-                                </span>
-                                <span class="text-gray-500 text-sm">
-                                    {{ $featuredPost?->created_at->translatedFormat('d-m-Y') }}
-                                </span>
+                        <div class="col-md-6 p-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">{{ $featuredPost?->categories->first()?->name }}</span>
+                                <span class="text-secondary small">{{ $featuredPost?->created_at->translatedFormat('d-m-Y') }}</span>
                             </div>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-4">
+                            <h3 class="h4 fw-bold mb-3">
                                 {{ $featuredPost?->name }}
                             </h3>
-                            <p class="text-gray-600 mb-6 leading-relaxed">
+                            <p class="text-secondary mb-4">
                                 {!! BaseHelper::clean($featuredPost->deacription) !!}
                             </p>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-2">
-                                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                                        <i class="fas fa-user text-white text-sm"></i>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div
+                                        class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+                                        style="width: 32px; height: 32px"
+                                    >
+                                        <i class="fas fa-user small"></i>
                                     </div>
-                                    <span class="text-gray-700 font-medium">{{ $featuredPost?->author?->name }}</span>
+                                    <span class="fw-medium text-dark">{{ $featuredPost?->author?->name }}</span>
                                 </div>
-                                <a href="{{ $featuredPost?->url }}" class="text-primary hover:text-secondary font-semibold flex items-center">
-                                    Read More
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </a>
+                                <a href="{{ $featuredPost?->url }}"
+                                   class="fw-semibold text-primary text-decoration-none"
+                                >Read More <i class="fas fa-arrow-right ms-2"></i></a>
                             </div>
                         </div>
                     </div>
@@ -73,20 +46,22 @@
             </div>
 
             <!-- All Posts -->
-            <div class="mb-8">
-                <h2 class="text-3xl font-bold text-gray-900 mb-8">All Posts</h2>
-
-                <!-- Filter and Search -->
-                <div class="bg-white p-6 rounded-lg shadow-sm mb-8">
-                    <div class="grid md:grid-cols-4 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Search</label>
-                            <input type="text" id="searchInput" placeholder="Search posts..."
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50">
+            <h2 class="h3 fw-bold text-dark mb-4">All Posts</h2>
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Search</label>
+                            <input
+                                type="text"
+                                id="searchInput"
+                                class="form-control"
+                                placeholder="Search posts..."
+                            />
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                            <select id="categoryFilter" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50">
+                        <div class="col-md-3">
+                            <label class="form-label">Category</label>
+                            <select id="categoryFilter" class="form-select">
                                 <option value="">All Categories</option>
                                 <option value="tutorial">Tutorial</option>
                                 <option value="tips">Tips</option>
@@ -94,22 +69,22 @@
                                 <option value="news">News</option>
                             </select>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
-                            <select id="sortBy" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50">
+                        <div class="col-md-3">
+                            <label class="form-label">Sort By</label>
+                            <select id="sortBy" class="form-select">
                                 <option value="date-desc">Newest First</option>
                                 <option value="date-asc">Oldest First</option>
                                 <option value="title-asc">Title A-Z</option>
                                 <option value="title-desc">Title Z-A</option>
                             </select>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">View</label>
-                            <div class="flex space-x-2">
-                                <button id="gridView" class="px-3 py-2 bg-primary text-white rounded-md">
+                        <div class="col-md-3">
+                            <label class="form-label">View</label>
+                            <div class="d-flex gap-2">
+                                <button id="gridView" class="btn btn-primary">
                                     <i class="fas fa-th-large"></i>
                                 </button>
-                                <button id="listView" class="px-3 py-2 bg-gray-200 text-gray-700 rounded-md">
+                                <button id="listView" class="btn btn-outline-secondary">
                                     <i class="fas fa-list"></i>
                                 </button>
                             </div>
@@ -119,39 +94,42 @@
             </div>
 
             <!-- Posts Grid -->
-            <div id="postsContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Blog Post Item -->
+            <div id="postsContainer" class="row g-4">
+                <!-- Example Blog Post -->
                 @foreach ($posts as $post)
-                    <article class="blog-post card-hover bg-white rounded-2xl overflow-hidden shadow-lg"
-                             data-title="{{ $post->name }}"
-                             data-category="{{ $post->categories->first()->name }}"
-                             data-date="{{ $post->created_at->translatedFormat('Y-m-d') }}">
-                        <div class="h-48 gradient-bg flex items-center justify-center">
-                            <i class="fas fa-vuejs text-6xl text-white"></i>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex items-center justify-between mb-3">
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">{{ $post->categories->first()->name }}</span>
-                                <span class="text-gray-500 text-sm">{{ $post->created_at->translatedFormat('Y-m-d') }}</span>
+                    <div class="col-md-6 col-lg-4">
+                        <article class="card card-hover border-0 shadow-lg blog-post h-100">
+                            <div
+                                class="gradient-bg d-flex align-items-center justify-content-center"
+                                style="height: 200px"
+                            >
+                                <i class="fab fa-vuejs display-4 text-white"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-3">{{ $post->name }}</h3>
-                            <p class="text-gray-600 mb-4 leading-relaxed">
-                                {!! BaseHelper::clean($post->description) !!}
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <div class="text-sm text-gray-500">5 min read</div>
-                                <a href="{{ $post?->url }}" class="text-primary hover:text-secondary font-semibold">
-                                    Read More →
-                                </a>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="badge bg-primary-subtle text-primary rounded-pill">{{ $post?->categories?->first()?->name }}</span>
+                                    <span class="small text-secondary">{{ $post->created_at }}</span>
+                                </div>
+                                <h3 class="h5 fw-bold mb-2">{{ $post->name }}</h3>
+                                <p class="text-secondary mb-3">
+                                    {!! BaseHelper::clean($post->description) !!}
+                                </p>
+                                <div class="d-flex justify-content-between small text-secondary">
+                                    <span>5 min read</span>
+                                    <a href="{{ $post->url }}"
+                                       class="text-primary fw-semibold text-decoration-none"
+                                    >Read More →</a>
+                                </div>
                             </div>
-                        </div>
-                    </article>
+                        </article>
+                    </div>
                 @endforeach
+                <!-- Add more posts similarly... -->
             </div>
 
             <!-- Load More Button -->
-            <div class="text-center mt-12">
-                <button class="bg-primary hover:bg-secondary text-white px-8 py-3 rounded-full font-semibold transition-colors">
+            <div class="text-center mt-5">
+                <button class="btn btn-primary rounded-pill px-4 py-2">
                     Load More Posts
                 </button>
             </div>
@@ -160,18 +138,28 @@
 @endif
 
 <!-- Newsletter Section -->
-<section class="py-16 gradient-bg">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl font-bold text-white mb-4">Stay Updated</h2>
-        <p class="text-white/90 mb-8">
-            Subscribe to get the latest posts and updates delivered directly to your inbox.
+<section class="gradient-bg text-center text-white py-5">
+    <div class="container">
+        <h2 class="h3 fw-bold mb-3">Stay Updated</h2>
+        <p class="text-white-50 mb-4">
+            Subscribe to get the latest posts and updates delivered directly to
+            your inbox.
         </p>
-        <div class="max-w-md mx-auto flex">
-            <input type="email" placeholder="Enter your email"
-                   class="flex-1 px-4 py-3 rounded-l-full focus:outline-none focus:ring-2 focus:ring-white/50">
-            <button class="bg-white text-primary px-6 py-3 rounded-r-full font-semibold hover:bg-gray-100 transition-colors">
-                Subscribe
-            </button>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input
+                        type="email"
+                        class="form-control rounded-start-pill"
+                        placeholder="Enter your email"
+                    />
+                    <button
+                        class="btn btn-light text-primary rounded-end-pill fw-semibold"
+                    >
+                        Subscribe
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </section>

@@ -1,13 +1,14 @@
-{{--<ul {!! BaseHelper::clean($options) !!}>--}}
+<ul class="navbar-nav ms-auto mb-2 mb-md-0">
     @foreach ($menu_nodes as $key => $row)
-        <a
-            href="{{ url($row->url) }}"
-            @if ($row->target !== '_self')
-                target="{{ $row->target }}"
-            @endif
-            class="text-gray-700 hover:text-primary transition-colors font-medium"
-        >{{ $row->title }}</a
-        >
+        <li class="nav-item">
+            <a class="nav-link fw-medium text-body"
+               href="{{ url($row->url) }}"
+               @if ($row->target !== '_self')
+                   target="{{ $row->target }}"
+                @endif
+            >
+                {{ $row->title }}
+            </a>
+        </li>
     @endforeach
-{{--</ul>--}}
-
+</ul>

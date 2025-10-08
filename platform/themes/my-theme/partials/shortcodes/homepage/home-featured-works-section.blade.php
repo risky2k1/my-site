@@ -1,116 +1,67 @@
-<!-- Featured Work Section -->
-<section class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                Featured Work
-            </h2>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                A selection of recent projects that showcase my skills and
-                creativity
-            </p>
+<section id="featured" class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold text-dark mb-2">Featured Work</h2>
+            <p class="fs-5 text-secondary mx-auto" style="max-width: 720px;">A selection of recent projects that showcase my skills and creativity</p>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div
-                class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg"
-            >
-                <div class="h-48 gradient-bg flex items-center justify-center">
-                    <i class="fas fa-code text-6xl text-white"></i>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">
-                        E-commerce Platform
-                    </h3>
-                    <p class="text-gray-600 mb-4">
-                        A modern e-commerce solution built with Vue.js and Node.js
-                    </p>
-                    <div class="flex flex-wrap gap-2">
-                <span
-                    class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
-                >Vue.js</span
-                >
-                        <span
-                            class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
-                        >Node.js</span
-                        >
-                        <span
-                            class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
-                        >MongoDB</span
-                        >
+        <div class="row g-4">
+            <!-- Project 1 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-hover shadow-lg h-100 rounded-4">
+                    <div class="d-flex align-items-center justify-content-center" style="height: 12rem;">
+                        <div class="gradient-bg w-100 h-100 d-flex align-items-center justify-content-center rounded-top-4">
+                            <i class="fas fa-code display-3 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="h5 fw-bold text-dark mb-1">E-commerce Platform</h3>
+                        <p class="text-secondary mb-3">A modern e-commerce solution built with Vue.js and Node.js</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge rounded-pill text-primary bg-primary-subtle">Vue.js</span>
+                            <span class="badge rounded-pill text-primary bg-primary-subtle">Node.js</span>
+                            <span class="badge rounded-pill text-primary bg-primary-subtle">MongoDB</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div
-                class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg"
-            >
-                <div
-                    class="h-48 bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center"
-                >
-                    <i class="fas fa-mobile-alt text-6xl text-white"></i>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">
-                        Task Management App
-                    </h3>
-                    <p class="text-gray-600 mb-4">
-                        Cross-platform mobile app for productivity and task management
-                    </p>
-                    <div class="flex flex-wrap gap-2">
-                <span
-                    class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
-                >React Native</span
-                >
-                        <span
-                            class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
-                        >Firebase</span
-                        >
+            <!-- Project 2 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-hover shadow-lg h-100 rounded-4">
+                    <div class="d-flex align-items-center justify-content-center" style="height: 12rem; background: linear-gradient(135deg, #a855f7, #ec4899);">
+                        <i class="fas fa-mobile-alt display-3 text-white"></i>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="h5 fw-bold text-dark mb-1">Task Management App</h3>
+                        <p class="text-secondary mb-3">Cross-platform mobile app for productivity and task management</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge rounded-pill text-primary bg-primary-subtle">React Native</span>
+                            <span class="badge rounded-pill text-primary bg-primary-subtle">Firebase</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div
-                class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg"
-            >
-                <div
-                    class="h-48 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center"
-                >
-                    <i class="fas fa-chart-bar text-6xl text-white"></i>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">
-                        Analytics Dashboard
-                    </h3>
-                    <p class="text-gray-600 mb-4">
-                        Real-time analytics dashboard with interactive charts
-                    </p>
-                    <div class="flex flex-wrap gap-2">
-                <span
-                    class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
-                >React</span
-                >
-                        <span
-                            class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
-                        >D3.js</span
-                        >
-                        <span
-                            class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
-                        >Python</span
-                        >
+            <!-- Project 3 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-hover shadow-lg h-100 rounded-4">
+                    <div class="d-flex align-items-center justify-content-center" style="height: 12rem; background: linear-gradient(135deg, #34d399, #3b82f6);">
+                        <i class="fas fa-chart-bar display-3 text-white"></i>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="h5 fw-bold text-dark mb-1">Analytics Dashboard</h3>
+                        <p class="text-secondary mb-3">Real-time analytics dashboard with interactive charts</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge rounded-pill text-primary bg-primary-subtle">React</span>
+                            <span class="badge rounded-pill text-primary bg-primary-subtle">D3.js</span>
+                            <span class="badge rounded-pill text-primary bg-primary-subtle">Python</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="text-center mt-12">
-            <a
-                href="#"
-                class="inline-flex items-center text-primary font-semibold hover:text-secondary transition-colors"
-            >
-                View All Projects
-                <i class="fas fa-arrow-right ml-2"></i>
-            </a>
+        <div class="text-center mt-4">
+            <a href="#" class="btn btn-link text-decoration-none fw-semibold text-primary">View All Projects <i class="fas fa-arrow-right ms-2"></i></a>
         </div>
     </div>
 </section>

@@ -14,16 +14,21 @@
 
     @endphp
         <!-- Hero Section -->
-    <section class="gradient-bg pt-24 pb-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-5xl md:text-6xl font-bold text-white mb-6 animate-fade-in">
+    <section class="gradient-bg pt-5 pb-5 mt-5 text-center text-white">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-3 animate-fade-in">
                 {{ $page->name }}
+
             </h1>
-            <p class="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in">
+            <p
+                class="fs-5 text-white-50 mx-auto animate-fade-in"
+                style="max-width: 720px"
+            >
                 {!! BaseHelper::clean($page->description) !!}
             </p>
         </div>
     </section>
+
     {!! apply_filters(PAGE_FILTER_FRONT_PAGE_CONTENT, BaseHelper::clean($page->content), $page) !!}
 
 @else

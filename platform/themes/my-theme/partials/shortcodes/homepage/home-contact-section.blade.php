@@ -1,41 +1,23 @@
-<!-- Contact Section -->
-<section id="contact" class="py-20 gradient-bg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
-            Let's Work Together
-        </h2>
-        <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Have a project in mind? I'd love to hear about it and see how we can
-            bring your ideas to life.
-        </p>
+<section id="contact" class="py-5 gradient-bg text-center text-white">
+    <div class="container">
+        <h2 class="display-6 fw-bold mb-3">Let's Work Together</h2>
+        <p class="fs-5 text-white-50 mb-4 mx-auto" style="max-width: 680px;">Have a project in mind? I'd love to hear about it and see how we can bring your ideas to life.</p>
 
-        <div
-            class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
-        >
-            <a
-                href="mailto:hello@yourname.com"
-                class="bg-white text-primary px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
-            >
-                <i class="fas fa-envelope mr-2"></i>
-                Get In Touch
+        <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center align-items-center mb-4">
+            <a href="mailto:hello@yourname.com" class="btn btn-light text-primary fw-semibold px-4 py-2 rounded-pill">
+                <i class="fas fa-envelope me-2"></i> Get In Touch
             </a>
-            <div class="flex space-x-4">
-                <a
-                    href="#"
-                    class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-primary transition-all duration-300"
-                >
+            <div class="d-flex gap-2">
+                <a href="#" class="d-inline-flex align-items-center justify-content-center rounded-circle text-white border border-0"
+                   style="width: 3rem; height: 3rem; background: rgba(255,255,255,0.2);">
                     <i class="fab fa-github"></i>
                 </a>
-                <a
-                    href="#"
-                    class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-primary transition-all duration-300"
-                >
+                <a href="#" class="d-inline-flex align-items-center justify-content-center rounded-circle text-white border border-0"
+                   style="width: 3rem; height: 3rem; background: rgba(255,255,255,0.2);">
                     <i class="fab fa-linkedin"></i>
                 </a>
-                <a
-                    href="#"
-                    class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-primary transition-all duration-300"
-                >
+                <a href="#" class="d-inline-flex align-items-center justify-content-center rounded-circle text-white border border-0"
+                   style="width: 3rem; height: 3rem; background: rgba(255,255,255,0.2);">
                     <i class="fab fa-twitter"></i>
                 </a>
             </div>
