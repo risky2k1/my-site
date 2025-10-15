@@ -6,16 +6,24 @@ use Botble\Base\Casts\SafeContent;
 use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Base\Models\BaseModel;
 
-class Timeline extends BaseModel
+class TimelineItem extends BaseModel
 {
-    protected $table = 'timelines';
+    protected $table = 'timeline_items';
 
     protected $fillable = [
-        'name',
+        'title',
         'description',
+        'content',
+        'place_id',
+        'date',
         'image',
+        'icon',
+        'icon2',
         'order',
         'status',
+        'male_id',
+        'female_id',
+        'category_id',
     ];
 
     protected $casts = [

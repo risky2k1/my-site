@@ -45,7 +45,7 @@ class TimelineTable extends TableAbstract
             ->queryUsing(function (Builder $query) {
                 $query->select([
                     'id',
-                    'title',
+                    'name',
                     'created_at',
                     'status',
                 ]);

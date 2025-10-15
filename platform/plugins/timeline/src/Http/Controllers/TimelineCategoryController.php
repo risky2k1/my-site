@@ -3,9 +3,12 @@
 namespace Botble\Timeline\Http\Controllers;
 
 use Botble\Base\Http\Actions\DeleteResourceAction;
+use Botble\Timeline\Forms\TimelineCategoryForm;
 use Botble\Timeline\Http\Requests\TimelineRequest;
 use Botble\Timeline\Models\Timeline;
 use Botble\Base\Http\Controllers\BaseController;
+use Botble\Timeline\Models\TimelineCategory;
+use Botble\Timeline\Tables\TimelineCategoryTable;
 use Botble\Timeline\Tables\TimelineTable;
 use Botble\Timeline\Forms\TimelineForm;
 
@@ -18,7 +21,7 @@ class TimelineCategoryController extends BaseController
             ->add(trans(trans('plugins/timeline::timeline.categories')), route('timeline-category.index'));
     }
 
-    public function index(TimelineTable $table)
+    public function index(TimelineCategoryTable $table)
     {
         $this->pageTitle(trans('plugins/timeline::timeline.categories'));
 
@@ -29,7 +32,7 @@ class TimelineCategoryController extends BaseController
     {
         $this->pageTitle(trans('plugins/timeline::timeline.create'));
 
-        return TimelineForm::create()->renderForm();
+        return TimelineCategoryForm::create()->renderForm();
     }
 
     public function store(TimelineRequest $request)
@@ -45,16 +48,16 @@ class TimelineCategoryController extends BaseController
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
-    public function edit(Timeline $timeline)
+    public function edit(TimelineCategory $timelineCategory)
     {
-        $this->pageTitle(trans('core/base::forms.edit_item', ['name' => $timeline->name]));
+        $this->pageTitle(trans('core/base::forms.edit_item', ['name' => $timelineCategory->name]));
 
-        return TimelineForm::createFromModel($timeline)->renderForm();
+        return TimelineForm::createFromModel($timelineCategory)->renderForm();
     }
 
-    public function update(Timeline $timeline, TimelineRequest $request)
+    public function update(TimelineCategory $timelineCategory, TimelineRequest $request)
     {
-        TimelineForm::createFromModel($timeline)
+        TimelineForm::createFromModel($timelineCategory)
             ->setRequest($request)
             ->save();
 
@@ -64,8 +67,8 @@ class TimelineCategoryController extends BaseController
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy(Timeline $timeline)
+    public function destroy(TimelineCategory $timelineCategory)
     {
-        return DeleteResourceAction::make($timeline);
+        return DeleteResourceAction::make($timelineCategory);
     }
 }
