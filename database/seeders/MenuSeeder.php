@@ -30,7 +30,7 @@ class MenuSeeder extends BaseSeeder
                 'location' => 'main-menu',
                 'items' => [
                     [
-                        'title' => 'Home',
+                        'title' => 'Trang chủ',
                         'url' => '/',
                     ],
                     [
@@ -44,16 +44,18 @@ class MenuSeeder extends BaseSeeder
                     ],
 
                     [
-                        'title' => 'About',
+                        'title' => 'Tìm hiểu thêm',
                         'url' => '/#about',
                     ],
                     [
-                        'title' => 'Contact',
+                        'title' => 'Liên hệ',
                         'url' => '/#contact',
                     ],
                     [
-                        'title' => 'Our Journey',
-                        'url' => '/our-journey',
+                        'title' => 'Hành trình của chúng tôi',
+                        'reference_id' => $this->getPageId('Hành trình của chúng tôi'),
+                        'reference_type' => Page::class,
+                        'template' => 'timeline',
                     ],
                 ],
             ],

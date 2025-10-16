@@ -1,5 +1,6 @@
 <?php
 
+use Botble\Base\Facades\Assets;
 use Botble\Base\Forms\FieldOptions\SelectFieldOption;
 use Botble\Base\Forms\FieldOptions\TextFieldOption;
 use Botble\Base\Forms\Fields\NumberField;
@@ -87,6 +88,9 @@ app()->booted(function () {
         __('Timeline'),
         __('Timeline'),
         function (ShortcodeCompiler $shortcode) {
+            Theme::asset()->usePath()->add('timeline-style', 'css/timeline.css');
+            Theme::asset()->container('footer')->usePath()->add('timeline-js', 'js/timeline.js');
+
             $timeline = Timeline::query()
                 ->with(['items.category'])
                 ->wherePublished()

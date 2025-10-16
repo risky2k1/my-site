@@ -5,6 +5,7 @@ use Botble\Theme\Supports\ThemeSupport;
 
 register_page_template([
     'default' => __('Default'),
+    'timeline' => __('Timeline'),
 ]);
 
 app()->booted(function () {

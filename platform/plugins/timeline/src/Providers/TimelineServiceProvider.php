@@ -6,6 +6,7 @@ use Botble\Base\Supports\DashboardMenuItem;
 use Botble\Base\Supports\ServiceProvider;
 use Botble\Base\Traits\LoadAndPublishDataTrait;
 use Botble\Base\Facades\DashboardMenu;
+use Botble\Gallery\Facades\Gallery;
 use Botble\LanguageAdvanced\Supports\LanguageAdvancedManager;
 use Botble\Timeline\Models\Timeline;
 use Botble\Timeline\Models\TimelineCategory;
@@ -41,6 +42,12 @@ class TimelineServiceProvider extends ServiceProvider
                 'description',
             ]);
         }
+
+        $this->app->booted(function () {
+            if (is_plugin_active('gallery')) {
+                Gallery::registerModule(TimelineItem::class);
+            }
+        });
 
         DashboardMenu::default()->beforeRetrieving(function () {
             DashboardMenu::registerItem([

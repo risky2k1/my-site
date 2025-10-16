@@ -8,7 +8,10 @@ use Botble\Base\Traits\LoadAndPublishDataTrait;
 use Botble\Base\Facades\DashboardMenu;
 use Botble\DateIdeas\Models\DateIdeas;
 use Botble\DateIdeas\Models\Place;
+use Botble\DateIdeas\Models\PlaceCategory;
+use Botble\DateIdeas\Models\PlaceMood;
 use Botble\Gallery\Facades\Gallery;
+use Botble\LanguageAdvanced\Supports\LanguageAdvancedManager;
 
 class DateIdeasServiceProvider extends ServiceProvider
 {
@@ -32,8 +35,16 @@ class DateIdeasServiceProvider extends ServiceProvider
         });
 
         if (defined('LANGUAGE_ADVANCED_MODULE_SCREEN_NAME')) {
-            \Botble\LanguageAdvanced\Supports\LanguageAdvancedManager::registerModule(DateIdeas::class, [
+            LanguageAdvancedManager::registerModule(PlaceCategory::class, [
                 'name',
+            ]);
+            LanguageAdvancedManager::registerModule(PlaceMood::class, [
+                'name',
+            ]);
+            LanguageAdvancedManager::registerModule(Place::class, [
+                'name',
+                'description',
+                'address',
             ]);
         }
 
