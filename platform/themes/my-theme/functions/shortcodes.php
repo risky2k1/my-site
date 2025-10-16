@@ -12,6 +12,7 @@ use Botble\Shortcode\Facades\Shortcode;
 use Botble\Shortcode\Forms\ShortcodeForm;
 use Botble\Theme\Facades\Theme;
 use Botble\Theme\Supports\ThemeSupport;
+use Botble\Timeline\Models\Timeline;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Arr;
@@ -78,6 +79,20 @@ app()->booted(function () {
         __('Home contact section'),
         function (ShortcodeCompiler $shortcode) {
             return Theme::partial('shortcodes.homepage.home-contact-section', compact('shortcode'));
+        }
+    );
+
+    Shortcode::register(
+        'timeline',
+        __('Timeline'),
+        __('Timeline'),
+        function (ShortcodeCompiler $shortcode) {
+            $timeline = Timeline::query()
+                ->with(['items.category'])
+                ->wherePublished()
+                ->first();
+
+            return Theme::partial('shortcodes.timeline.timeline', compact('shortcode', 'timeline'));
         }
     );
 });

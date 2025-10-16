@@ -16,6 +16,7 @@ class Timeline extends BaseModel
         'image',
         'order',
         'status',
+        'start_date',
     ];
 
     protected $casts = [
@@ -24,8 +25,8 @@ class Timeline extends BaseModel
         'description' => SafeContent::class,
     ];
 
-    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function items()
     {
-        return $this->belongsTo(TimelineCategory::class, 'category_id');
+        return $this->hasMany(TimelineItem::class, 'timeline_id');
     }
 }

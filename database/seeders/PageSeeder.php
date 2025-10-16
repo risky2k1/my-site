@@ -19,7 +19,7 @@ class PageSeeder extends BaseSeeder
 
         $pages = [
             [
-                'name' => 'Homepage',
+                'name' => 'Trang chủ',
                 'content' =>
                     Html::tag('div', '[home-hero-section title="Hello, Im PhmTuns" description="Creative Developer &amp; Designer crafting amazing digital experiences with modern technologies" background_color="#ecf0f1" text_color="#666" enable_lazy_loading="no"][/home-hero-section]') .
                     Html::tag('div', '[home-services-section title="What I Do" description="I specialize in creating modern, responsive, and user-friendly digital solutions" background_color="#ecf0f1" text_color="#666" enable_lazy_loading="no"][/home-services-section]') .
@@ -34,7 +34,11 @@ class PageSeeder extends BaseSeeder
                 'content' => '---',
             ],
             [
-                'name' => 'Contact',
+                'name' => 'Hành trình của chúng tôi',
+                'content' => '<div>[timeline][/timeline]</div>',
+            ],
+            [
+                'name' => 'Liên hệ',
                 'content' => Html::tag('h2', 'Get in Touch') .
                     Html::tag(
                         'p',
@@ -63,11 +67,11 @@ class PageSeeder extends BaseSeeder
                 'name' => $this->getCookieConsentPageName(),
                 'content' => $this->getCookieConsentPageContent(),
             ],
-            [
+            /*[
                 'name' => 'Galleries',
                 'content' => '<div>[gallery title="Galleries" enable_lazy_loading="yes"][/gallery]</div>',
-            ],
-            [
+            ],*/
+            /*[
                 'name' => 'About Us',
                 'content' => Html::tag('h2', 'About TechHub') .
                     Html::tag(
@@ -163,7 +167,7 @@ class PageSeeder extends BaseSeeder
                         'p',
                         'TechHub may revise these terms of service at any time without notice. By using this website, you are agreeing to be bound by the current version of these terms of service.'
                     ),
-            ],
+            ],*/
         ];
 
         $this->createPages($pages);

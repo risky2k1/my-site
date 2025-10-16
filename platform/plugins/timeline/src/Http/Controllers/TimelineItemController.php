@@ -14,6 +14,7 @@ use Botble\Timeline\Tables\TimelineCategoryTable;
 use Botble\Timeline\Tables\TimelineItemTable;
 use Botble\Timeline\Tables\TimelineTable;
 use Botble\Timeline\Forms\TimelineForm;
+use Illuminate\Http\Request;
 
 class TimelineItemController extends BaseController
 {
@@ -38,7 +39,7 @@ class TimelineItemController extends BaseController
         return TimelineItemForm::create()->renderForm();
     }
 
-    public function store(TimelineRequest $request)
+    public function store(Request $request)
     {
         $form = TimelineItemForm::create()->setRequest($request);
 
@@ -53,14 +54,14 @@ class TimelineItemController extends BaseController
 
     public function edit(TimelineItem $timelineItem)
     {
-        $this->pageTitle(trans('core/base::forms.edit_item', ['name' => $timelineItem->name]));
+        $this->pageTitle(trans('core/base::forms.edit_item', ['name' => $timelineItem->title]));
 
-        return TimelineForm::createFromModel($timelineItem)->renderForm();
+        return TimelineItemForm::createFromModel($timelineItem)->renderForm();
     }
 
-    public function update(TimelineItem $timelineItem, TimelineRequest $request)
+    public function update(TimelineItem $timelineItem, Request $request)
     {
-        TimelineForm::createFromModel($timelineItem)
+        TimelineItemForm::createFromModel($timelineItem)
             ->setRequest($request)
             ->save();
 

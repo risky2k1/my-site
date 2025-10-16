@@ -2,11 +2,13 @@
 
 namespace Botble\Timeline\Forms;
 
+use Botble\Base\Forms\FieldOptions\DatePickerFieldOption;
 use Botble\Base\Forms\FieldOptions\MediaImageFieldOption;
 use Botble\Base\Forms\FieldOptions\NameFieldOption;
 use Botble\Base\Forms\FieldOptions\NumberFieldOption;
 use Botble\Base\Forms\FieldOptions\StatusFieldOption;
 use Botble\Base\Forms\FieldOptions\TextareaFieldOption;
+use Botble\Base\Forms\Fields\DatePickerField;
 use Botble\Base\Forms\Fields\MediaImageField;
 use Botble\Base\Forms\Fields\NumberField;
 use Botble\Base\Forms\Fields\SelectField;
@@ -31,6 +33,9 @@ class TimelineForm extends FormAbstract
                     ->label('Description')
                     ->placeholder(trans('core/base::forms.description_placeholder'))
                     ->required())
+            ->add('start_date', DatePickerField::class, DatePickerFieldOption::make()
+                ->label(trans('plugins/timeline::timeline.form.timeline.start_date'))
+            )
             ->add('status', SelectField::class, StatusFieldOption::make())
             ->add('image', MediaImageField::class, MediaImageFieldOption::make())
             ->add(

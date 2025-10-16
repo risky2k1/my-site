@@ -24,6 +24,8 @@ return new class () extends Migration {
                 $table->string('name', 255)->nullable();
                 $table->text('description')->nullable();
                 $table->string('image')->nullable();
+                $table->date('start_date')->nullable();
+
                 $table->tinyInteger('order')->default(0);
                 $table->string('status', 60)->default('published');
                 $table->timestamps();

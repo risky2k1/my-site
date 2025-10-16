@@ -36,4 +36,9 @@ class TimelineItem extends BaseModel
     {
         return $this->belongsTo(TimelineCategory::class, 'category_id');
     }
+
+    public function timeline(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Timeline::class, 'timeline_id');
+    }
 }
