@@ -36,6 +36,7 @@ class PageSeeder extends BaseSeeder
             [
                 'name' => 'Hành trình của chúng tôi',
                 'content' => '<div>[timeline][/timeline]</div>',
+                'template' => 'timeline',
             ],
             [
                 'name' => 'Liên hệ',
