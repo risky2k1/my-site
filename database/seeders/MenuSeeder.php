@@ -82,7 +82,6 @@ class MenuSeeder extends BaseSeeder
                         'title' => 'Hành trình của chúng tôi',
                         'reference_id' => $this->getPageId('Hành trình của chúng tôi'),
                         'reference_type' => Page::class,
-                        'template' => 'timeline',
                         'css_class' => 'link-light link-underline-opacity-0 link-underline-opacity-75-hover',
                     ],
                 ],
