@@ -57,13 +57,13 @@ function animateCounter(element, target, duration = 2000) {
 }
 
 // Calculate days together (from May 20, 2021)
-function calculateDaysTogether() {
+/*function calculateDaysTogether() {
     const startDate = new Date('2021-05-20');
     const today = new Date();
     const timeDiff = today.getTime() - startDate.getTime();
     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
     return daysDiff;
-}
+}*/
 
 // Animate counters when they come into view
 const counterObserver = new IntersectionObserver((entries) => {
@@ -71,13 +71,17 @@ const counterObserver = new IntersectionObserver((entries) => {
         if (entry.isIntersecting) {
             const daysCounter = document.getElementById('days-counter');
             const memoriesCounter = document.getElementById('memories-counter');
-            const adventuresCounter = document.getElementById('adventures-counter');
+            /*const adventuresCounter = document.getElementById('adventures-counter');*/
 
             if (daysCounter && !daysCounter.classList.contains('animated')) {
                 daysCounter.classList.add('animated');
-                animateCounter(daysCounter, calculateDaysTogether());
-                animateCounter(memoriesCounter, 847);
-                animateCounter(adventuresCounter, 23);
+
+                const daysValue = parseInt(daysCounter.dataset.date || 0);
+                const memoriesValue = parseInt(memoriesCounter.dataset.amount || 0);
+
+                animateCounter(daysCounter, daysValue);
+                animateCounter(memoriesCounter, memoriesValue);
+                /*animateCounter(adventuresCounter, 23);*/
             }
         }
     });

@@ -5,6 +5,7 @@ namespace Botble\Timeline\Models;
 use Botble\Base\Casts\SafeContent;
 use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Base\Models\BaseModel;
+use Botble\DateIdeas\Models\Place;
 
 class TimelineItem extends BaseModel
 {
@@ -40,5 +41,10 @@ class TimelineItem extends BaseModel
     public function timeline(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Timeline::class, 'timeline_id');
+    }
+
+    public function place(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Place::class, 'place_id');
     }
 }

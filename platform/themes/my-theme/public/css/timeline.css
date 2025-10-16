@@ -16,6 +16,7 @@
 
 .timeline-item {
     position: relative;
+    z-index: 2;
     opacity: 0;
     transform: translateY(50px);
     transition: all 0.8s ease-out;

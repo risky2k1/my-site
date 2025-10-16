@@ -92,11 +92,23 @@ app()->booted(function () {
             Theme::asset()->container('footer')->usePath()->add('timeline-js', 'js/timeline.js');
 
             $timeline = Timeline::query()
-                ->with(['items.category'])
+                ->with([
+                    'items.category',
+                    'items.place',
+                ])
                 ->wherePublished()
                 ->first();
 
-            return Theme::partial('shortcodes.timeline.timeline', compact('shortcode', 'timeline'));
+            $categoryCounts = $timeline->items
+                ->groupBy('category_id')
+                ->map(fn($group) => [
+                    'category' => $group->first()->category,
+                    'count' => $group->count(),
+                ])
+                ->sortByDesc('count')
+                ->values();
+
+            return Theme::partial('shortcodes.timeline.timeline', compact('shortcode', 'timeline', 'categoryCounts'));
         }
     );
 });

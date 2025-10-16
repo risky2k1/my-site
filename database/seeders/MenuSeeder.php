@@ -59,6 +59,35 @@ class MenuSeeder extends BaseSeeder
                     ],
                 ],
             ],
+            [
+                'name' => 'Footer menu',
+                'slug' => 'footer-menu',
+                'items' => [
+                    [
+                        'title' => 'Trang chủ',
+                        'url' => '/',
+                        'css_class' => 'link-light link-underline-opacity-0 link-underline-opacity-75-hover',
+                    ],
+                    [
+                        'title' => 'Blog',
+                        'reference_id' => $this->getPageId('Blog'),
+                        'reference_type' => Page::class,
+                        'css_class' => 'link-light link-underline-opacity-0 link-underline-opacity-75-hover',
+                    ],
+                    [
+                        'title' => 'Favorites',
+                        'url' => '/favorites',
+                        'css_class' => 'link-light link-underline-opacity-0 link-underline-opacity-75-hover',
+                    ],
+                    [
+                        'title' => 'Hành trình của chúng tôi',
+                        'reference_id' => $this->getPageId('Hành trình của chúng tôi'),
+                        'reference_type' => Page::class,
+                        'template' => 'timeline',
+                        'css_class' => 'link-light link-underline-opacity-0 link-underline-opacity-75-hover',
+                    ],
+                ],
+            ],
         ];
 
         $this->createMenus($data);

@@ -13,7 +13,7 @@
         }
 
     @endphp
-    
+
     @if($page->template == 'timeline')
         <section class="love-gradient pt-5 pb-5 mt-5 text-center text-white position-relative">
             <div class="container position-relative">
@@ -35,7 +35,6 @@
             <div class="container">
                 <h1 class="display-4 fw-bold mb-3 animate-fade-in">
                     {{ $page->name }}
-
                 </h1>
                 <p
                     class="fs-5 text-white-50 mx-auto animate-fade-in"
