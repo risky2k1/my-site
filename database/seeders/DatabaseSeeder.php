@@ -9,6 +9,7 @@ use Botble\Block\Database\Seeders\StaticBlockSeeder;
 use Botble\Contact\Database\Seeders\ContactSeeder;
 use Botble\DateIdeas\Database\Seeders\DateIdeasSeeder;
 use Botble\Language\Database\Seeders\LanguageSeeder;
+use Botble\Timeline\Database\Seeders\TimelineSeeder;
 
 class DatabaseSeeder extends BaseSeeder
 {
@@ -32,6 +33,7 @@ class DatabaseSeeder extends BaseSeeder
         $this->when(is_plugin_active('blog'), fn () => $this->call(MenuSeeder::class));
         $this->when(is_plugin_active('administrative-unit'), fn () => $this->call(AdministrativeUnitSeeder::class));
         $this->when(is_plugin_active('date-ideas'), fn () => $this->call(DateIdeasSeeder::class));
+        $this->when(is_plugin_active('timeline'), fn () => $this->call(TimelineSeeder::class));
 
         $this->call([
             CommentSeeder::class,

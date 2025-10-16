@@ -55,6 +55,7 @@ return new class () extends Migration {
 
                 $table->longText('content')->nullable();
 
+                $table->foreignId('timeline_id')->nullable();
                 $table->foreignId('category_id')->nullable();
                 $table->foreignId('place_id')->nullable();
 

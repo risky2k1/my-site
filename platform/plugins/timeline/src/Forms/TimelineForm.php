@@ -17,7 +17,7 @@ class TimelineForm extends FormAbstract
         $this
             ->model(Timeline::class)
             ->setValidatorClass(TimelineRequest::class)
-            ->add('title', TextField::class, NameFieldOption::make()->required())
+            ->add('name', TextField::class, NameFieldOption::make()->required())
             ->add('status', SelectField::class, StatusFieldOption::make())
             ->setBreakFieldPoint('status');
     }

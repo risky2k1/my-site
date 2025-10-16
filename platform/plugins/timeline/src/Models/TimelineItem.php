@@ -14,6 +14,8 @@ class TimelineItem extends BaseModel
         'title',
         'description',
         'content',
+        'timeline_id',
+        'category_id',
         'place_id',
         'date',
         'image',
@@ -21,9 +23,6 @@ class TimelineItem extends BaseModel
         'icon2',
         'order',
         'status',
-        'male_id',
-        'female_id',
-        'category_id',
     ];
 
     protected $casts = [

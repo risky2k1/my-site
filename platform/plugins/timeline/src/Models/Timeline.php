@@ -20,9 +20,8 @@ class Timeline extends BaseModel
 
     protected $casts = [
         'status' => BaseStatusEnum::class,
-        'title' => SafeContent::class,
+        'name' => SafeContent::class,
         'description' => SafeContent::class,
-        'content' => SafeContent::class,
     ];
 
     public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo

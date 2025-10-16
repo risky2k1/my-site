@@ -5,4 +5,5 @@ return [
     'create' => 'New timeline',
 
     'categories' => 'Categories',
+    'items' => 'Items',
 ];
