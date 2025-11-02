@@ -111,4 +111,19 @@ app()->booted(function () {
             return Theme::partial('shortcodes.timeline.timeline', compact('shortcode', 'timeline', 'categoryCounts'));
         }
     );
+
+    Shortcode::register(
+        'timetable',
+        __('Timetable'),
+        __('Timetable'),
+        function (ShortcodeCompiler $shortcode) {
+            Theme::asset()->add('fullcalendar-css', 'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css');
+
+            Theme::asset()->container('footer')->add('toastr-js', 'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js');
+            Theme::asset()->container('footer')->add('fullcalendar-js', 'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js');
+            Theme::asset()->container('footer')->usePath()->add('timetable-js', 'js/timetable.js');
+
+            return Theme::partial('shortcodes.timetable.timetable', compact('shortcode'));
+        }
+    );
 });
