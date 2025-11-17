@@ -11,5 +11,10 @@ return [
         'low' => 'low',
         'medium' => 'medium',
         'high' => 'high',
+    ],
+    'review' => [
+        'name' => 'Reviews',
+        'user' => 'Reviews by',
+        'rating' => 'Rating',
     ]
 ];

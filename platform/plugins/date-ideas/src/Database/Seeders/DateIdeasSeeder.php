@@ -5,6 +5,7 @@ namespace Botble\DateIdeas\Database\Seeders;
 use App\Models\User;
 use Botble\Base\Supports\BaseSeeder;
 use Botble\Block\Models\Block;
+use Botble\Member\Models\Member;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -73,7 +74,7 @@ class DateIdeasSeeder extends BaseSeeder
             for ($i = 1; $i <= rand(2, 5); $i++) {
                 PlaceReview::create([
                     'place_id' => $place->id,
-                    'user_id' => User::query()->inRandomOrder()->first()->id ?? 1,
+                    'user_id' => Member::query()->inRandomOrder()->first()->id ?? 1,
                     'rating' => rand(3, 5),
                     'comment' => $faker->sentence(10),
                     'status' => 'published',

@@ -8,6 +8,8 @@ use Botble\Base\Forms\Fields\SelectField;
 use Botble\Base\Forms\Fields\TextField;
 use Botble\Base\Models\BaseQueryBuilder;
 use Botble\Blog\Models\Category;
+use Botble\DateIdeas\Models\PlaceCategory;
+use Botble\DateIdeas\Models\PlaceMood;
 use Botble\Shortcode\Compilers\Shortcode as ShortcodeCompiler;
 use Botble\Shortcode\Facades\Shortcode;
 use Botble\Shortcode\Forms\ShortcodeForm;
@@ -109,6 +111,18 @@ app()->booted(function () {
                 ->values();
 
             return Theme::partial('shortcodes.timeline.timeline', compact('shortcode', 'timeline', 'categoryCounts'));
+        }
+    );
+
+    Shortcode::register(
+        'date-ideas',
+        __('Date ideas'),
+        __('Date ideas'),
+        function (ShortcodeCompiler $shortcode) {
+            $categories = PlaceCategory::query()->wherePublished()->get();
+            $moods = PlaceMood::query()->wherePublished()->get();
+
+            return Theme::partial('shortcodes.date-ideas.index', compact('shortcode', 'categories', 'moods'));
         }
     );
 });

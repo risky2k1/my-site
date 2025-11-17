@@ -3,11 +3,14 @@
 namespace Botble\DateIdeas\Http\Controllers;
 
 use Botble\Base\Http\Actions\DeleteResourceAction;
+use Botble\DateIdeas\Forms\PlaceReviewForm;
 use Botble\DateIdeas\Http\Requests\DateIdeasRequest;
 use Botble\DateIdeas\Models\DateIdeas;
 use Botble\Base\Http\Controllers\BaseController;
+use Botble\DateIdeas\Models\PlaceReview;
 use Botble\DateIdeas\Tables\DateIdeasTable;
 use Botble\DateIdeas\Forms\DateIdeasForm;
+use Botble\DateIdeas\Tables\PlaceReviewTable;
 
 class PlaceReviewController extends BaseController
 {
@@ -15,12 +18,12 @@ class PlaceReviewController extends BaseController
     {
         $this
             ->breadcrumb()
-            ->add(trans(trans('plugins/date ideas::date-ideas.name')), route('date-ideas.place-review.index'));
+            ->add(trans(trans('plugins/date-ideas::date-ideas.review.name')), route('date-ideas.place-review.index'));
     }
 
-    public function index(DateIdeasTable $table)
+    public function index(PlaceReviewTable $table)
     {
-        $this->pageTitle(trans('plugins/date ideas::date-ideas.name'));
+        $this->pageTitle(trans('plugins/date-ideas::date-ideas.review.name'));
 
         return $table->renderTable();
     }
@@ -45,16 +48,16 @@ class PlaceReviewController extends BaseController
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
 
-    public function edit(DateIdeas $dateIdeas)
+    public function edit(PlaceReview $placeReview)
     {
-        $this->pageTitle(trans('core/base::forms.edit_item', ['name' => $dateIdeas->name]));
+        $this->pageTitle(trans('core/base::forms.edit_item', ['name' => $placeReview->name]));
 
-        return DateIdeasForm::createFromModel($dateIdeas)->renderForm();
+        return PlaceReviewForm::createFromModel($placeReview)->renderForm();
     }
 
-    public function update(DateIdeas $dateIdeas, DateIdeasRequest $request)
+    public function update(PlaceReview $placeReview, DateIdeasRequest $request)
     {
-        DateIdeasForm::createFromModel($dateIdeas)
+        DateIdeasForm::createFromModel($placeReview)
             ->setRequest($request)
             ->save();
 
@@ -64,8 +67,8 @@ class PlaceReviewController extends BaseController
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy(DateIdeas $dateIdeas)
+    public function destroy(PlaceReview $placeReview)
     {
-        return DeleteResourceAction::make($dateIdeas);
+        return DeleteResourceAction::make($placeReview);
     }
 }

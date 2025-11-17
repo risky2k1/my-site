@@ -34,6 +34,10 @@ class PageSeeder extends BaseSeeder
                 'content' => '---',
             ],
             [
+                'name' => 'Địa điểm hẹn hò',
+                'content' => '<div>[date-ideas][/date-ideas]</div>',
+            ],
+            [
                 'name' => 'Hành trình của chúng tôi',
                 'content' => '<div>[timeline][/timeline]</div>',
                 'template' => 'timeline',
