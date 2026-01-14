@@ -25,7 +25,10 @@
 
 <nav class="navbar navbar-expand-md fixed-top glass-effect border-bottom border-white border-opacity-25 shadow-sm">
     <div class="container">
-        <a class="navbar-brand fw-bold text-primary" href="/">{{ theme_option('site_title') }}</a>
+        <a class="navbar-brand fw-bold text-primary" href="/">
+            {{ Theme::getLogoImage() }}
+            {{ theme_option('site_title') }}
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
