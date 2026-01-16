@@ -7,11 +7,11 @@
         @endif
         <div class="widget__content">
             <ul class="list list--fadeIn">
-                @foreach($categories as $category)
+                @foreach ($categories as $category)
                     <li>
                         <a href="{{ $category->url }}">{{ $category->name }}</a>
                         @if ($config['display_posts_count'] === 'yes')
-                            <span>({{ number_format($category->posts_count)  }})</span>
+                            <span>({{ number_format($category->posts_count) }})</span>
                         @endif
                     </li>
                 @endforeach

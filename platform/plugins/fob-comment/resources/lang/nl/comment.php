@@ -4,6 +4,7 @@ return [
     'common' => [
         'name' => 'Naam',
         'email' => 'E-mail',
+        'phone' => 'Telefoon',
         'website' => 'Website',
         'comment' => 'Reactie',
         'email_placeholder' => 'Je e-mailadres wordt niet gepubliceerd.',
@@ -12,7 +13,7 @@ return [
 
     'title' => 'Reacties',
     'author' => 'Auteur',
-    'responsed_to' => 'Reactie op',
+    'responded_to' => 'Reactie op',
     'permalink' => 'Permalink',
     'url' => 'URL',
     'submitted_on' => 'Ingediend op',
@@ -32,6 +33,8 @@ return [
 
         'list' => [
             'title' => ':count reactie|:count reacties',
+            'title_singular' => ':count reactie',
+            'title_plural' => ':count reacties',
             'reply' => 'Beantwoorden',
             'reply_to' => 'Antwoord aan :name',
             'cancel_reply' => 'Antwoord annuleren',
@@ -39,6 +42,7 @@ return [
         ],
 
         'form' => [
+            'description_email_optional' => 'Je e-mailadres wordt niet gepubliceerd. E-mail is optioneel. Verplichte velden zijn gemarkeerd met *',
             'title' => 'Laat een reactie achter',
             'description' => 'Je e-mailadres wordt niet gepubliceerd. Verplichte velden zijn gemarkeerd met *',
             'cookie_consent' => 'Bewaar mijn naam, e-mail en website in deze browser voor de volgende keer wanneer ik een reactie plaats.',
@@ -79,8 +83,18 @@ return [
             'display_admin_badge' => 'Beheerderbadge weergeven voor beheerdersreacties',
             'show_admin_role_name_for_admin_badge' => 'Toon beheerdersrolnaam voor beheerderbadge',
             'show_admin_role_name_for_admin_badge_helper' => 'Indien ingeschakeld, zal de beheerderbadge de naam van de beheerdersrol weergeven in plaats van de standaardtekst "Beheerder". Als de beheerdersrolnaam leeg is, wordt de standaardtekst gebruikt. Als de gebruiker meerdere rollen heeft, wordt de eerste rol gebruikt.',
+            'avatar_provider' => 'Avatar-provider',
+            'avatar_provider_help' => 'Kies hoe avatars voor reacties worden gegenereerd. Gravatar vereist e-mail, UI Avatars genereert op basis van naam.',
+            'avatar_provider_choices' => [
+                'gravatar' => 'Gravatar (Op basis van e-mail)',
+                'ui_avatars' => 'UI Avatars (Op basis van naam)',
+            ],
+            'email_optional' => 'E-mailveld optioneel maken',
+            'email_optional_help' => 'Wanneer ingeschakeld, kunnen bezoekers reacties indienen zonder een e-mailadres op te geven.',
+            'show_website_field' => 'Websiteveld weergeven in het reactieformulier',
+            'show_website_field_help' => 'Wanneer uitgeschakeld, wordt het websiteveld verborgen op het openbare reactieformulier.',
             'default_avatar' => 'Standaard avatar',
-            'default_avatar_helper' => 'Standaard avatar voor de auteur wanneer ze geen avatar hebben. Als je geen afbeelding selecteert, wordt deze gegenereerd met Gravatar. Afbeeldingsgrootte moet 150x150px zijn.',
+            'default_avatar_helper' => 'Standaard avatar voor de auteur wanneer ze geen avatar hebben. Als je geen afbeelding selecteert, wordt deze gegenereerd met behulp van de geselecteerde avatar-provider. Afbeeldingsgrootte moet 150x150px zijn.',
         ],
     ],
 ];

@@ -45,7 +45,7 @@ class HookServiceProvider extends ServiceProvider
                         AlertField::class,
                         AlertFieldOption::make()
                             ->type('warning')
-                            ->content(trans('plugins/audit-log::history.cronjob_warning', [
+                            ->content(trans('plugins/request-log::request-log.cronjob_warning', [
                                 'link' => route('system.cronjob'),
                             ])),
                     );

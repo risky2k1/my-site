@@ -66,6 +66,26 @@ class EditorManagement {
                 options: [9, 10, 11, 12, 13, 'default', 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
             },
 
+            fontFamily: {
+                options: [
+                    'default',
+                    'Arial, Helvetica, sans-serif',
+                    'Courier New, Courier, monospace',
+                    'Georgia, serif',
+                    'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                    'Tahoma, Geneva, sans-serif',
+                    'Times New Roman, Times, serif',
+                    'Trebuchet MS, Helvetica, sans-serif',
+                    'Verdana, Geneva, sans-serif',
+                    ...(window.ckEditorFontFamilies
+                        ? window.ckEditorFontFamilies
+                              .split(',')
+                              .map((font) => font.trim())
+                              .filter((font) => font)
+                        : []),
+                ],
+            },
+
             alignment: {
                 options: ['left', 'right', 'center', 'justify'],
             },
@@ -269,7 +289,12 @@ class EditorManagement {
             .postForm(RV_MEDIA_URL.media_upload_from_editor, formData)
             .then(({ data }) => {
                 if (data.uploaded) {
-                    callback(data.url)
+                    // Convert absolute URL to relative URL
+                    let imageUrl = data.url
+                    if (imageUrl && imageUrl.startsWith(window.location.origin)) {
+                        imageUrl = imageUrl.replace(window.location.origin, '')
+                    }
+                    callback(imageUrl)
                 }
             })
     }
@@ -370,26 +395,28 @@ class EditorManagement {
             current.initEditor($tinyMce, {}, 'tinymce')
         }
 
-        $(document).off('click', '.show-hide-editor-btn').on('click', '.show-hide-editor-btn', (event) => {
-            event.preventDefault()
-            const editorInstance = $(event.currentTarget).data('result')
+        $(document)
+            .off('click', '.show-hide-editor-btn')
+            .on('click', '.show-hide-editor-btn', (event) => {
+                event.preventDefault()
+                const editorInstance = $(event.currentTarget).data('result')
 
-            let $result = $('#' + editorInstance)
+                let $result = $('#' + editorInstance)
 
-            if ($result.hasClass('editor-ckeditor')) {
-                const $editorActionItem = $('.editor-action-item')
-                if (this.CKEDITOR[editorInstance] && typeof this.CKEDITOR[editorInstance] !== 'undefined') {
-                    this.CKEDITOR[editorInstance].destroy()
-                    this.CKEDITOR[editorInstance] = null
-                    $editorActionItem.not('.action-show-hide-editor').hide()
-                } else {
-                    current.initCkEditor(editorInstance, {}, 'ckeditor')
-                    $editorActionItem.not('.action-show-hide-editor').show()
+                if ($result.hasClass('editor-ckeditor')) {
+                    const $editorActionItem = $('.editor-action-item')
+                    if (this.CKEDITOR[editorInstance] && typeof this.CKEDITOR[editorInstance] !== 'undefined') {
+                        this.CKEDITOR[editorInstance].destroy()
+                        this.CKEDITOR[editorInstance] = null
+                        $editorActionItem.not('.action-show-hide-editor').hide()
+                    } else {
+                        current.initCkEditor(editorInstance, {}, 'ckeditor')
+                        $editorActionItem.not('.action-show-hide-editor').show()
+                    }
+                } else if ($result.hasClass('editor-tinymce')) {
+                    tinymce.execCommand('mceToggleEditor', false, editorInstance)
                 }
-            } else if ($result.hasClass('editor-tinymce')) {
-                tinymce.execCommand('mceToggleEditor', false, editorInstance)
-            }
-        })
+            })
 
         return this
     }
@@ -405,11 +432,11 @@ $(() => {
 
     document.addEventListener('core-shortcode-config-loaded', () => {
         setTimeout(() => {
-            if (! window.EDITOR) return
+            if (!window.EDITOR) return
 
             const $modalEditors = $('.shortcode-admin-config').find('.editor-ckeditor, .editor-tinymce')
 
-            $modalEditors.each(function() {
+            $modalEditors.each(function () {
                 const $editor = $(this)
                 const originalId = $editor.attr('id')
 

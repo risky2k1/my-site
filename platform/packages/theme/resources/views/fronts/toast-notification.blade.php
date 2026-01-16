@@ -1,12 +1,10 @@
 @once
     <script src="{{ asset('vendor/core/packages/theme/js/toast.js') }}?v={{ get_cms_version() }}"></script>
 
-    @if (
-        session()->has('success_msg')
-        || session()->has('error_msg')
-        || (isset($errors) && $errors->count() > 0)
-        || isset($error_msg)
-    )
+    @if (session()->has('success_msg') ||
+            session()->has('error_msg') ||
+            (isset($errors) && $errors->count() > 0) ||
+            isset($error_msg))
         <script type="text/javascript">
             window.addEventListener('load', function() {
                 @if (session()->has('success_msg'))

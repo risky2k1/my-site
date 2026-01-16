@@ -12,7 +12,7 @@ class CronjobSettingController extends BaseSystemController
 {
     public function index(): View
     {
-        $this->pageTitle(trans('core/setting::setting.cronjob.name'));
+        $this->pageTitle(trans('core/setting::cronjob.name'));
 
         $phpPath = (new PhpExecutableFinder())->find(false);
 

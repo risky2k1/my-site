@@ -44,6 +44,8 @@ return [
     'alt_text' => 'Alt text',
 
     'folder_created' => 'Folder created successfully!',
+    'folder_exists' => 'Folder :folder already exists!',
+    'directory_must_empty' => 'Directory must be empty to be deleted!',
     'gallery' => 'Media gallery',
 
     'trash_error' => 'Error when deleting selected item(s)',

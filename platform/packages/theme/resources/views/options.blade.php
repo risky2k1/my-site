@@ -38,8 +38,11 @@
                     >
                         @foreach ($sections as $section)
                             <a
-                                href="{{ route('theme.options', $section['id']) }}{{ request()->query('ref_lang') ? '?ref_lang=' . request()->query('ref_lang') : ''}}"
-                                @class(['nav-link w-100', 'active' => $currentSection['id'] === $section['id']])
+                                href="{{ route('theme.options', $section['id']) }}{{ request()->query('ref_lang') ? '?ref_lang=' . request()->query('ref_lang') : '' }}"
+                                @class([
+                                    'nav-link w-100',
+                                    'active' => $currentSection['id'] === $section['id'],
+                                ])
                                 id="{{ $section['id'] }}-tab"
                                 role="tab"
                                 aria-controls="{{ $section['id'] }}"

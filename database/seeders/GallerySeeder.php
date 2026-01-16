@@ -29,8 +29,6 @@ class GallerySeeder extends BaseSeeder
             'Year in Review',
         ];
 
-        $faker = $this->fake();
-
         $galleryDescriptions = [
             'Tech Conference 2024' => 'Annual technology conference featuring keynote speakers, workshops, and networking opportunities for industry professionals.',
             'Product Launch Event' => 'Exclusive unveiling of our latest product line with live demonstrations and Q&A sessions with the development team.',

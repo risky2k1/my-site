@@ -85,7 +85,7 @@ class ThemeManagementServiceProvider extends ServiceProvider
         $this->registerWidgetsFromTheme(Theme::getThemeName());
 
         add_filter('widget_rendered', function (?string $html, AbstractWidget $widget) {
-            if (! setting('show_theme_guideline_link', false) || ! Auth::guard()->check() || ! Auth::guard()->user()->hasPermission('widgets.index')) {
+            if (! setting('show_theme_guideline_link', false) || ! Auth::guard()->check() || ! Auth::guard()->user()->hasPermission('widgets.index') || request()->input('visual_builder')) {
                 return $html;
             }
 
@@ -97,14 +97,14 @@ class ThemeManagementServiceProvider extends ServiceProvider
             $link = view('packages/theme::guideline-link', [
                 'html' => $html,
                 'editLink' => $editLink,
-                'editLabel' => __('Edit this widget'),
+                'editLabel' => trans('packages/theme::theme.widgets.edit_this_widget'),
             ])->render();
 
             return ThemeSupport::insertBlockAfterTopHtmlTags($link, $html);
         }, 9999, 2);
 
         add_filter(THEME_FRONT_HEADER, function ($html) {
-            if (! setting('show_theme_guideline_link', false) || ! Auth::guard()->check() || ! Auth::guard()->user()->hasPermission('widgets.index')) {
+            if (! setting('show_theme_guideline_link', false) || ! Auth::guard()->check() || ! Auth::guard()->user()->hasPermission('widgets.index') || request()->input('visual_builder')) {
                 return $html;
             }
 

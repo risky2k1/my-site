@@ -23,6 +23,7 @@ use Botble\Member\Models\MemberActivityLog;
 use Botble\SeoHelper\Facades\SeoHelper;
 use Botble\SeoHelper\SeoOpenGraph;
 use Botble\Slug\Facades\SlugHelper;
+use Botble\Theme\Facades\AdminBar;
 use Botble\Theme\Facades\Theme;
 use Exception;
 use Illuminate\Http\Request;
@@ -66,6 +67,15 @@ class PublicController extends BaseController
 
         Theme::breadcrumb()->add($author->name, $author->url);
 
+        if (function_exists('admin_bar')) {
+            AdminBar::registerLink(
+                trans('plugins/member::member.edit_this_member'),
+                route('member.edit', $author->getKey()),
+                null,
+                'member.edit'
+            );
+        }
+
         do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, MEMBER_MODULE_SCREEN_NAME, $author);
 
         $posts = Post::query()
@@ -76,14 +86,14 @@ class PublicController extends BaseController
             ])->latest()
             ->paginate(12);
 
-        return Theme::scope('author', compact('author', 'posts'), 'plugins/member::themes.author')->render();
+        return Theme::scope('member.author', compact('author', 'posts'), 'plugins/member::themes.author')->render();
     }
 
     public function getDashboard()
     {
         $user = auth('member')->user();
 
-        $this->pageTitle(__('Dashboard'));
+        $this->pageTitle(trans('plugins/member::member.dashboard'));
 
         Assets::addScriptsDirectly('vendor/core/plugins/member/js/dashboard/activity-logs.js');
 
@@ -94,7 +104,7 @@ class PublicController extends BaseController
 
     public function getSettings()
     {
-        $this->pageTitle(__('Account settings'));
+        $this->pageTitle(trans('plugins/member::dashboard.account_settings'));
 
         /**
          * @var User $user
@@ -128,7 +138,7 @@ class PublicController extends BaseController
         return $this
             ->httpResponse()
             ->setNextRoute('public.member.settings')
-            ->setMessage(__('Update profile successfully!'));
+            ->setMessage(trans('plugins/member::dashboard.update_profile_success'));
     }
 
     public function postSecurity(UpdatePasswordRequest $request)

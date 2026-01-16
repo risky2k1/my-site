@@ -51,7 +51,7 @@ return [
             $theme->asset()->add('bootstrap-icon', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css', version: '1.11.3');*/
             $theme->asset()->add('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css');
 
-            $theme->asset()->usePath()->add('style', 'css/style.css', version: $version);
+            $theme->asset()->usePath()->add('style', 'css/style.css');
 
             $theme->asset()->container('footer')->add('jquery', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js');
             $theme->asset()->container('footer')->add('bootstrap-bundle', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js');
@@ -60,8 +60,7 @@ return [
             $theme->asset()->container('footer')->usePath()->add(
                 'script',
                 'js/main.js',
-                ['jquery'],
-                version: $version
+                ['jquery']
             );
 
             if (function_exists('shortcode')) {

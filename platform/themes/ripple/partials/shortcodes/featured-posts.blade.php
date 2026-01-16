@@ -1,5 +1,8 @@
 @if ($posts->isNotEmpty())
-    <section {!! $shortcode->htmlAttributes() !!} class="section pt-50 pb-50 bg-lightgray">
+    <section
+        {!! $shortcode->htmlAttributes() !!}
+        class="section pt-50 pb-50 bg-lightgray"
+    >
         <div class="container">
             <div class="post-group post-group--hero">
                 @foreach ($posts as $post)

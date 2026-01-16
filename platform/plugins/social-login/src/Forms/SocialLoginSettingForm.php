@@ -64,17 +64,6 @@ class SocialLoginSettingForm extends SettingForm
             }
 
             $this
-                ->when($provider === 'google' && false, function (FormAbstract $form): void {
-                    $form
-                        ->add(
-                            'social_login_google_use_google_button',
-                            OnOffCheckboxField::class,
-                            CheckboxFieldOption::make()
-                                ->label(trans('plugins/social-login::social-login.settings.google.use_google_button'))
-                                ->helperText(trans('plugins/social-login::social-login.settings.google.use_google_button_helper'))
-                                ->value(setting('social_login_google_use_google_button', false))
-                        );
-                })
                 ->add(
                     'social_login_' . $provider . '_helper',
                     AlertField::class,

@@ -42,7 +42,8 @@ class GalleryServiceProvider extends ServiceProvider
         $this
             ->setNamespace('plugins/gallery')
             ->loadHelpers()
-            ->loadAndPublishConfigurations(['general', 'permissions'])
+            ->loadAndPublishConfigurations(['general'])
+            ->loadAndPublishConfigurations(['permissions'])
             ->loadRoutes()
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()

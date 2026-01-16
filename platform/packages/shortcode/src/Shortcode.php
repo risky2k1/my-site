@@ -101,6 +101,7 @@ class Shortcode
         }
 
         foreach ($attributes as $key => $attribute) {
+            $attribute = str_replace(["\r\n", "\n", "\r"], '{{NEWLINE}}', (string) $attribute);
             $parsedAttributes .= ' ' . $key . '="' . $attribute . '"';
         }
 

@@ -489,13 +489,11 @@ class ManageCustomFields {
                             .find('> .item-details > .options > .line[data-option=rows] input[type=number]')
                             .val() || null,
                     dateFormat:
-                        $current
-                            .find('> .item-details > .options > .line[data-option=dateformat] select')
-                            .val() || null,
+                        $current.find('> .item-details > .options > .line[data-option=dateformat] select').val() ||
+                        null,
                     timeFormat:
-                        $current
-                            .find('> .item-details > .options > .line[data-option=timeformat] select')
-                            .val() || null,
+                        $current.find('> .item-details > .options > .line[data-option=timeformat] select').val() ||
+                        null,
                 }
                 object.items = []
 

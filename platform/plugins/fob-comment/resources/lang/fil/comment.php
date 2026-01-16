@@ -4,6 +4,7 @@ return [
     'common' => [
         'name' => 'Pangalan',
         'email' => 'Email',
+        'phone' => 'Telepono',
         'website' => 'Website',
         'comment' => 'Komento',
         'email_placeholder' => 'Ang iyong email address ay hindi ilalathala.',
@@ -12,7 +13,7 @@ return [
 
     'title' => 'Mga Komento',
     'author' => 'May-akda',
-    'responsed_to' => 'Tugon sa',
+    'responded_to' => 'Tugon sa',
     'permalink' => 'Permalink',
     'url' => 'URL',
     'submitted_on' => 'Isinumite noong',
@@ -32,6 +33,8 @@ return [
 
         'list' => [
             'title' => ':count komento|:count mga komento',
+            'title_singular' => ':count komento',
+            'title_plural' => ':count mga komento',
             'reply' => 'Tumugon',
             'reply_to' => 'Tumugon kay :name',
             'cancel_reply' => 'Kanselahin ang tugon',
@@ -39,6 +42,7 @@ return [
         ],
 
         'form' => [
+            'description_email_optional' => 'Ang iyong email address ay hindi ilalathala. Ang email ay opsyonal. Ang mga kinakailangang field ay minarkahan ng *',
             'title' => 'Mag-iwan ng komento',
             'description' => 'Ang iyong email address ay hindi ilalathala. Ang mga kinakailangang field ay minarkahan ng *',
             'cookie_consent' => 'I-save ang aking pangalan, email, at website sa browser na ito para sa susunod na aking pagkomento.',
@@ -79,8 +83,18 @@ return [
             'display_admin_badge' => 'Ipakita ang admin badge para sa mga komento ng admin',
             'show_admin_role_name_for_admin_badge' => 'Ipakita ang pangalan ng admin role para sa admin badge',
             'show_admin_role_name_for_admin_badge_helper' => 'Kung naka-enable, ang admin badge ay magpapakita ng pangalan ng admin role sa halip ng default na text na "Admin". Kung walang laman ang pangalan ng admin role, gagamitin ang default na text. Kung ang user ay may maraming role, gagamitin ang unang role.',
+            'avatar_provider' => 'Tagapagbigay ng avatar',
+            'avatar_provider_help' => 'Pumili kung paano bubuo ng mga avatar para sa mga komento. Ang Gravatar ay nangangailangan ng email, ang UI Avatars ay bumubuo batay sa pangalan.',
+            'avatar_provider_choices' => [
+                'gravatar' => 'Gravatar (Batay sa email)',
+                'ui_avatars' => 'UI Avatars (Batay sa pangalan)',
+            ],
+            'email_optional' => 'Gawing opsyonal ang email field',
+            'email_optional_help' => 'Kapag pinagana, maaaring magsumite ng mga komento ang mga bisita nang hindi nagbibigay ng email address.',
+            'show_website_field' => 'Ipakita ang field ng website sa form ng komento',
+            'show_website_field_help' => 'Kapag naka-disable, itatago ang field ng website mula sa pampublikong form ng komento.',
             'default_avatar' => 'Default na avatar',
-            'default_avatar_helper' => 'Default na avatar para sa may-akda kapag wala silang avatar. Kung hindi ka pipili ng anumang larawan, ito ay bubuo gamit ang Gravatar. Ang laki ng larawan ay dapat na 150x150px.',
+            'default_avatar_helper' => 'Default na avatar para sa may-akda kapag wala silang avatar. Kung hindi ka pumili ng anumang imahe, ito ay bubuin gamit ang napiling avatar provider. Ang sukat ng imahe ay dapat na 150x150px.',
         ],
     ],
 ];

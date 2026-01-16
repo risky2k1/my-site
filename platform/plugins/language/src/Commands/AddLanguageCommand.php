@@ -46,7 +46,6 @@ class AddLanguageCommand extends Command implements PromptsForMissingInput
                         return self::FAILURE;
                     }
 
-                    // Update the language ID to the selected one
                     $languageId = $selectedLanguageId;
                 }
             }
@@ -197,7 +196,7 @@ class AddLanguageCommand extends Command implements PromptsForMissingInput
         $index = 0;
 
         foreach ($matchingLanguages as $languageId => $languageData) {
-            $this->line(sprintf(
+            $this->components->info(sprintf(
                 '  [<fg=green>%d</>] %s - %s (%s)',
                 $index,
                 $languageId,
@@ -208,16 +207,13 @@ class AddLanguageCommand extends Command implements PromptsForMissingInput
             $index++;
         }
 
-        $this->line(sprintf('  [<fg=green>%d</>] Cancel - Don\'t add any language', $index));
+        $this->components->info(sprintf('  [<fg=green>%d</>] Cancel - Don\'t add any language', $index));
         $languageIds[$index] = null;
 
         $this->newLine();
 
         $maxIndex = $index;
-        $selectedIndex = $this->ask(
-            sprintf('Please select an option (0-%d)', $maxIndex),
-            null
-        );
+        $selectedIndex = $this->ask(sprintf('Please select an option (0-%d)', $maxIndex));
 
         if (! is_numeric($selectedIndex) || $selectedIndex < 0 || $selectedIndex > $maxIndex) {
             $this->components->error('Invalid selection.');

@@ -68,7 +68,7 @@ class GoogleLoginController extends BaseApiController
             if (! $clientId || ! $clientSecret) {
                 return $this->httpResponse()
                     ->setError()
-                    ->setMessage(__('Google authentication is not properly configured'))
+                    ->setMessage(trans('plugins/social-login::social-login.google_not_configured'))
                     ->toApiResponse();
             }
 
@@ -77,7 +77,7 @@ class GoogleLoginController extends BaseApiController
             if (! $googleUserData) {
                 return $this->httpResponse()
                     ->setError()
-                    ->setMessage(__('Invalid Google token'))
+                    ->setMessage(trans('plugins/social-login::social-login.invalid_google_token'))
                     ->toApiResponse();
             }
 
@@ -87,7 +87,7 @@ class GoogleLoginController extends BaseApiController
             if (! $email || ! $googleId) {
                 return $this->httpResponse()
                     ->setError()
-                    ->setMessage(__('Cannot login, no email or Google ID provided!'))
+                    ->setMessage(trans('plugins/social-login::social-login.no_email_or_google_id'))
                     ->toApiResponse();
             }
 
@@ -96,7 +96,7 @@ class GoogleLoginController extends BaseApiController
             if (! $providerData) {
                 return $this->httpResponse()
                     ->setError()
-                    ->setMessage(__('Invalid guard configuration'))
+                    ->setMessage(trans('plugins/social-login::social-login.invalid_guard_configuration'))
                     ->toApiResponse();
             }
 
@@ -151,7 +151,7 @@ class GoogleLoginController extends BaseApiController
                         'email' => $account->email,
                     ],
                 ])
-                ->setMessage(__('Login successful'))
+                ->setMessage(trans('plugins/social-login::social-login.login_successful'))
                 ->toApiResponse();
 
         } catch (ValidationException $e) {
@@ -175,7 +175,7 @@ class GoogleLoginController extends BaseApiController
 
             return $this->httpResponse()
                 ->setError()
-                ->setMessage(__('Google token invalid'))
+                ->setMessage(trans('plugins/social-login::social-login.google_token_invalid'))
                 ->toApiResponse();
         }
     }

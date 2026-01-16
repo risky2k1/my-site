@@ -23,22 +23,22 @@ class ForgotPasswordForm extends AuthForm
             ->setUrl(route('public.member.password.email'))
             ->setValidatorClass(ForgotPasswordRequest::class)
             ->icon('ti ti-lock-question')
-            ->heading(__('Forgot Password'))
-            ->description(__('Lost your password? Please enter your username or email address. You will receive a link to create a new password via email.'))
+            ->heading(trans('plugins/member::dashboard.forgot_password_title'))
+            ->description(trans('plugins/member::dashboard.lost_password_description'))
             ->add(
                 'email',
                 EmailField::class,
                 EmailFieldOption::make()
-                    ->label(__('Email'))
-                    ->placeholder(__('Email address'))
+                    ->label(trans('plugins/member::dashboard.email'))
+                    ->placeholder(trans('plugins/member::dashboard.email_address'))
                     ->icon('ti ti-mail')
             )
-            ->submitButton(sprintf('%s %s', __('Send Password Reset Link'), BaseHelper::renderIcon('ti ti-arrow-narrow-right', null, ['class' => 'ms-1'])))
+            ->submitButton(sprintf('%s %s', trans('plugins/member::dashboard.send_password_reset_link'), BaseHelper::renderIcon('ti ti-arrow-narrow-right', null, ['class' => 'ms-1'])))
             ->add('back_to_login', HtmlField::class, [
                 'html' => sprintf(
                     '<div class="mt-3 text-center"><a href="%s" class="text-decoration-underline">%s</a></div>',
                     route('public.member.login'),
-                    __('Back to login page')
+                    trans('plugins/member::dashboard.back-to-login')
                 ),
             ]);
     }

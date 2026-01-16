@@ -89,17 +89,65 @@ class ContactRequest extends Request
         return apply_filters('contact_request_rules', $rules, $this);
     }
 
+    public function bodyParameters(): array
+    {
+        return [
+            'name' => [
+                'description' => 'Name of the sender.',
+                'example' => 'John Doe',
+            ],
+            'email' => [
+                'description' => 'Contact email address. Required when the email field is marked mandatory.',
+                'example' => 'john@example.com',
+            ],
+            'content' => [
+                'description' => 'Message content from the sender.',
+                'example' => 'I would like to know more about your services.',
+            ],
+            'phone' => [
+                'description' => 'Phone number of the sender.',
+                'example' => '+1 555-123-4567',
+            ],
+            'address' => [
+                'description' => 'Address of the sender.',
+                'example' => '123 Main St, Los Angeles, CA',
+            ],
+            'subject' => [
+                'description' => 'Subject of the contact message.',
+                'example' => 'Inquiry about product availability',
+            ],
+            'agree_terms_and_policy' => [
+                'description' => 'Must be accepted when the terms checkbox is enabled in settings.',
+                'example' => true,
+            ],
+            'contact_custom_fields' => [
+                'description' => 'Keyed array of values for any published custom contact fields.',
+                'example' => [
+                    '1' => 'Extra information',
+                ],
+            ],
+            'display_fields' => [
+                'description' => 'Optional list of fields that should be displayed on the contact form.',
+                'example' => ['email', 'phone', 'subject'],
+            ],
+            'required_fields' => [
+                'description' => 'Optional list of displayed fields that should be treated as required.',
+                'example' => ['email'],
+            ],
+        ];
+    }
+
     public function attributes(): array
     {
         $attributes = [
-            'name' => __('Name'),
-            'email' => __('Email'),
-            'phone' => __('Phone'),
-            'content' => __('Content'),
-            'subject' => __('Subject'),
-            'address' => __('Address'),
-            'agree_terms_and_policy' => __('Agree terms and policy'),
-            'contact_custom_fields' => __('Custom Fields'),
+            'name' => trans('plugins/contact::contact.form_name'),
+            'email' => trans('plugins/contact::contact.form_email'),
+            'phone' => trans('plugins/contact::contact.form_phone'),
+            'content' => trans('plugins/contact::contact.form_content'),
+            'subject' => trans('plugins/contact::contact.form_subject'),
+            'address' => trans('plugins/contact::contact.form_address'),
+            'agree_terms_and_policy' => trans('plugins/contact::contact.agree_terms_and_policy'),
+            'contact_custom_fields' => trans('plugins/contact::contact.custom_fields'),
         ];
 
         $customFields = $this->getCustomFields();
@@ -114,7 +162,7 @@ class ContactRequest extends Request
     public function messages(): array
     {
         return [
-            'agree_terms_and_policy.accepted' => __('You must agree to the terms and policy.'),
+            'agree_terms_and_policy.accepted' => trans('plugins/contact::contact.must_agree_terms'),
         ];
     }
 

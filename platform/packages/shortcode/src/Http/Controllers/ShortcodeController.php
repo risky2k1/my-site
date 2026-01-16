@@ -34,6 +34,13 @@ class ShortcodeController extends BaseController
             $compiler = shortcode()->getCompiler();
             $attributes = $compiler->getAttributes(html_entity_decode($code));
             $content = $compiler->getContent();
+        } else {
+            // Get attributes from request (for Visual Builder)
+            $attributes = $request->except(['_token', 'key', 'code']);
+            if (isset($attributes['content'])) {
+                $content = $attributes['content'];
+                unset($attributes['content']);
+            }
         }
 
         if ($data instanceof Closure || is_callable($data)) {
@@ -74,6 +81,12 @@ class ShortcodeController extends BaseController
         }
 
         $attributes = $request->input('attributes', []);
+        $shortcodeId = $request->input('shortcodeId');
+
+        if ($shortcodeId) {
+            $attributes['data-vb-id'] = $shortcodeId;
+            $request->merge(['shortcodeId' => $shortcodeId]);
+        }
 
         // Create a cache key based on the shortcode name, attributes, and current locale
         $locale = app()->getLocale();
@@ -97,6 +110,13 @@ class ShortcodeController extends BaseController
         $cacheDuration = $cacheable
             ? Carbon::now()->addSeconds($cacheableTtl)
             : Carbon::now()->addSeconds($defaultTtl);
+
+        if ($shortcodeId || request()->input('visual_builder')) {
+            $code = Shortcode::generateShortcode($name, $attributes);
+            $content = Shortcode::compile($code, true)->toHtml();
+
+            return $this->httpResponse()->setData($content);
+        }
 
         $content = Cache::remember($cacheKey, $cacheDuration, function () use ($name, $attributes) {
             $code = Shortcode::generateShortcode($name, $attributes);

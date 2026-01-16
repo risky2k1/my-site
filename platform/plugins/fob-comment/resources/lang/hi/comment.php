@@ -4,6 +4,7 @@ return [
     'common' => [
         'name' => 'नाम',
         'email' => 'ईमेल',
+        'phone' => 'फ़ोन',
         'website' => 'वेबसाइट',
         'comment' => 'टिप्पणी',
         'email_placeholder' => 'आपका ईमेल पता प्रकाशित नहीं किया जाएगा।',
@@ -12,7 +13,7 @@ return [
 
     'title' => 'टिप्पणियाँ',
     'author' => 'लेखक',
-    'responsed_to' => 'के जवाब में',
+    'responded_to' => 'के जवाब में',
     'permalink' => 'परमालिंक',
     'url' => 'यूआरएल',
     'submitted_on' => 'प्रस्तुत किया गया',
@@ -32,6 +33,8 @@ return [
 
         'list' => [
             'title' => ':count टिप्पणी|:count टिप्पणियाँ',
+            'title_singular' => ':count टिप्पणी',
+            'title_plural' => ':count टिप्पणियाँ',
             'reply' => 'जवाब दें',
             'reply_to' => ':name को जवाब दें',
             'cancel_reply' => 'जवाब रद्द करें',
@@ -39,6 +42,7 @@ return [
         ],
 
         'form' => [
+            'description_email_optional' => 'Your email address will not be published. Email is optional. Required fields are marked *',
             'title' => 'एक टिप्पणी छोड़ें',
             'description' => 'आपका ईमेल पता प्रकाशित नहीं किया जाएगा। आवश्यक फ़ील्ड * से चिह्नित हैं',
             'cookie_consent' => 'अगली बार टिप्पणी करने के लिए इस ब्राउज़र में मेरा नाम, ईमेल और वेबसाइट सहेजें।',
@@ -79,8 +83,18 @@ return [
             'display_admin_badge' => 'व्यवस्थापक टिप्पणियों के लिए व्यवस्थापक बैज प्रदर्शित करें',
             'show_admin_role_name_for_admin_badge' => 'व्यवस्थापक बैज के लिए व्यवस्थापक भूमिका नाम दिखाएं',
             'show_admin_role_name_for_admin_badge_helper' => 'यदि सक्षम है, तो व्यवस्थापक बैज डिफ़ॉल्ट "व्यवस्थापक" टेक्स्ट के बजाय व्यवस्थापक भूमिका नाम प्रदर्शित करेगा। यदि व्यवस्थापक भूमिका नाम खाली है, तो डिफ़ॉल्ट टेक्स्ट का उपयोग किया जाएगा। यदि उपयोगकर्ता के पास कई भूमिकाएं हैं, तो पहली भूमिका का उपयोग किया जाएगा।',
+            'avatar_provider' => 'Avatar provider',
+            'avatar_provider_help' => 'Choose how to generate avatars for comments. Gravatar requires email, UI Avatars generates based on name.',
+            'avatar_provider_choices' => [
+                'gravatar' => 'Gravatar (Email-based)',
+                'ui_avatars' => 'UI Avatars (Name-based)',
+            ],
+            'email_optional' => 'Make email field optional',
+            'email_optional_help' => 'When enabled, visitors can submit comments without providing an email address.',
+            'show_website_field' => 'टिप्पणी फ़ॉर्म में वेबसाइट फ़ील्ड दिखाएं',
+            'show_website_field_help' => 'अक्षम होने पर वेबसाइट फ़ील्ड सार्वजनिक टिप्पणी फ़ॉर्म से छिपा रहेगा।',
             'default_avatar' => 'डिफ़ॉल्ट अवतार',
-            'default_avatar_helper' => 'लेखक के लिए डिफ़ॉल्ट अवतार जब उनके पास अवतार नहीं है। यदि आप कोई छवि नहीं चुनते हैं, तो यह Gravatar का उपयोग करके उत्पन्न की जाएगी। छवि का आकार 150x150px होना चाहिए।',
+            'default_avatar_helper' => 'Default avatar for the author when they don\'t have an avatar. If you don\'t select any image, it will be generated using the selected avatar provider. Image size should be 150x150px.',
         ],
     ],
 ];

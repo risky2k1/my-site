@@ -39,7 +39,7 @@ class LanguageManager
 
     protected array $supportedLocales = [];
 
-    protected string|false $currentLocale = false;
+    protected string|false|null $currentLocale = false;
 
     /**
      * An array that contains all routes that should be translated
@@ -590,11 +590,11 @@ class LanguageManager
      *
      * @param string|false|null $url Url to check if it is a translated route
      * @param array $attributes Attributes to check if the url exists in the translated routes array
-     * @param string $locale Language to check if the url exists
+     * @param string|null $locale Language to check if the url exists
      *
      * @return string|false Key for translation, false if not exist
      */
-    protected function findTranslatedRouteByUrl(string|false|null $url, array $attributes, string $locale): bool|string
+    protected function findTranslatedRouteByUrl(string|false|null $url, array $attributes, ?string $locale): bool|string
     {
         if (empty($url)) {
             return false;
@@ -819,6 +819,15 @@ class LanguageManager
         }
 
         return Arr::get($supportedLocales, $this->getDefaultLocale() . '.lang_code');
+    }
+
+    public function formatLocaleForHrefLang(?string $localeCode): ?string
+    {
+        if (empty($localeCode)) {
+            return null;
+        }
+
+        return strtolower(str_replace('_', '-', $localeCode));
     }
 
     public function getCurrentLocaleFlag(): ?string
@@ -1092,7 +1101,9 @@ class LanguageManager
 
         $showRelated = setting('language_show_default_item_if_current_version_not_existed', true);
 
-        return $showRelated ? $this->getLocalizedURL($localeCode) : url($localeCode);
+        $url = $showRelated ? $this->getLocalizedURL($localeCode) : url($localeCode);
+
+        return apply_filters('language_switcher_get_url', $url, $localeCode, $languageCode, $this);
     }
 
     /**

@@ -3,6 +3,7 @@
         0% {
             background-position: -200% 0;
         }
+
         100% {
             background-position: 200% 0;
         }
@@ -34,12 +35,12 @@
         left: 0;
         right: 0;
         padding: 20px;
-        background: rgba(0,0,0,0.1);
+        background: rgba(0, 0, 0, 0.1);
     }
 
     .post__inside--feature .skeleton-title {
         height: 28px;
-        background: rgba(255,255,255,0.3);
+        background: rgba(255, 255, 255, 0.3);
         border-radius: 4px;
         margin-bottom: 10px;
         animation: skeleton-loading 1.5s infinite;
@@ -48,7 +49,7 @@
     .post__inside--feature .skeleton-meta {
         height: 16px;
         width: 180px;
-        background: rgba(255,255,255,0.2);
+        background: rgba(255, 255, 255, 0.2);
         border-radius: 4px;
         animation: skeleton-loading 1.5s infinite;
     }

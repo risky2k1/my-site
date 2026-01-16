@@ -329,7 +329,7 @@
 
     class TableManagement {
         constructor() {
-            this.currentTableHash = window.DATATABLES_RANDOM_HASH || ""
+            this.currentTableHash = window.DATATABLES_RANDOM_HASH || ''
             this.init()
             this.handleActionsRow()
             this.handleActionsExport()
@@ -338,10 +338,10 @@
         init() {
             // Add error handling for DataTables AJAX requests
             if ($.fn.dataTable) {
-                $.fn.dataTable.ext.errMode = 'none';
+                $.fn.dataTable.ext.errMode = 'none'
                 $(document).on('error.dt', (e, settings, techNote, message) => {
-                    Botble.handleDatatableError({ responseJSON: { message } });
-                });
+                    Botble.handleDatatableError({ responseJSON: { message } })
+                })
             }
 
             $(document).on('change', '.table-check-all', (event) => {
@@ -415,14 +415,16 @@
         initRandomHash() {
             let localRandomHash = localStorage.getItem('DataTables_Random_Hash')
 
-            if (! localRandomHash && ! this.currentTableHash) {
-                return;
+            if (!localRandomHash && !this.currentTableHash) {
+                return
             }
 
             if (localRandomHash !== this.currentTableHash) {
-                Object.keys(localStorage).filter(key => key.startsWith('DataTables_')).forEach(key => {
-                    localStorage.removeItem(key)
-                })
+                Object.keys(localStorage)
+                    .filter((key) => key.startsWith('DataTables_'))
+                    .forEach((key) => {
+                        localStorage.removeItem(key)
+                    })
 
                 localStorage.setItem('DataTables_Random_Hash', this.currentTableHash)
 
@@ -689,8 +691,8 @@
 
                         typeof onSuccess === 'function' && onSuccess.apply(this, data)
                     })
-                    .finally(() => {
-                        Botble.hideButtonLoading(_self)
+                    .catch(() => {
+                        typeof onError === 'function' && onError.apply(this)
                     })
             }
 
@@ -814,7 +816,9 @@
                 _downloadFromUrl(url, params)
             })
 
-            const $columnsVisibleDropdowns = document.querySelectorAll('[data-bb-toggle="dt-columns-visibility-dropdown"]')
+            const $columnsVisibleDropdowns = document.querySelectorAll(
+                '[data-bb-toggle="dt-columns-visibility-dropdown"]'
+            )
 
             let $formDirty = {}
 
@@ -825,7 +829,7 @@
                         const tableId = target.attr('aria-controls')
                         const form = target.find('form[data-bb-toggle="dt-columns-visibility"]')
 
-                        if (! $formDirty[tableId]) {
+                        if (!$formDirty[tableId]) {
                             return
                         }
 

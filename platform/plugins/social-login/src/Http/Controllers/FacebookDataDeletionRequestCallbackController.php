@@ -62,4 +62,9 @@ class FacebookDataDeletionRequestCallbackController extends BaseController
             'message' => 'Your data deletion request is pending. We will notify you once it is completed.',
         ]);
     }
+
+    public function redirect()
+    {
+        return redirect()->route('facebook-data-deletion-request-callback');
+    }
 }

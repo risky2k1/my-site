@@ -135,7 +135,26 @@ class BlogSeeder extends BaseSeeder
             ],
         ];
 
-        $faker = $this->fake();
+        $paragraphs = [
+            'The rapid advancement of technology continues to reshape our world in unprecedented ways. From artificial intelligence to quantum computing, breakthroughs are occurring at a pace that was unimaginable just a decade ago. These innovations are not only transforming industries but also fundamentally changing how we live, work, and interact with each other. As we stand on the brink of a new technological era, the possibilities seem endless.',
+            'Experts predict that the next five years will bring even more dramatic changes to the technology landscape. Machine learning algorithms are becoming increasingly sophisticated, enabling computers to perform tasks that were once thought to be exclusively human domains. This evolution is creating new opportunities while also raising important questions about ethics, privacy, and the future of work.',
+            'The intersection of technology and sustainability is becoming increasingly important as we face global environmental challenges. Clean energy solutions, smart grid systems, and eco-friendly manufacturing processes are just a few examples of how innovation can help address climate change. Companies around the world are investing heavily in green technology, recognizing both its environmental benefits and economic potential.',
+            'Cybersecurity remains a top priority for organizations of all sizes as digital threats continue to evolve. The sophistication of cyber attacks has increased dramatically, requiring constant vigilance and investment in protective measures. From ransomware to state-sponsored hacking, the threat landscape is more complex than ever before, making robust security practices essential for survival in the digital age.',
+            'The democratization of technology is enabling entrepreneurs and small businesses to compete on a global scale. Cloud computing, open-source software, and accessible development tools have lowered barriers to entry across industries. This shift is fostering innovation and creating new economic opportunities in communities around the world, fundamentally changing the competitive dynamics of various markets.',
+            'Consumer expectations are driving rapid innovation in user experience and interface design. People now expect seamless, intuitive interactions with technology across all devices and platforms. This has led to significant advancements in natural language processing, gesture recognition, and adaptive interfaces that learn from user behavior to provide personalized experiences.',
+            'The healthcare industry is being transformed by digital innovation, from telemedicine to AI-powered diagnostics. These technologies are making healthcare more accessible, efficient, and personalized than ever before. Wearable devices, remote monitoring systems, and electronic health records are creating a more connected and data-driven approach to patient care.',
+            'Education technology is revolutionizing how people learn and acquire new skills. Online learning platforms, virtual reality training programs, and AI tutors are making quality education more accessible to people around the world. This transformation is particularly important in rapidly changing job markets where continuous learning has become essential for career success.',
+            'The rise of the Internet of Things is connecting billions of devices and creating smart ecosystems in homes, cities, and industries. This interconnectedness is generating vast amounts of data that can be analyzed to improve efficiency, reduce waste, and enhance quality of life. From smart thermostats to connected vehicles, IoT technology is becoming an integral part of daily life.',
+            'Privacy concerns are prompting new approaches to data protection and user consent. Regulations like GDPR and CCPA are reshaping how companies collect, store, and use personal information. This shift toward greater transparency and user control is driving innovation in privacy-preserving technologies and changing the relationship between consumers and digital service providers.',
+        ];
+
+        $shortParagraphs = [
+            'Innovation continues to accelerate across all sectors of the technology industry. New breakthroughs are announced almost daily, pushing the boundaries of what was previously thought possible. This rapid pace of change is creating both opportunities and challenges for businesses and consumers alike.',
+            'The global technology community is more connected than ever before. Researchers, developers, and entrepreneurs collaborate across borders to solve complex problems and create new solutions. This international cooperation is essential for addressing the grand challenges facing humanity.',
+            'Investment in research and development has reached record levels as companies race to develop the next generation of technologies. From autonomous systems to advanced materials, the scope of innovation is truly remarkable. These investments are laying the groundwork for future breakthroughs.',
+            'The human element remains central to technological progress despite increasing automation. Creativity, empathy, and critical thinking are skills that machines cannot easily replicate. The most successful innovations are those that enhance human capabilities rather than simply replacing them.',
+            'Standards and interoperability are becoming increasingly important as technology ecosystems grow more complex. The ability for different systems and devices to work together seamlessly is essential for realizing the full potential of digital transformation. Industry cooperation on standards development is accelerating.',
+        ];
 
         foreach ($posts as $index => &$item) {
             $item['content'] =
@@ -143,40 +162,40 @@ class BlogSeeder extends BaseSeeder
                     'p',
                     '[youtube-video]https://www.youtube.com/watch?v=SlPhMPnQ58k[/youtube-video]'
                 ) : '') .
-                Html::tag('p', $faker->realText(1000)) .
+                Html::tag('p', $paragraphs[$index % count($paragraphs)]) .
                 Html::tag(
                     'p',
                     Html::image(
-                        $this->fileUrl('news/' . $faker->numberBetween(1, 5) . '.jpg', size: 'medium'),
+                        $this->fileUrl('news/' . rand(1, 5) . '.jpg', size: 'medium'),
                         'image',
                         ['style' => 'width: 100%', 'class' => 'image_resized']
                     )
                         ->toHtml(),
                     ['class' => 'text-center']
                 ) .
-                Html::tag('p', $faker->realText(500)) .
+                Html::tag('p', $shortParagraphs[$index % count($shortParagraphs)]) .
                 Html::tag(
                     'p',
                     Html::image(
-                        $this->fileUrl('news/' . $faker->numberBetween(6, 10) . '.jpg', size: 'medium'),
+                        $this->fileUrl('news/' . rand(6, 10) . '.jpg', size: 'medium'),
                         'image',
                         ['style' => 'width: 100%', 'class' => 'image_resized']
                     )
                         ->toHtml(),
                     ['class' => 'text-center']
                 ) .
-                Html::tag('p', $faker->realText(1000)) .
+                Html::tag('p', $paragraphs[($index + 3) % count($paragraphs)]) .
                 Html::tag(
                     'p',
                     Html::image(
-                        $this->fileUrl('news/' . $faker->numberBetween(11, 14) . '.jpg', size: 'medium'),
+                        $this->fileUrl('news/' . rand(11, 14) . '.jpg', size: 'medium'),
                         'image',
                         ['style' => 'width: 100%', 'class' => 'image_resized']
                     )
                         ->toHtml(),
                     ['class' => 'text-center']
                 ) .
-                Html::tag('p', $faker->realText(1000));
+                Html::tag('p', $paragraphs[($index + 5) % count($paragraphs)]);
             $item['is_featured'] = $index < 6;
             $item['image'] = $this->filePath('news/' . ($index + 1) . '.jpg');
         }

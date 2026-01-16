@@ -4,6 +4,7 @@ return [
     'common' => [
         'name' => 'Name',
         'email' => 'Email',
+        'phone' => 'Phone',
         'website' => 'Website',
         'comment' => 'Comment',
         'email_placeholder' => 'Your email address will not be published.',
@@ -12,7 +13,7 @@ return [
 
     'title' => 'Comments',
     'author' => 'Author',
-    'responsed_to' => 'Response to',
+    'responded_to' => 'Response to',
     'permalink' => 'Permalink',
     'url' => 'URL',
     'submitted_on' => 'Submitted on',
@@ -32,6 +33,8 @@ return [
 
         'list' => [
             'title' => ':count comment|:count comments',
+            'title_singular' => ':count comment',
+            'title_plural' => ':count comments',
             'reply' => 'Reply',
             'reply_to' => 'Reply to :name',
             'cancel_reply' => 'Cancel reply',
@@ -71,6 +74,8 @@ return [
             'show_comment_cookie_consent' => 'Show comments cookies checkbox, allowing visitors to save their information in the browser',
             'email_optional' => 'Make email field optional',
             'email_optional_help' => 'When enabled, visitors can submit comments without providing an email address.',
+            'show_website_field' => 'Show website field in comment form',
+            'show_website_field_help' => 'When disabled, the website field will be hidden from the public comment form.',
             'auto_fill_comment_form' => 'Auto-fill comment data for logged-in users',
             'auto_fill_comment_form_help' => 'The comment form will be automatically filled with user data such as full name, email, etc., if they are logged in.',
             'comment_order' => 'Sort comments by',

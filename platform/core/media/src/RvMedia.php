@@ -569,7 +569,7 @@ class RvMedia
             $fileName = MediaFile::createSlug(
                 $file->name,
                 $fileExtension,
-                Storage::path($folderPath ?: '')
+                $folderPath ?: ''
             );
 
             $filePath = $fileName;
@@ -578,7 +578,6 @@ class RvMedia
                 $filePath = $folderPath . '/' . $filePath;
             }
 
-            // Add custom S3 path if using S3 driver
             if ($this->getMediaDriver() === 's3') {
                 $filePath = $this->getCustomS3Path() . $filePath;
             }
@@ -591,12 +590,18 @@ class RvMedia
                     $shouldConvertToWebp = in_array($fileExtension, ['jpg', 'jpeg', 'png'])
                         && setting('media_convert_image_to_webp', false);
 
+                    $keepOriginalQuality = setting('media_keep_original_file_size_and_quality');
+
                     if ($shouldConvertToWebp) {
                         $encoder = new WebpEncoder();
-                        $filePath = File::dirname($filePath) . '/' . File::name($filePath) . '.webp';
-                    }
 
-                    $keepOriginalQuality = setting('media_keep_original_file_size_and_quality');
+                        if ($keepOriginalQuality) {
+                            $encoder = new WebpEncoder(quality: 100);
+                        }
+
+                        $dirName = File::dirname($filePath);
+                        $filePath = ($dirName === '.' ? '' : $dirName . '/') . File::name($filePath) . '.webp';
+                    }
 
                     if ($keepOriginalQuality && ! $shouldConvertToWebp) {
                         $content = File::get($fileUpload->getRealPath());
@@ -617,11 +622,7 @@ class RvMedia
                             }
                         }
 
-                        if ($shouldConvertToWebp && $keepOriginalQuality) {
-                            $encoder = new WebpEncoder(quality: 100);
-                        }
-
-                        $content = $image->encode($encoder);
+                        $content = (string) $image->encode($encoder);
                     }
                 } catch (Throwable $exception) {
                     BaseHelper::logError($exception);
@@ -753,7 +754,8 @@ class RvMedia
             }
 
             $thumbnailFileName = File::name($file->url) . '-' . $size . '.' . File::extension($file->url);
-            $thumbnailPath = File::dirname($file->url) ? File::dirname($file->url) . '/' . $thumbnailFileName : $thumbnailFileName;
+            $dirName = File::dirname($file->url);
+            $thumbnailPath = ($dirName === '.' || ! $dirName) ? $thumbnailFileName : $dirName . '/' . $thumbnailFileName;
 
             if (! $this->isUsingCloud() && Storage::exists($thumbnailPath)) {
                 continue;
@@ -784,18 +786,40 @@ class RvMedia
 
         $watermarkPath = $this->getRealPath($watermarkImage);
 
-        if ($this->isUsingCloud()) {
-            $watermark = $this->imageManager()->read(file_get_contents($watermarkPath));
+        try {
+            if ($this->isUsingCloud()) {
+                $watermarkContent = null;
+                $imageContent = null;
 
-            $imageSource = $this->imageManager()->read(file_get_contents($this->getRealPath($image)));
-        } else {
-            if (! File::exists($watermarkPath)) {
-                return false;
+                try {
+                    $watermarkContent = Storage::get($watermarkImage);
+                    $imageContent = Storage::get($image);
+                } catch (Throwable $exception) {
+                    BaseHelper::logError($exception);
+
+                    $watermarkContent = @file_get_contents($watermarkPath);
+                    $imageContent = @file_get_contents($this->getRealPath($image));
+                }
+
+                if (! $watermarkContent || ! $imageContent) {
+                    return false;
+                }
+
+                $watermark = $this->imageManager()->read($watermarkContent);
+                $imageSource = $this->imageManager()->read($imageContent);
+            } else {
+                if (! File::exists($watermarkPath)) {
+                    return false;
+                }
+
+                $watermark = $this->imageManager()->read($watermarkPath);
+
+                $imageSource = $this->imageManager()->read($this->getRealPath($image));
             }
+        } catch (Throwable $exception) {
+            BaseHelper::logError($exception);
 
-            $watermark = $this->imageManager()->read($watermarkPath);
-
-            $imageSource = $this->imageManager()->read($this->getRealPath($image));
+            return false;
         }
 
         // 10% less than an actual image (play with this value)
@@ -834,7 +858,9 @@ class RvMedia
             File::name($image) . '.' . File::extension($image)
         );
 
-        $this->uploadManager->saveFile($destinationPath, $imageSource->encode(new AutoEncoder()));
+        $encodedImage = $imageSource->encode(new AutoEncoder());
+
+        $this->uploadManager->saveFile($destinationPath, (string) $encodedImage);
 
         return true;
     }
@@ -1539,20 +1565,29 @@ class RvMedia
 
     public function responseDownloadFile(string $filePath)
     {
-        $filePath = $this->getRealPath($filePath);
         $fileName = File::basename($filePath);
+        $realPath = $this->getRealPath($filePath);
 
         if (! $this->isUsingCloud()) {
-            if (! File::exists($filePath)) {
+            if (! File::exists($realPath)) {
                 return RvMedia::responseError(trans('core/media::media.file_not_exists'));
             }
 
-            return response()->download($filePath, $fileName);
+            return response()->download($realPath, $fileName);
         }
 
-        return response()->make(Http::withoutVerifying()->get($filePath)->body(), 200, [
-            'Content-type' => $this->getMimeType($filePath),
-            'Content-Disposition' => sprintf('attachment; filename="%s"', $fileName),
+        try {
+            $content = Storage::get($filePath);
+        } catch (Throwable $exception) {
+            BaseHelper::logError($exception);
+
+            $content = Http::withoutVerifying()->get($realPath)->body();
+        }
+
+        return response()->make($content, 200, [
+            'Content-Type' => $this->getMimeType($filePath),
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"; filename*=UTF-8\'\'' . rawurlencode($fileName),
+            'Cache-Control' => 'no-cache, must-revalidate',
         ]);
     }
 

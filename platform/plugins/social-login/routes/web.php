@@ -36,9 +36,9 @@ Route::group(['namespace' => 'Botble\SocialLogin\Http\Controllers'], function ()
         'uses' => 'FacebookDataDeletionRequestCallbackController@handle',
     ]);
 
-    Route::match(['get', 'post'], 'facebook-data-deletion-request-callback', function () {
-        return redirect()->route('facebook-data-deletion-request-callback');
-    });
+    Route::match(['get', 'post'], 'facebook-data-deletion-request-callback', [
+        'uses' => 'FacebookDataDeletionRequestCallbackController@redirect',
+    ]);
 
     Route::get('facebook-deletion-status/{id}', [
         'as' => 'facebook-deletion-status',

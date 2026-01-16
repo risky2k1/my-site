@@ -4,12 +4,20 @@ namespace Botble\ACL\Http\Requests;
 
 use Botble\ACL\Models\User;
 use Botble\Base\Facades\BaseHelper;
+use Botble\Base\Http\Requests\Concerns\HasPhoneFieldValidation;
 use Botble\Base\Rules\EmailRule;
 use Botble\Support\Http\Requests\Request;
 use Illuminate\Validation\Rule;
 
 class CreateUserRequest extends Request
 {
+    use HasPhoneFieldValidation;
+
+    protected function prepareForValidation(): void
+    {
+        $this->preparePhoneForValidation();
+    }
+
     public function rules(): array
     {
         return [

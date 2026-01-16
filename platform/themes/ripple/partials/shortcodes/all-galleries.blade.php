@@ -1,4 +1,7 @@
-<section {!! $shortcode->htmlAttributes() !!} class="section pt-50 pb-50">
+<section
+    {!! $shortcode->htmlAttributes() !!}
+    class="section pt-50 pb-50"
+>
     <div class="container">
         <div class="page-content">
             <div class="post-group post-group--single">

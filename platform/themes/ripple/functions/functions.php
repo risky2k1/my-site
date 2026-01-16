@@ -7,6 +7,7 @@ use Botble\Base\Rules\MediaImageRule;
 use Botble\Blog\Models\Post;
 use Botble\Media\Facades\RvMedia;
 use Botble\Member\Forms\PostForm as MemberPostForm;
+use Botble\Newsletter\Facades\Newsletter;
 use Botble\Page\Models\Page;
 use Botble\Theme\Facades\Theme;
 use Botble\Theme\Supports\ThemeSupport;
@@ -41,11 +42,19 @@ app()->booted(function (): void {
     ThemeSupport::registerSocialSharing();
     ThemeSupport::registerSiteLogoHeight();
 
-    register_page_template([
-        'no-sidebar' => __('No sidebar'),
-    ]);
+    if (is_plugin_active('newsletter')) {
+        Newsletter::registerNewsletterPopup();
+    }
 
-    app('events')->listen(RenderingWidgetSettings::class, function (): void {
+    $events = app('events');
+
+    $events->listen('core.page::registering-templates', function (): void {
+        register_page_template([
+            'no-sidebar' => __('No sidebar'),
+        ]);
+    });
+
+    $events->listen([RenderingWidgetSettings::class, 'core.widget:rendering'], function (): void {
         register_sidebar([
             'id' => 'top_sidebar',
             'name' => __('Top sidebar'),

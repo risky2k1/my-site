@@ -84,10 +84,14 @@ class ShortcodeField
         return static::parseIds($value);
     }
 
-    public static function parseIds(?string $value): array
+    public static function parseIds(string|array|null $value): array
     {
         if (empty($value)) {
             return [];
+        }
+
+        if (is_array($value)) {
+            return $value;
         }
 
         return explode(',', $value) ?: [];

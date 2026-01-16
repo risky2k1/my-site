@@ -17,6 +17,8 @@ class RobotsTxtEditorForm extends FormAbstract
     {
         $isRobotsTxtWritable = File::isWritable($path = public_path('robots.txt'));
         $robotsTxtContent = $isRobotsTxtWritable && File::exists($path) ? File::get($path) : '';
+        $sitemapUrl = route('public.sitemap');
+        $hasSitemapReference = stripos($robotsTxtContent, 'sitemap:') !== false;
 
         $this
             ->setUrl(route('theme.robots-txt.post'))
@@ -29,6 +31,17 @@ class RobotsTxtEditorForm extends FormAbstract
                     AlertFieldOption::make()
                         ->type('warning')
                         ->content(trans('packages/theme::theme.robots_txt_not_writable', ['path' => $path]))
+                );
+            })
+            ->when(! $hasSitemapReference, function (FormAbstract $form) use ($sitemapUrl): void {
+                $form->add(
+                    'robots_txt_sitemap_suggestion',
+                    AlertField::class,
+                    AlertFieldOption::make()
+                        ->type('info')
+                        ->content(trans('packages/theme::theme.robots_txt_sitemap_suggestion', [
+                            'sitemap_url' => $sitemapUrl,
+                        ]))
                 );
             })
             ->add(

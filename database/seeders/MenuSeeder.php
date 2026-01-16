@@ -4,20 +4,13 @@ namespace Database\Seeders;
 
 use Botble\Base\Supports\BaseSeeder;
 use Botble\Blog\Database\Traits\HasBlogSeeder;
-use Botble\Language\Facades\Language;
-use Botble\Language\Models\LanguageMeta;
 use Botble\Menu\Database\Traits\HasMenuSeeder;
-use Botble\Menu\Facades\Menu;
-use Botble\Menu\Models\Menu as MenuModel;
-use Botble\Menu\Models\MenuLocation;
-use Botble\Menu\Models\MenuNode;
 use Botble\Page\Database\Traits\HasPageSeeder;
 use Botble\Page\Models\Page;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 class MenuSeeder extends BaseSeeder
 {
+    use HasMenuSeeder;
     use HasPageSeeder;
     use HasBlogSeeder;
 
@@ -30,8 +23,13 @@ class MenuSeeder extends BaseSeeder
                 'location' => 'main-menu',
                 'items' => [
                     [
-                        'title' => 'Trang chủ',
+                        'title' => 'Home',
                         'url' => '/',
+                    ],
+                    [
+                        'title' => 'Purchase',
+                        'url' => 'https://botble.com/go/download-cms',
+                        'target' => '_blank',
                     ],
                     [
                         'title' => 'Blog',
@@ -39,138 +37,51 @@ class MenuSeeder extends BaseSeeder
                         'reference_type' => Page::class,
                     ],
                     [
-                        'title' => 'Favorites',
-                        'url' => '/favorites',
-                    ],
-
-                    [
-                        'title' => 'Tìm hiểu thêm',
-                        'url' => '/#about',
+                        'title' => 'Galleries',
+                        'reference_id' => $this->getPageId('Galleries'),
+                        'reference_type' => Page::class,
                     ],
                     [
-                        'title' => 'Liên hệ',
-                        'url' => '/#contact',
-                    ],
-                    [
-                        'title' => 'Hành trình của chúng tôi',
-                        'reference_id' => $this->getPageId('Hành trình của chúng tôi'),
+                        'title' => 'Contact',
+                        'reference_id' => $this->getPageId('Contact'),
                         'reference_type' => Page::class,
                     ],
                 ],
             ],
+
             [
-                'name' => 'Footer menu',
-                'slug' => 'footer-menu',
+                'name' => 'Social',
+                'slug' => 'social',
                 'items' => [
                     [
-                        'title' => 'Trang chủ',
-                        'url' => '/',
-                        'css_class' => 'link-light link-underline-opacity-0 link-underline-opacity-75-hover',
+                        'title' => 'Facebook',
+                        'url' => 'https://facebook.com',
+                        'icon_font' => 'ti ti-brand-facebook',
+                        'target' => '_blank',
                     ],
                     [
-                        'title' => 'Blog',
-                        'reference_id' => $this->getPageId('Blog'),
-                        'reference_type' => Page::class,
-                        'css_class' => 'link-light link-underline-opacity-0 link-underline-opacity-75-hover',
+                        'title' => 'Twitter',
+                        'url' => 'https://twitter.com',
+                        'icon_font' => 'ti ti-brand-x',
+                        'target' => '_blank',
                     ],
                     [
-                        'title' => 'Favorites',
-                        'url' => '/favorites',
-                        'css_class' => 'link-light link-underline-opacity-0 link-underline-opacity-75-hover',
+                        'title' => 'GitHub',
+                        'url' => 'https://github.com',
+                        'icon_font' => 'ti ti-brand-github',
+                        'target' => '_blank',
                     ],
+
                     [
-                        'title' => 'Hành trình của chúng tôi',
-                        'reference_id' => $this->getPageId('Hành trình của chúng tôi'),
-                        'reference_type' => Page::class,
-                        'css_class' => 'link-light link-underline-opacity-0 link-underline-opacity-75-hover',
+                        'title' => 'Linkedin',
+                        'url' => 'https://linkedin.com',
+                        'icon_font' => 'ti ti-brand-linkedin',
+                        'target' => '_blank',
                     ],
                 ],
             ],
         ];
 
         $this->createMenus($data);
-    }
-
-    protected function createMenus(array $data, bool $truncate = true): void
-    {
-        if ($truncate) {
-            MenuModel::query()->truncate();
-            MenuLocation::query()->truncate();
-            MenuNode::query()->truncate();
-        }
-        $supportedLocales = Language::getSupportedLocales();
-
-        foreach ($data as $item) {
-            $item['slug'] = Str::slug($item['name']);
-
-            /**
-             * @var MenuModel $menu
-             */
-            $menu = MenuModel::query()->create(Arr::except($item, ['items', 'location']));
-
-            if (isset($item['location'])) {
-                /**
-                 * @var MenuLocation $menuLocation
-                 */
-                $menuLocation = MenuLocation::query()->create([
-                    'menu_id' => $menu->getKey(),
-                    'location' => $item['location'],
-                ]);
-
-                if (is_plugin_active('language')) {
-                    foreach ($supportedLocales as $locale=>$data) {
-                        LanguageMeta::saveMetaData($menuLocation, $locale);
-                    }
-                }
-            }
-
-            foreach ($item['items'] as $position => $menuNode) {
-                $this->createMenuNode($position, $menuNode, $menu->getKey());
-            }
-
-            if (is_plugin_active('language')) {
-                foreach ($supportedLocales as $locale=>$data) {
-                    LanguageMeta::saveMetaData($menu, $locale);
-                }
-            }
-
-            $this->createMetadata($menu, $item);
-        }
-
-        Menu::clearCacheMenuItems();
-    }
-
-    protected function createMenuNode(int $position, array $menuNode, int|string $menuId, int|string $parentId = 0): void
-    {
-        $menuNode['menu_id'] = $menuId;
-        $menuNode['parent_id'] = $parentId;
-        $menuNode['position'] = $position;
-
-        if (isset($menuNode['url'])) {
-            $menuNode['url'] = str_replace(url(''), '', $menuNode['url']);
-        }
-
-        if (Arr::has($menuNode, 'children') && ! empty($menuNode['children'])) {
-            $children = $menuNode['children'];
-            $menuNode['has_child'] = true;
-        } else {
-            $children = [];
-            $menuNode['has_child'] = false;
-        }
-
-        Arr::forget($menuNode, 'children');
-
-        /**
-         * @var MenuNode $createdNode
-         */
-        $createdNode = MenuNode::query()->create($menuNode);
-
-        $this->createMetadata($createdNode, $menuNode);
-
-        if ($children) {
-            foreach ($children as $childPosition => $child) {
-                $this->createMenuNode($childPosition, $child, $menuId, $createdNode->getKey());
-            }
-        }
     }
 }

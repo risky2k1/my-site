@@ -4,10 +4,11 @@ namespace Botble\AuditLog\Listeners;
 
 use Botble\ACL\Models\User;
 use Botble\AuditLog\Models\AuditHistory;
+use Botble\Base\Contracts\BaseModel;
 use Botble\Base\Facades\BaseHelper;
-use Botble\Ecommerce\Models\Customer;
 use Exception;
 use Illuminate\Auth\Events\Logout;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 
 class CustomerLogoutListener
@@ -18,12 +19,13 @@ class CustomerLogoutListener
 
     public function handle(Logout $event): void
     {
+        /**
+         * @var BaseModel $user
+         */
         $user = $event->user;
 
-        if (! $user instanceof User) {
-            if (! is_plugin_active('ecommerce') || ! $user instanceof Customer) {
-                return;
-            }
+        if (! $user instanceof Authenticatable) {
+            return;
         }
 
         try {

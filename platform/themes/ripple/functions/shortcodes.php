@@ -229,6 +229,7 @@ app('events')->listen(RouteMatched::class, function (): void {
         Shortcode::setAdminConfig('all-galleries', function (array $attributes) {
             return ShortcodeForm::createFromArray($attributes)
                 ->withLazyLoading()
+                ->add('title', TextField::class, TextFieldOption::make()->label(__('Title')))
                 ->add(
                     'limit',
                     NumberField::class,

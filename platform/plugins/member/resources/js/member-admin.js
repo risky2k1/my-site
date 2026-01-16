@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $(document).on('click', '.verify-member-email-button', (event) => {
         event.preventDefault()
         $('#confirm-verify-member-email-button').data('action', $(event.currentTarget).prop('href'))

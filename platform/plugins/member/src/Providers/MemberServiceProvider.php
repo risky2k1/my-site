@@ -86,20 +86,24 @@ class MemberServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        SlugHelper::setPrefix(Member::class, 'author');
-        SlugHelper::setColumnUsedForSlugGenerator(Member::class, 'last_name');
-
-        add_filter(IS_IN_ADMIN_FILTER, [$this, 'setInAdmin'], 24);
-
         $this
             ->setNamespace('plugins/member')
             ->loadHelpers()
-            ->loadAndPublishConfigurations(['general', 'permissions', 'email'])
+            ->loadAndPublishConfigurations(['general', 'email'])
+            ->loadAndPublishConfigurations(['permissions'])
             ->loadAndPublishTranslations()
             ->loadAndPublishViews()
             ->loadRoutes(['web', 'member'])
             ->loadMigrations()
             ->publishAssets();
+
+        add_filter(IS_IN_ADMIN_FILTER, [$this, 'setInAdmin'], 24);
+
+        SlugHelper::registering(function (): void {
+            SlugHelper::registerModule(Member::class);
+            SlugHelper::setPrefix(Member::class, 'author');
+            SlugHelper::setColumnUsedForSlugGenerator(Member::class, 'last_name');
+        });
 
         DashboardMenu::default()->beforeRetrieving(function (): void {
             DashboardMenu::registerItem(

@@ -6,6 +6,7 @@ use Botble\AuditLog\Events\AuditHandlerEvent;
 use Botble\AuditLog\Models\AuditHistory;
 use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Models\BaseModel;
+use Botble\Setting\Enums\DataRetentionPeriod;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -57,7 +58,11 @@ class AuditHandlerListener
             $model = new AuditHistory();
 
             if (! Cache::has('pruned_audit_logs_table')) {
-                $model->pruneAll();
+                $days = setting('audit_log_data_retention_period', DataRetentionPeriod::ONE_MONTH);
+
+                if ($days != DataRetentionPeriod::NEVER) {
+                    $model->pruneAll();
+                }
 
                 Cache::put('pruned_audit_logs_table', 1, Carbon::now()->addDay());
             }

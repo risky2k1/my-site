@@ -928,10 +928,13 @@ class MediaController extends BaseController
                                 $zip->add($filePath);
                             }
                         } else {
-                            $zip->addString(
-                                File::basename($file),
-                                Http::withoutVerifying()->get($filePath)->body()
-                            );
+                            try {
+                                $fileContent = Storage::get($file->url);
+                            } catch (Throwable $exception) {
+                                $fileContent = Http::withoutVerifying()->get($filePath)->body();
+                            }
+
+                            $zip->addString(File::basename($file->url), $fileContent);
                         }
                     }
                 } else {
@@ -945,10 +948,13 @@ class MediaController extends BaseController
                         } else {
                             $allFiles = Storage::allFiles($this->folderRepository->getFullPath($folder->id));
                             foreach ($allFiles as $file) {
-                                $zip->addString(
-                                    File::basename($file),
-                                    Http::withoutVerifying()->get(RvMedia::getRealPath($file))->body()
-                                );
+                                try {
+                                    $fileContent = Storage::get($file);
+                                } catch (Throwable $exception) {
+                                    $fileContent = Http::withoutVerifying()->get(RvMedia::getRealPath($file))->body();
+                                }
+
+                                $zip->addString(File::basename($file), $fileContent);
                             }
                         }
                     }

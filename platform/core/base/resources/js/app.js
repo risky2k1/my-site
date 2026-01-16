@@ -49,7 +49,7 @@ $(() => {
                     return
                 }
 
-                if (! error.response.data.data?.html) {
+                if (!error.response.data.data?.html) {
                     return
                 }
 
@@ -62,6 +62,10 @@ $(() => {
 
     setTimeout(() => {
         if (typeof licenseCheckUrl === 'undefined' || typeof isAuthenticated === 'undefined' || !isAuthenticated) {
+            return
+        }
+
+        if (window.location.pathname.includes('/unlicensed')) {
             return
         }
 
@@ -108,8 +112,6 @@ $(() => {
                         }, 500)
                     }
                 }
-
-                localStorage.setItem('license_check_time', Date.now().toString())
             })
     }, 1500)
 })

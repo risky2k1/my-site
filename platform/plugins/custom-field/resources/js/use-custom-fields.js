@@ -251,6 +251,7 @@ class UseCustomFields {
                 skeleton = skeleton.replace(/__type__/gi, box.type || '')
                 skeleton = skeleton.replace(/__title__/gi, box.title || '')
                 skeleton = skeleton.replace(/__instructions__/gi, box.instructions || '')
+                skeleton = skeleton.replace(/__hide_instructions__/gi, box.instructions ? '' : 'd-none')
 
                 let $skeleton = $(skeleton)
                 let $data = registerLine(box)
@@ -340,7 +341,10 @@ class UseCustomFields {
                         result = result
                             .replace('data-src', 'src')
                             .replace(/__image__/gi, defaultImage || box.options.defaultValue || '')
-                        result = result.replace('src="' + window.location.origin + '/storage/"', 'src="' + defaultImage + '"')
+                        result = result.replace(
+                            'src="' + window.location.origin + '/storage/"',
+                            'src="' + defaultImage + '"'
+                        )
                     } else {
                         result = result
                             .replace('data-src', 'src')
@@ -434,6 +438,7 @@ class UseCustomFields {
                 let result = FIELD_TEMPLATE.repeaterFieldLine
                 result = result.replace(/__title__/gi, item.title || '')
                 result = result.replace(/__instructions__/gi, item.instructions || '')
+                result = result.replace(/__hide_instructions__/gi, item.instructions ? '' : 'd-none')
 
                 let $result = $(result)
                 let $data = registerLine(item)

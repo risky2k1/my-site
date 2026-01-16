@@ -3,7 +3,7 @@ import Toastify from '../../../../core/base/resources/js/base/toast'
 const Theme = Theme || {}
 window.Theme = Theme
 
-Theme.showNotice = function (messageType, message) {
+Theme.showNotice = function(messageType, message) {
     let color = '#fff'
     let icon = ''
 
@@ -46,11 +46,11 @@ Theme.showNotice = function (messageType, message) {
     }).showToast()
 }
 
-Theme.showError = function (message) {
+Theme.showError = function(message) {
     this.showNotice('danger', message)
 }
 
-Theme.showSuccess = function (message) {
+Theme.showSuccess = function(message) {
     this.showNotice('success', message)
 }
 

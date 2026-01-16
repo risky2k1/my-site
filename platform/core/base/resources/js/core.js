@@ -38,35 +38,39 @@ class Botble {
             return $(`<span><span class="dropdown-item-indicator">${text}</span> ${id}</span>`)
         }
 
-        Botble.select($coreIcon, {
-            ajax: {
-                url: $coreIcon.data('url'),
-                delay: 250,
-                cache: true,
-                data: function (params) {
-                    return {
-                        q: params.term,
-                        page: params.page || 1,
-                    }
+        Botble.select(
+            $coreIcon,
+            {
+                ajax: {
+                    url: $coreIcon.data('url'),
+                    delay: 250,
+                    cache: true,
+                    data: function (params) {
+                        return {
+                            q: params.term,
+                            page: params.page || 1,
+                        }
+                    },
+                    processResults: function ({ data }) {
+                        return {
+                            results: $.map(data.data, function (icon, name) {
+                                return {
+                                    text: icon,
+                                    id: name,
+                                }
+                            }),
+                            pagination: {
+                                more: data.next_page_url && Object.keys(data.data).length > 0,
+                            },
+                        }
+                    },
                 },
-                processResults: function ({ data }) {
-                    return {
-                        results: $.map(data.data, function (icon, name) {
-                            return {
-                                text: icon,
-                                id: name,
-                            }
-                        }),
-                        pagination: {
-                            more: data.next_page_url && Object.keys(data.data).length > 0,
-                        },
-                    }
-                },
+                placeholder: $coreIcon.data('placeholder'),
+                templateResult: formatTemplate,
+                templateSelection: formatTemplate,
             },
-            placeholder: $coreIcon.data('placeholder'),
-            templateResult: formatTemplate,
-            templateSelection: formatTemplate,
-        }, true)
+            true
+        )
     }
 
     static blockUI(options) {
@@ -164,7 +168,7 @@ class Botble {
     static handleDatatableError(error) {
         let errorMessage = BotbleVariables.languages.tables.error_loading
             ? BotbleVariables.languages.tables.error_loading
-            : 'An error occurred while loading the data. Please refresh the page and try again.';
+            : 'An error occurred while loading the data. Please refresh the page and try again.'
 
         if (typeof error.responseJSON !== 'undefined') {
             if (typeof error.responseJSON.message !== 'undefined') {
@@ -177,11 +181,11 @@ class Botble {
                     .replace(/row\s+\d+/g, 'row')
                     .replace(/\s+for\s+\d+/g, '')
                     .replace(/\s+\d+,\s+/g, ' ')
-                    .replace(/\s+\d+\./g, '.');
+                    .replace(/\s+\d+\./g, '.')
             }
         }
 
-        Botble.showError(errorMessage);
+        Botble.showError(errorMessage)
     }
 
     static handleValidationError(errors) {
@@ -453,13 +457,10 @@ class Botble {
 
                 $httpClient
                     .makeWithoutErrorHandler()
-                    .post(
-                        _self.data('url'),
-                        {
-                            _method: _self.data('method'),
-                            minimal_sidebar: navbar.hasClass('navbar-minimal') ? 'yes' : 'no'
-                        }
-                    )
+                    .post(_self.data('url'), {
+                        _method: _self.data('method'),
+                        minimal_sidebar: navbar.hasClass('navbar-minimal') ? 'yes' : 'no',
+                    })
                     .then(() => {})
                     .catch(() => {})
             }
@@ -468,7 +469,7 @@ class Botble {
 
     static initDatePicker(element) {
         if (jQuery().flatpickr) {
-            const $element = $(document).find(element);
+            const $element = $(document).find(element)
 
             const $input = $element.find('input')
 
@@ -512,21 +513,9 @@ class Botble {
             }
         })
 
-        $(document).find('[data-bb-toggle="check-all"]').each(function (index, element) {
-            const $checkboxChildren = $(document).find($(element).attr('data-target'))
-
-            const $parent = $(element).find('input[type=checkbox]')
-
-            if ($checkboxChildren.length === $checkboxChildren.filter(':checked').length) {
-                $parent.prop('indeterminate', false)
-                $parent.prop('checked', true)
-            } else {
-                $parent.prop('indeterminate', true)
-            }
-        })
-
-        $(document).find('[data-bb-toggle="check-all"]').each(function (index, element) {
-            $(document).on('click', $(element).attr('data-target'), () => {
+        $(document)
+            .find('[data-bb-toggle="check-all"]')
+            .each(function (index, element) {
                 const $checkboxChildren = $(document).find($(element).attr('data-target'))
 
                 const $parent = $(element).find('input[type=checkbox]')
@@ -538,7 +527,23 @@ class Botble {
                     $parent.prop('indeterminate', true)
                 }
             })
-        })
+
+        $(document)
+            .find('[data-bb-toggle="check-all"]')
+            .each(function (index, element) {
+                $(document).on('click', $(element).attr('data-target'), () => {
+                    const $checkboxChildren = $(document).find($(element).attr('data-target'))
+
+                    const $parent = $(element).find('input[type=checkbox]')
+
+                    if ($checkboxChildren.length === $checkboxChildren.filter(':checked').length) {
+                        $parent.prop('indeterminate', false)
+                        $parent.prop('checked', true)
+                    } else {
+                        $parent.prop('indeterminate', true)
+                    }
+                })
+            })
 
         $(document).on('change', '.check-all', (event) => {
             let _self = $(event.currentTarget)
@@ -553,8 +558,26 @@ class Botble {
             })
         })
 
-        $(document).find('.check-all').each(function (index, element) {
-            $(document).on('click', $(element).attr('data-set'), () => {
+        $(document)
+            .find('.check-all')
+            .each(function (index, element) {
+                $(document).on('click', $(element).attr('data-set'), () => {
+                    const $checkboxChildren = $(document).find($(element).attr('data-set'))
+
+                    const $parent = $(element).find('input[type=checkbox]')
+
+                    if ($checkboxChildren.length === $checkboxChildren.filter(':checked').length) {
+                        $parent.prop('indeterminate', false)
+                        $parent.prop('checked', true)
+                    } else {
+                        $parent.prop('indeterminate', true)
+                    }
+                })
+            })
+
+        $(document)
+            .find('.check-all')
+            .each(function (index, element) {
                 const $checkboxChildren = $(document).find($(element).attr('data-set'))
 
                 const $parent = $(element).find('input[type=checkbox]')
@@ -566,20 +589,6 @@ class Botble {
                     $parent.prop('indeterminate', true)
                 }
             })
-        })
-
-        $(document).find('.check-all').each(function (index, element) {
-            const $checkboxChildren = $(document).find($(element).attr('data-set'))
-
-            const $parent = $(element).find('input[type=checkbox]')
-
-            if ($checkboxChildren.length === $checkboxChildren.filter(':checked').length) {
-                $parent.prop('indeterminate', false)
-                $parent.prop('checked', true)
-            } else {
-                $parent.prop('indeterminate', true)
-            }
-        })
 
         $.each($(document).find('select.select-search-full'), function (index, element) {
             Botble.select(element)
@@ -734,17 +743,19 @@ class Botble {
                 defaultTime: false,
             })
 
-            $(document).find('.timepicker-24').timepicker({
-                autoclose: true,
-                minuteStep: 5,
-                showSeconds: false,
-                showMeridian: false,
-                defaultTime: false,
-                icons: {
-                    up: 'icon fa fa-chevron-up',
-                    down: 'icon fa fa-chevron-down',
-                },
-            })
+            $(document)
+                .find('.timepicker-24')
+                .timepicker({
+                    autoclose: true,
+                    minuteStep: 5,
+                    showSeconds: false,
+                    showMeridian: false,
+                    defaultTime: false,
+                    icons: {
+                        up: 'icon fa fa-chevron-up',
+                        down: 'icon fa fa-chevron-down',
+                    },
+                })
         }
 
         if (jQuery().inputmask) {
@@ -838,20 +849,20 @@ class Botble {
         }
 
         function urlify(text) {
-            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            const urlRegex = /(https?:\/\/[^\s]+)/g
 
             if (
-                text.includes('<a ')
-                || text.includes('</a>')
-                || text.includes(' href=')
-                || text.includes('target="_blank"')
-                || text.includes('<img src="')
+                text.includes('<a ') ||
+                text.includes('</a>') ||
+                text.includes(' href=') ||
+                text.includes('target="_blank"') ||
+                text.includes('<img src="')
             ) {
                 return text
             }
 
-            return text.replace(urlRegex, function(url) {
-                return '<a href="' + url + '" target="_blank">' + url + '</a>';
+            return text.replace(urlRegex, function (url) {
+                return '<a href="' + url + '" target="_blank">' + url + '</a>'
             })
         }
 
@@ -1060,6 +1071,10 @@ class Botble {
                                     let content = ''
                                     $.each(files, (index, file) => {
                                         let link = file.full_url
+                                        // Convert absolute URL to relative URL
+                                        if (link && link.startsWith(window.location.origin)) {
+                                            link = link.replace(window.location.origin, '')
+                                        }
                                         if (file.type === 'youtube') {
                                             link = link.replace('watch?v=', 'embed/')
                                             content +=
@@ -1082,6 +1097,10 @@ class Botble {
                                     let html = ''
                                     $.each(files, (index, file) => {
                                         let link = file.full_url
+                                        // Convert absolute URL to relative URL
+                                        if (link && link.startsWith(window.location.origin)) {
+                                            link = link.replace(window.location.origin, '')
+                                        }
                                         if (file.type === 'youtube') {
                                             link = link.replace('watch?v=', 'embed/')
                                             html += `<iframe width='420' height='315' src='${link}' allowfullscreen loading='lazy'></iframe><br />`
@@ -1274,7 +1293,7 @@ class Botble {
                         $imageBox.find('.preview-image').removeClass('default-image')
                         $imageBox.find('.preview-image-wrapper').show()
 
-                        setTimeout(function() {
+                        setTimeout(function () {
                             form[0].reset()
                         }, 1000)
                     })
@@ -1288,7 +1307,7 @@ class Botble {
                 $imageBox.find('.preview-image').removeClass('default-image')
                 $imageBox.find('.preview-image-wrapper').show()
 
-                setTimeout(function() {
+                setTimeout(function () {
                     form[0].reset()
                 }, 1000)
             }
@@ -1527,8 +1546,8 @@ class Botble {
                     ? targetElement.slideUp()
                     : targetElement.slideDown()
                 : isChecked
-                    ? targetElement.slideDown()
-                    : targetElement.slideUp()
+                  ? targetElement.slideDown()
+                  : targetElement.slideUp()
         }
 
         const handleValueBasedCollapse = (target, value) => {
@@ -1737,7 +1756,7 @@ class Botble {
     static select(element, options = {}, force = false) {
         const $element = $(element)
 
-        if (!jQuery().select2 || ($element.hasClass('select2-hidden-accessible') && ! force)) {
+        if (!jQuery().select2 || ($element.hasClass('select2-hidden-accessible') && !force)) {
             return
         }
 
@@ -1748,7 +1767,10 @@ class Botble {
             ...options,
         }
 
-        let parent = $element.closest('div[data-select2-dropdown-parent]') || $element.closest('.modal-content') || $element.closest('.modal')
+        let parent =
+            $element.closest('div[data-select2-dropdown-parent]') ||
+            $element.closest('.modal-content') ||
+            $element.closest('.modal')
 
         if (parent.length) {
             options.dropdownParent = parent
@@ -1810,8 +1832,6 @@ class Botble {
         if (!document.querySelector('[data-bb-color-picker]')) {
             return
         }
-
-        console.log('aaa')
 
         $('[data-bb-color-picker]').each((index, item) => {
             let $current = $(item)
@@ -2017,7 +2037,9 @@ class Botble {
             } else {
                 if ($wrapper.length) {
                     $.map($wrapper, function (item) {
-                        $(item).find('> span').text($(item).data('placeholder') || ' ')
+                        $(item)
+                            .find('> span')
+                            .text($(item).data('placeholder') || ' ')
                     })
                 }
             }

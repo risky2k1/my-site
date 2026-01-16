@@ -4,6 +4,7 @@ return [
     'common' => [
         'name' => 'নাম',
         'email' => 'ইমেইল',
+        'phone' => 'ফোন',
         'website' => 'ওয়েবসাইট',
         'comment' => 'মন্তব্য',
         'email_placeholder' => 'আপনার ইমেইল ঠিকানা প্রকাশিত হবে না।',
@@ -12,7 +13,7 @@ return [
 
     'title' => 'মন্তব্যসমূহ',
     'author' => 'লেখক',
-    'responsed_to' => 'প্রতিক্রিয়া',
+    'responded_to' => 'প্রতিক্রিয়া',
     'permalink' => 'পার্মালিংক',
     'url' => 'ইউআরএল',
     'submitted_on' => 'জমা দেওয়া হয়েছে',
@@ -32,6 +33,8 @@ return [
 
         'list' => [
             'title' => ':count টি মন্তব্য',
+            'title_singular' => ':count টি মন্তব্য',
+            'title_plural' => ':count টি মন্তব্য',
             'reply' => 'উত্তর',
             'reply_to' => ':name কে উত্তর দিন',
             'cancel_reply' => 'উত্তর বাতিল করুন',
@@ -39,6 +42,7 @@ return [
         ],
 
         'form' => [
+            'description_email_optional' => 'Your email address will not be published. Email is optional. Required fields are marked *',
             'title' => 'একটি মন্তব্য করুন',
             'description' => 'আপনার ইমেইল ঠিকানা প্রকাশিত হবে না। প্রয়োজনীয় ক্ষেত্রগুলি * দিয়ে চিহ্নিত',
             'cookie_consent' => 'পরবর্তী মন্তব্যের জন্য এই ব্রাউজারে আমার নাম, ইমেইল এবং ওয়েবসাইট সংরক্ষণ করুন।',
@@ -79,8 +83,18 @@ return [
             'display_admin_badge' => 'অ্যাডমিন মন্তব্যের জন্য অ্যাডমিন ব্যাজ প্রদর্শন করুন',
             'show_admin_role_name_for_admin_badge' => 'অ্যাডমিন ব্যাজের জন্য অ্যাডমিন ভূমিকার নাম দেখান',
             'show_admin_role_name_for_admin_badge_helper' => 'যদি সক্রিয় থাকে, অ্যাডমিন ব্যাজ ডিফল্ট "অ্যাডমিন" টেক্সটের পরিবর্তে অ্যাডমিন ভূমিকার নাম প্রদর্শন করবে। যদি অ্যাডমিন ভূমিকার নাম খালি থাকে, ডিফল্ট টেক্সট ব্যবহার করা হবে। যদি ব্যবহারকারীর একাধিক ভূমিকা থাকে, প্রথম ভূমিকা ব্যবহার করা হবে।',
+            'avatar_provider' => 'Avatar provider',
+            'avatar_provider_help' => 'Choose how to generate avatars for comments. Gravatar requires email, UI Avatars generates based on name.',
+            'avatar_provider_choices' => [
+                'gravatar' => 'Gravatar (Email-based)',
+                'ui_avatars' => 'UI Avatars (Name-based)',
+            ],
+            'email_optional' => 'Make email field optional',
+            'email_optional_help' => 'When enabled, visitors can submit comments without providing an email address.',
+            'show_website_field' => 'মন্তব্য ফর্মে ওয়েবসাইট ফিল্ড দেখান',
+            'show_website_field_help' => 'নিষ্ক্রিয় করলে, ওয়েবসাইট ফিল্ডটি পাবলিক মন্তব্য ফর্ম থেকে লুকানো থাকবে।',
             'default_avatar' => 'ডিফল্ট অবতার',
-            'default_avatar_helper' => 'যখন লেখকের কোন অবতার নেই তখন ডিফল্ট অবতার। যদি আপনি কোন চিত্র নির্বাচন না করেন, তবে এটি Gravatar ব্যবহার করে তৈরি হবে। চিত্রের আকার 150x150px হওয়া উচিত।',
+            'default_avatar_helper' => 'Default avatar for the author when they don\'t have an avatar. If you don\'t select any image, it will be generated using the selected avatar provider. Image size should be 150x150px.',
         ],
     ],
 ];

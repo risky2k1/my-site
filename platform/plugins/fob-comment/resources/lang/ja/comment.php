@@ -4,6 +4,7 @@ return [
     'common' => [
         'name' => '名前',
         'email' => 'メールアドレス',
+        'phone' => '電話',
         'website' => 'ウェブサイト',
         'comment' => 'コメント',
         'email_placeholder' => 'メールアドレスは公開されません。',
@@ -12,7 +13,7 @@ return [
 
     'title' => 'コメント',
     'author' => '投稿者',
-    'responsed_to' => '返信先',
+    'responded_to' => '返信先',
     'permalink' => 'パーマリンク',
     'url' => 'URL',
     'submitted_on' => '投稿日',
@@ -32,6 +33,8 @@ return [
 
         'list' => [
             'title' => ':count 件のコメント',
+            'title_singular' => ':count 件のコメント',
+            'title_plural' => ':count 件のコメント',
             'reply' => '返信',
             'reply_to' => ':name に返信',
             'cancel_reply' => '返信をキャンセル',
@@ -39,6 +42,7 @@ return [
         ],
 
         'form' => [
+            'description_email_optional' => 'Your email address will not be published. Email is optional. Required fields are marked *',
             'title' => 'コメントを残す',
             'description' => 'メールアドレスは公開されません。必須項目は * でマークされています',
             'cookie_consent' => '次回のコメント時のために、名前、メールアドレス、ウェブサイトをこのブラウザに保存する。',
@@ -79,8 +83,18 @@ return [
             'display_admin_badge' => '管理者コメントに管理者バッジを表示',
             'show_admin_role_name_for_admin_badge' => '管理者バッジに管理者ロール名を表示',
             'show_admin_role_name_for_admin_badge_helper' => '有効にすると、管理者バッジはデフォルトの「管理者」テキストの代わりに管理者ロール名を表示します。管理者ロール名が空の場合、デフォルトテキストが使用されます。ユーザーが複数のロールを持つ場合、最初のロールが使用されます。',
+            'avatar_provider' => 'Avatar provider',
+            'avatar_provider_help' => 'Choose how to generate avatars for comments. Gravatar requires email, UI Avatars generates based on name.',
+            'avatar_provider_choices' => [
+                'gravatar' => 'Gravatar (Email-based)',
+                'ui_avatars' => 'UI Avatars (Name-based)',
+            ],
+            'email_optional' => 'Make email field optional',
+            'email_optional_help' => 'When enabled, visitors can submit comments without providing an email address.',
+            'show_website_field' => 'コメントフォームにウェブサイト欄を表示する',
+            'show_website_field_help' => '無効にすると、ウェブサイト欄は公開コメントフォームから非表示になります。',
             'default_avatar' => 'デフォルトアバター',
-            'default_avatar_helper' => '投稿者がアバターを持っていない場合のデフォルトアバター。画像を選択しない場合、Gravatar を使用して生成されます。画像サイズは 150x150px である必要があります。',
+            'default_avatar_helper' => 'Default avatar for the author when they don\'t have an avatar. If you don\'t select any image, it will be generated using the selected avatar provider. Image size should be 150x150px.',
         ],
     ],
 ];

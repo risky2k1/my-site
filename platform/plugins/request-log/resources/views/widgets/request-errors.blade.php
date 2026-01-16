@@ -45,7 +45,7 @@
     @endif
 @else
     <x-core::empty-state
-        :title="__('No results found')"
-        :subtitle="__('It looks as through there are no request errors here.')"
+        :title="trans('plugins/request-log::request-log.no_results_found')"
+        :subtitle="trans('plugins/request-log::request-log.no_request_errors_message')"
     />
 @endif

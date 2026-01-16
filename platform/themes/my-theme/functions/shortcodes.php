@@ -140,4 +140,5 @@ app()->booted(function () {
             return Theme::partial('shortcodes.date-ideas.index', compact('shortcode', 'categories', 'moods'));
         }
     );
+
 });
