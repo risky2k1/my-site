@@ -13,7 +13,9 @@ RUN apk add --no-cache \
     libzip-dev \
     zip \
     unzip \
-    supervisor
+    supervisor \
+    nodejs \
+    npm
 
 # PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
