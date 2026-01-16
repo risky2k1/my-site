@@ -4,6 +4,7 @@ return [
     'common' => [
         'name' => 'Nom',
         'email' => 'E-mail',
+        'phone' => 'Téléphone',
         'website' => 'Site web',
         'comment' => 'Commentaire',
         'email_placeholder' => 'Votre adresse e-mail ne sera pas publiée.',
@@ -12,7 +13,7 @@ return [
 
     'title' => 'Commentaires',
     'author' => 'Auteur',
-    'responsed_to' => 'Réponse à',
+    'responded_to' => 'Réponse à',
     'permalink' => 'Permalien',
     'url' => 'URL',
     'submitted_on' => 'Soumis le',
@@ -28,10 +29,12 @@ return [
     'allow_comments' => 'Autoriser les commentaires',
 
     'front' => [
-        'admin_badge' => 'Admin',
+        'admin_badge' => 'Administrateur',
 
         'list' => [
             'title' => ':count commentaire|:count commentaires',
+            'title_singular' => ':count commentaire',
+            'title_plural' => ':count commentaires',
             'reply' => 'Répondre',
             'reply_to' => 'Répondre à :name',
             'cancel_reply' => 'Annuler la réponse',
@@ -41,6 +44,7 @@ return [
         'form' => [
             'title' => 'Laisser un commentaire',
             'description' => 'Votre adresse e-mail ne sera pas publiée. Les champs obligatoires sont marqués *',
+            'description_email_optional' => 'Votre adresse email ne sera pas publiée. L\'email est facultatif. Les champs obligatoires sont marqués *',
             'cookie_consent' => 'Enregistrer mon nom, e-mail et site web dans ce navigateur pour mon prochain commentaire.',
             'submit' => 'Publier le commentaire',
         ],
@@ -58,9 +62,8 @@ return [
     ],
 
     'settings' => [
-        'title' => 'FOB Comment',
+        'title' => 'Commentaires FOB',
         'description' => 'Configurer les paramètres pour FOB Comment',
-
         'form' => [
             'enable_recaptcha' => 'Activer reCAPTCHA',
             'enable_recaptcha_help' => 'Vous devez activer reCAPTCHA dans :url pour utiliser cette fonctionnalité.',
@@ -79,6 +82,16 @@ return [
             'display_admin_badge' => 'Afficher le badge administrateur pour les commentaires des administrateurs',
             'show_admin_role_name_for_admin_badge' => 'Afficher le nom du rôle d\'administrateur pour le badge administrateur',
             'show_admin_role_name_for_admin_badge_helper' => 'Si activé, le badge administrateur affichera le nom du rôle d\'administrateur au lieu du texte par défaut "Admin". Si le nom du rôle d\'administrateur est vide, le texte par défaut sera utilisé. Si l\'utilisateur a plusieurs rôles, le premier rôle sera utilisé.',
+            'avatar_provider' => 'Fournisseur d\'avatar',
+            'avatar_provider_help' => 'Choisissez comment générer les avatars pour les commentaires. Gravatar nécessite un e-mail, UI Avatars génère en fonction du nom.',
+            'avatar_provider_choices' => [
+                'gravatar' => 'Gravatar (Basé sur l\'e-mail)',
+                'ui_avatars' => 'UI Avatars (Basé sur le nom)',
+            ],
+            'email_optional' => 'Rendre le champ e-mail facultatif',
+            'email_optional_help' => 'Lorsqu\'activé, les visiteurs peuvent soumettre des commentaires sans fournir une adresse e-mail.',
+            'show_website_field' => 'Afficher le champ site web dans le formulaire de commentaire',
+            'show_website_field_help' => 'Lorsque cette option est désactivée, le champ site web sera masqué du formulaire de commentaire public.',
             'default_avatar' => 'Avatar par défaut',
             'default_avatar_helper' => 'Avatar par défaut pour l\'auteur lorsqu\'il n\'a pas d\'avatar. Si vous ne sélectionnez aucune image, elle sera générée en utilisant Gravatar. La taille de l\'image doit être de 150x150px.',
         ],

@@ -3,6 +3,7 @@
         0% {
             background-position: -200% 0;
         }
+
         100% {
             background-position: 200% 0;
         }
@@ -88,13 +89,18 @@
                 <div class="page-content">
                     <div class="post-group post-group--single">
                         <div class="post-group__header">
-                            <h3 class="post-group__title skeleton-loading-bg" style="width: 250px; height: 32px; border-radius: 4px;"></h3>
+                            <h3
+                                class="post-group__title skeleton-loading-bg"
+                                style="width: 250px; height: 32px; border-radius: 4px;"
+                            ></h3>
                         </div>
                         <div class="post-group__content">
                             <div class="row">
                                 @for ($chunk = 0; $chunk < 2; $chunk++)
                                     <div class="col-md-6 col-sm-6 col-12">
-                                        <article class="post post__vertical post__vertical--single post__vertical--simple">
+                                        <article
+                                            class="post post__vertical post__vertical--single post__vertical--simple"
+                                        >
                                             <div class="skeleton-thumbnail skeleton-loading-bg"></div>
                                             <div class="post__content-wrap">
                                                 <header class="post__header">
@@ -112,7 +118,9 @@
                                             </div>
                                         </article>
                                         @for ($i = 0; $i < 2; $i++)
-                                            <article class="post post__horizontal post__horizontal--single mb-20 clearfix">
+                                            <article
+                                                class="post post__horizontal post__horizontal--single mb-20 clearfix"
+                                            >
                                                 <div class="skeleton-thumbnail skeleton-loading-bg"></div>
                                                 <div class="post__content-wrap">
                                                     <header class="post__header">
@@ -132,7 +140,10 @@
             <div class="col-lg-3">
                 <div class="page-sidebar">
                     @for ($i = 0; $i < 3; $i++)
-                        <div class="skeleton-loading-bg" style="height: 120px; margin-bottom: 20px; border-radius: 4px;"></div>
+                        <div
+                            class="skeleton-loading-bg"
+                            style="height: 120px; margin-bottom: 20px; border-radius: 4px;"
+                        ></div>
                     @endfor
                 </div>
             </div>

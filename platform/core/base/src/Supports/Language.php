@@ -270,6 +270,7 @@ class Language
      */
     protected static array $languages = [
         'af' => ['af', 'af', 'Afrikaans', 'ltr', 'za'],
+        'am' => ['am', 'am', 'አማርኛ', 'ltr', 'et'],
         'ar' => ['ar', 'ar', 'العربية', 'rtl', 'ar'],
         'ary' => ['ar', 'ary', 'العربية المغربية', 'rtl', 'ma'],
         'az' => ['az', 'az', 'Azərbaycan', 'ltr', 'az'],
@@ -358,6 +359,7 @@ class Language
         'sl_SI' => ['sl', 'sl_SI', 'Slovenščina', 'ltr', 'si'],
         'so_SO' => ['so', 'so_SO', 'Af-Soomaali', 'ltr', 'so'],
         'sq' => ['sq', 'sq', 'Shqip', 'ltr', 'al'],
+        'sq_AL' => ['sq', 'sq_AL', 'Shqip (Shqipëri)', 'ltr', 'al'],
         'sr_RS' => ['sr', 'sr_RS', 'Српски језик', 'ltr', 'rs'],
         'su_ID' => ['su', 'su_ID', 'Basa Sunda', 'ltr', 'id'],
         'sv_SE' => ['sv', 'sv_SE', 'Svenska', 'ltr', 'se'],
@@ -365,6 +367,7 @@ class Language
         'sw' => ['sw', 'sw', 'Swahili', 'ltr', 'tz'],
         'ta_LK' => ['ta', 'ta_LK', 'தமிழ்', 'ltr', 'lk'],
         'th' => ['th', 'th', 'ไทย', 'ltr', 'th'],
+        'ti' => ['ti', 'ti', 'ትግርኛ', 'ltr', 'er'],
         'tl' => ['tl', 'tl', 'Tagalog', 'ltr', 'ph'],
         'tr_TR' => ['tr', 'tr_TR', 'Türkçe', 'ltr', 'tr'],
         'ug_CN' => ['ug', 'ug_CN', 'Uyƣurqə', 'ltr', 'cn'],

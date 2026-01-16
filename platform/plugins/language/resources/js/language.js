@@ -175,7 +175,7 @@ class LanguageManagement {
         let $buttonSubmit = $('#btn-language-submit')
 
         if (button) {
-            $buttonSubmit = button;
+            $buttonSubmit = button
         }
 
         let url = $buttonSubmit.data('store-url')

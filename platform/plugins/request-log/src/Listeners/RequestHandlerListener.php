@@ -5,6 +5,7 @@ namespace Botble\RequestLog\Listeners;
 use Botble\Base\Facades\BaseHelper;
 use Botble\RequestLog\Events\RequestHandlerEvent;
 use Botble\RequestLog\Models\RequestLog;
+use Botble\Setting\Enums\DataRetentionPeriod;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -28,7 +29,11 @@ class RequestHandlerListener
             }
 
             if (! Cache::has('pruned_request_logs_table')) {
-                (new RequestLog())->pruneAll();
+                $days = setting('request_log_data_retention_period', DataRetentionPeriod::ONE_MONTH);
+
+                if ($days != DataRetentionPeriod::NEVER) {
+                    (new RequestLog())->pruneAll();
+                }
 
                 Cache::put('pruned_request_logs_table', 1, Carbon::now()->addDay());
             }

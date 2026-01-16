@@ -138,16 +138,13 @@ class RemoveLanguageCommand extends Command implements PromptsForMissingInput
             $index++;
         }
 
-        $this->line(sprintf('  [<fg=green>%d</>] Cancel - Don\'t remove any language', $index));
+        $this->components->info(sprintf('  [<fg=green>%d</>] Cancel - Don\'t remove any language', $index));
         $languageIds[$index] = null;
 
         $this->newLine();
 
         $maxIndex = $index;
-        $selectedIndex = $this->ask(
-            sprintf('Please select an option (0-%d)', $maxIndex),
-            null
-        );
+        $selectedIndex = $this->ask(sprintf('Please select an option (0-%d)', $maxIndex));
 
         if (! is_numeric($selectedIndex) || $selectedIndex < 0 || $selectedIndex > $maxIndex) {
             $this->components->error('Invalid selection.');
@@ -201,16 +198,13 @@ class RemoveLanguageCommand extends Command implements PromptsForMissingInput
             $index++;
         }
 
-        $this->line(sprintf('  [<fg=green>%d</>] Cancel - Don\'t remove any language', $index));
+        $this->components->info(sprintf('  [<fg=green>%d</>] Cancel - Don\'t remove any language', $index));
         $languageIds[$index] = null;
 
         $this->newLine();
 
         $maxIndex = $index;
-        $selectedIndex = $this->ask(
-            sprintf('Please select an option (0-%d)', $maxIndex),
-            null
-        );
+        $selectedIndex = $this->ask(sprintf('Please select an option (0-%d)', $maxIndex), );
 
         if (! is_numeric($selectedIndex) || $selectedIndex < 0 || $selectedIndex > $maxIndex) {
             $this->components->error('Invalid selection.');
@@ -233,10 +227,10 @@ class RemoveLanguageCommand extends Command implements PromptsForMissingInput
     {
         $this->components->warn('This action will permanently remove the language and all its associated data.');
         $this->newLine();
-        $this->line(sprintf('Language: <fg=yellow>%s (%s)</>', $language->lang_name, $language->lang_code));
+        $this->components->info(sprintf('Language: <fg=yellow>%s (%s)</>', $language->lang_name, $language->lang_code));
         $this->newLine();
 
-        return $this->confirm('Are you sure you want to remove this language?', false);
+        return $this->confirm('Are you sure you want to remove this language?');
     }
 
     protected function removeLanguage(LanguageModel $language): void

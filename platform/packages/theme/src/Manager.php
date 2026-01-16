@@ -49,10 +49,11 @@ class Manager
     protected function loadThemesFromFileSystem(): array
     {
         $themes = [];
+
+        $publicJsonFile = public_path('themes/' . ThemeFacade::getPublicThemeName() . '/theme.json');
+
         foreach (BaseHelper::scanFolder(theme_path()) as $folder) {
             $jsonFile = $this->getThemeJsonPath($folder);
-
-            $publicJsonFile = public_path('themes/' . ThemeFacade::getPublicThemeName() . '/theme.json');
 
             if (File::exists($publicJsonFile)) {
                 $jsonFile = $publicJsonFile;

@@ -4,6 +4,7 @@ return [
     'common' => [
         'name' => '姓名',
         'email' => '电子邮箱',
+        'phone' => '电话',
         'website' => '网站',
         'comment' => '评论',
         'email_placeholder' => '您的电子邮箱地址不会被公开。',
@@ -12,7 +13,7 @@ return [
 
     'title' => '评论',
     'author' => '作者',
-    'responsed_to' => '回复',
+    'responded_to' => '回复',
     'permalink' => '永久链接',
     'url' => '网址',
     'submitted_on' => '提交于',
@@ -32,6 +33,8 @@ return [
 
         'list' => [
             'title' => ':count 条评论',
+            'title_singular' => ':count 条评论',
+            'title_plural' => ':count 条评论',
             'reply' => '回复',
             'reply_to' => '回复 :name',
             'cancel_reply' => '取消回复',
@@ -41,6 +44,7 @@ return [
         'form' => [
             'title' => '发表评论',
             'description' => '您的电子邮箱地址不会被公开。必填项已用 * 标注',
+            'description_email_optional' => '您的电子邮箱地址不会被公开。电子邮箱为可选项。必填项已用 * 标注',
             'cookie_consent' => '在此浏览器中保存我的姓名、电子邮箱和网站，以便下次评论时使用。',
             'submit' => '提交评论',
         ],
@@ -79,8 +83,18 @@ return [
             'display_admin_badge' => '为管理员评论显示管理员徽章',
             'show_admin_role_name_for_admin_badge' => '为管理员徽章显示管理员角色名称',
             'show_admin_role_name_for_admin_badge_helper' => '如果启用，管理员徽章将显示管理员角色名称，而不是默认的"管理员"文本。如果管理员角色名称为空，将使用默认文本。如果用户有多个角色，将使用第一个角色。',
+            'avatar_provider' => '头像提供商',
+            'avatar_provider_help' => '选择如何为评论生成头像。Gravatar 需要电子邮件，UI Avatars 基于姓名生成。',
+            'avatar_provider_choices' => [
+                'gravatar' => 'Gravatar（基于电子邮件）',
+                'ui_avatars' => 'UI Avatars（基于姓名）',
+            ],
+            'email_optional' => '将电子邮件字段设为可选',
+            'email_optional_help' => '启用后，访客无需提供电子邮件地址即可提交评论。',
+            'show_website_field' => '在评论表单中显示网站字段',
+            'show_website_field_help' => '禁用时，网站字段将从公开的评论表单中隐藏。',
             'default_avatar' => '默认头像',
-            'default_avatar_helper' => '作者没有头像时的默认头像。如果您不选择任何图片，将使用 Gravatar 生成。图片大小应为 150x150px。',
+            'default_avatar_helper' => '作者没有头像时的默认头像。如果您不选择任何图片，将使用所选头像提供商生成。图片大小应为 150x150px。',
         ],
     ],
 ];

@@ -4,6 +4,7 @@ return [
     'common' => [
         'name' => 'Ime',
         'email' => 'E-mail',
+        'phone' => 'Telefon',
         'website' => 'Web stranica',
         'comment' => 'Komentar',
         'email_placeholder' => 'Vaša e-mail adresa neće biti objavljena.',
@@ -12,7 +13,7 @@ return [
 
     'title' => 'Komentari',
     'author' => 'Autor',
-    'responsed_to' => 'Odgovor na',
+    'responded_to' => 'Odgovor na',
     'permalink' => 'Trajna veza',
     'url' => 'URL',
     'submitted_on' => 'Poslano',
@@ -32,6 +33,8 @@ return [
 
         'list' => [
             'title' => ':count komentar|:count komentara|:count komentara',
+            'title_singular' => ':count komentar',
+            'title_plural' => ':count komentara',
             'reply' => 'Odgovori',
             'reply_to' => 'Odgovori :name',
             'cancel_reply' => 'Otkaži odgovor',
@@ -39,6 +42,7 @@ return [
         ],
 
         'form' => [
+            'description_email_optional' => 'Vaša e-mail adresa neće biti objavljena. E-mail je neobavezan. Obavezna polja su označena sa *',
             'title' => 'Ostavite komentar',
             'description' => 'Vaša e-mail adresa neće biti objavljena. Obavezna polja su označena sa *',
             'cookie_consent' => 'Spremi moje ime, e-mail i web stranicu u ovaj preglednik za sljedeći put kada komentiram.',
@@ -79,8 +83,18 @@ return [
             'display_admin_badge' => 'Prikaži admin značku za komentare administratora',
             'show_admin_role_name_for_admin_badge' => 'Prikaži naziv admin uloge za admin značku',
             'show_admin_role_name_for_admin_badge_helper' => 'Ako je omogućeno, admin značka će prikazati naziv admin uloge umjesto zadanog teksta "Admin". Ako je naziv admin uloge prazan, koristit će se zadani tekst. Ako korisnik ima više uloga, koristit će se prva uloga.',
+            'avatar_provider' => 'Pružatelj avatara',
+            'avatar_provider_help' => 'Odaberite kako generirati avatare za komentare. Gravatar zahtijeva e-mail, UI Avatars generira na temelju imena.',
+            'avatar_provider_choices' => [
+                'gravatar' => 'Gravatar (Temeljeno na e-mailu)',
+                'ui_avatars' => 'UI Avatars (Temeljeno na imenu)',
+            ],
+            'email_optional' => 'Učinite polje e-maila neobaveznim',
+            'email_optional_help' => 'Kada je omogućeno, posjetitelji mogu poslati komentare bez navođenja e-mail adrese.',
+            'show_website_field' => 'Prikaži polje web stranice u obrascu za komentare',
+            'show_website_field_help' => 'Kad je onemogućeno, polje web stranice bit će skriveno iz javnog obrasca za komentare.',
             'default_avatar' => 'Zadani avatar',
-            'default_avatar_helper' => 'Zadani avatar za autora kada nema avatar. Ako ne odaberete sliku, generirat će se pomoću Gravatara. Veličina slike treba biti 150x150px.',
+            'default_avatar_helper' => 'Zadani avatar za autora kada nemaju avatar. Ako ne odaberete sliku, bit će generirana pomoću odabranog pružatelja avatara. Veličina slike treba biti 150x150px.',
         ],
     ],
 ];

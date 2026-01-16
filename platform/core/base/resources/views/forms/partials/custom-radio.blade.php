@@ -24,4 +24,3 @@
         </x-core::form.radio>
     @endforeach
 </div>
-

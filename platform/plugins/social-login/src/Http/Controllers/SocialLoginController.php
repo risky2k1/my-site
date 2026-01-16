@@ -43,7 +43,7 @@ class SocialLoginController extends BaseController
             return $this
                 ->httpResponse()
                 ->setError()
-                ->setMessage(__('This feature is temporary disabled in demo mode. Please use another login option. Such as Google.'));
+                ->setMessage(trans('plugins/social-login::social-login.demo_mode_disabled'));
         }
 
         $this->setProvider($provider);
@@ -96,7 +96,7 @@ class SocialLoginController extends BaseController
                 ->httpResponse()
                 ->setError()
                 ->setNextUrl(BaseHelper::getHomepageUrl())
-                ->setMessage(__('An error occurred while trying to login'));
+                ->setMessage(trans('plugins/social-login::social-login.login_error'));
         }
 
         $this->setProvider($provider);
@@ -116,11 +116,11 @@ class SocialLoginController extends BaseController
             }
 
             if (! $message) {
-                $message = __('An error occurred while trying to login');
+                $message = trans('plugins/social-login::social-login.login_error');
             }
 
             if ($exception instanceof InvalidStateException) {
-                $message = __('InvalidStateException occurred while trying to login');
+                $message = trans('plugins/social-login::social-login.invalid_state_exception');
             }
 
             return $this
@@ -135,7 +135,7 @@ class SocialLoginController extends BaseController
                 ->httpResponse()
                 ->setError()
                 ->setNextUrl($providerData['login_url'])
-                ->setMessage(__('Cannot login, no email provided!'));
+                ->setMessage(trans('plugins/social-login::social-login.no_email_provided'));
         }
 
         $avatarId = null;

@@ -17,7 +17,6 @@ return new class () extends Migration {
         if (! Schema::hasColumn('audit_histories', 'user_type')) {
             Schema::table('audit_histories', function (Blueprint $table): void {
                 $table->string('user_type')->nullable()->after('user_id')->default(addslashes(User::class));
-                $table->string('actor_type')->nullable()->after('actor_id')->default(addslashes(User::class));
             });
         }
     }
@@ -25,7 +24,7 @@ return new class () extends Migration {
     public function down(): void
     {
         Schema::table('audit_histories', function (Blueprint $table): void {
-            $table->dropColumn(['user_type', 'actor_type']);
+            $table->dropColumn(['user_type']);
         });
 
         Schema::table('audit_histories', function (Blueprint $table): void {

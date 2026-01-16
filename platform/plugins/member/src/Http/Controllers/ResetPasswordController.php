@@ -28,7 +28,7 @@ class ResetPasswordController extends BaseController
     {
         abort_unless(setting('member_enabled_login', true), 404);
 
-        SeoHelper::setTitle(__('Reset Password'));
+        SeoHelper::setTitle(trans('plugins/member::dashboard.reset-password-title'));
 
         return Theme::scope(
             'member.auth.passwords.reset',

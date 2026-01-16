@@ -1,5 +1,5 @@
 <x-core::layouts.base :body-attributes="['data-bs-theme' => 'dark']">
-    <div class="row g-0 flex-fill vh-100">
+    <main class="row g-0 flex-fill vh-100">
         <div class="col-12 col-lg-6 col-xl-4 border-top-wide border-primary d-flex flex-column justify-content-center">
             <div class="container container-tight my-5 px-lg-5">
                 <div class="text-center mb-4">
@@ -21,5 +21,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 </x-core::layouts.base>

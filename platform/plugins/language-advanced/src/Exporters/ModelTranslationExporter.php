@@ -94,7 +94,7 @@ class ModelTranslationExporter extends Exporter
                 $translation = $translations->where('lang_code', $locale)->first();
 
                 foreach ($translatableColumns as $column) {
-                    $data[$column . '_' . $locale] = $translation?->{$column} ?? '';
+                    $data[$column . '_' . $locale] = (string) $translation?->{$column};
                 }
             }
 

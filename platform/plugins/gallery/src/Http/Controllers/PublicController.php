@@ -18,9 +18,9 @@ class PublicController extends BaseController
             ->oldest('order')->latest()
             ->get();
 
-        SeoHelper::setTitle(__('Galleries'));
+        SeoHelper::setTitle(trans('plugins/gallery::gallery.galleries'));
 
-        Theme::breadcrumb()->add(__('Galleries'), Gallery::getGalleriesPageUrl());
+        Theme::breadcrumb()->add(trans('plugins/gallery::gallery.galleries'), Gallery::getGalleriesPageUrl());
 
         return Theme::scope('galleries', compact('galleries'), 'plugins/gallery::themes.galleries')
             ->render();

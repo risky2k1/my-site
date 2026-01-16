@@ -63,4 +63,5 @@ class TimetableController extends BaseController
             'event' => $event
         ]);
     }
+
 }

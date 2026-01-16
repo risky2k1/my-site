@@ -23,6 +23,7 @@ use Botble\CustomField\Repositories\Interfaces\FieldItemInterface;
 use Botble\CustomField\Support\CustomFieldSupport;
 use Botble\LanguageAdvanced\Supports\LanguageAdvancedManager;
 use Botble\Page\Models\Page;
+use Botble\Page\Supports\Template;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Events\RouteMatched;
 
@@ -52,7 +53,8 @@ class CustomFieldServiceProvider extends ServiceProvider
         $this
             ->setNamespace('plugins/custom-field')
             ->loadHelpers()
-            ->loadAndPublishConfigurations(['permissions', 'general'])
+            ->loadAndPublishConfigurations(['general'])
+            ->loadAndPublishConfigurations(['permissions'])
             ->loadAndPublishTranslations()
             ->loadRoutes()
             ->loadAndPublishViews()
@@ -135,9 +137,7 @@ class CustomFieldServiceProvider extends ServiceProvider
             'basic',
             trans('plugins/custom-field::rules.page_template'),
             'page_template',
-            function () {
-                return get_page_templates();
-            }
+            fn () => Template::getPageTemplates()
         )
             ->registerRule('basic', trans('plugins/custom-field::rules.page'), Page::class, function () {
                 return Page::query()

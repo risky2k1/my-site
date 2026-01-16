@@ -3,6 +3,7 @@
         0% {
             background-position: -200% 0;
         }
+
         100% {
             background-position: 200% 0;
         }
@@ -59,7 +60,10 @@
         <div class="page-content">
             <div class="post-group post-group--single">
                 <div class="post-group__header">
-                    <h3 class="post-group__title skeleton-loading-bg" style="width: 150px; height: 32px; border-radius: 4px;"></h3>
+                    <h3
+                        class="post-group__title skeleton-loading-bg"
+                        style="width: 150px; height: 32px; border-radius: 4px;"
+                    ></h3>
                 </div>
                 <div class="post-group__content">
                     <div class="gallery-wrap">

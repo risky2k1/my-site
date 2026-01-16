@@ -99,7 +99,8 @@ class BaseServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this
-            ->loadAndPublishConfigurations(['permissions', 'assets'])
+            ->loadAndPublishConfigurations(['assets'])
+            ->loadAndPublishConfigurations(['permissions'])
             ->loadAndPublishViews()
             ->loadAnonymousComponents()
             ->loadAndPublishTranslations()
@@ -115,9 +116,10 @@ class BaseServiceProvider extends ServiceProvider
             do_action(BASE_ACTION_INIT);
         });
 
-        $this->registerDashboardMenus();
-
-        $this->registerPanelSections();
+        if (BaseHelper::isAdminRequest()) {
+            $this->registerDashboardMenus();
+            $this->registerPanelSections();
+        }
 
         Paginator::useBootstrap();
 
@@ -341,9 +343,14 @@ class BaseServiceProvider extends ServiceProvider
             ];
 
             if ($extraUrl = Arr::get($baseConfig, 'allowed_iframe_urls', [])) {
+                $extraUrls = array_map(
+                    fn ($url) => preg_replace('#^https?://(www\.)?#', '', trim($url)),
+                    explode('|', $extraUrl)
+                );
+
                 $allowedIframeUrls = [
                     ...$allowedIframeUrls,
-                    ...explode('|', $extraUrl),
+                    ...$extraUrls,
                 ];
             }
 

@@ -25,11 +25,17 @@
         </div>
 
         <div class="col-12">
-            <x-core::alert type="info" class="bg-white text-info">
+            <x-core::alert
+                type="info"
+                class="bg-white text-info"
+            >
                 <div class="d-flex align-items-center">
                     <div>
                         {{ trans('plugins/blog::categories.table_view_info') }}
-                        <a href="{{ route('categories.index', ['as' => 'table']) }}" class="text-decoration-underline">
+                        <a
+                            href="{{ route('categories.index', ['as' => 'table']) }}"
+                            class="text-decoration-underline"
+                        >
                             {{ trans('plugins/blog::categories.manage_as_table') }}
                         </a>
                     </div>
@@ -38,7 +44,10 @@
         </div>
 
         <div class="col-md-4">
-            <x-core::alert type="info" class="bg-white text-info">
+            <x-core::alert
+                type="info"
+                class="bg-white text-info"
+            >
                 {{ trans('core/base::tree-category.drag_drop_info') }}
             </x-core::alert>
 
@@ -63,9 +72,7 @@
                     <div
                         class="file-tree-wrapper"
                         data-url="{{ $indexRoute ? route($indexRoute) : '' }}"
-                        @if($updateTreeRoute)
-                            data-update-url="{{ route($updateTreeRoute) }}"
-                        @endif
+                        @if ($updateTreeRoute) data-update-url="{{ route($updateTreeRoute) }}" @endif
                     >
                         @include('core/base::forms.partials.tree-categories', compact('categories'))
                     </div>

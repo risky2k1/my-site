@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 use Botble\Base\Models\BaseModel;
 use Botble\Member\Database\Seeders\MemberSeeder as BaseMemberSeeder;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class MemberSeeder extends BaseMemberSeeder
 {
@@ -13,12 +15,9 @@ class MemberSeeder extends BaseMemberSeeder
         $files = $this->uploadFiles('members');
 
         $now = $this->now();
-        $faker = $this->fake();
 
-        // Get parent data
         $parentData = parent::getMemberData();
 
-        // Rebuild parent data with all required fields
         $data = [];
         foreach ($parentData as $member) {
             $data[] = [
@@ -36,65 +35,69 @@ class MemberSeeder extends BaseMemberSeeder
             ];
         }
 
-        // Add more realistic members with diverse backgrounds
         $additionalMembers = [
             [
                 'first_name' => 'Sarah',
                 'last_name' => 'Johnson',
                 'email' => 'sarah.johnson@techmail.com',
-                'dob' => $faker->dateTimeBetween('-35 years', '-25 years')->format('Y-m-d'),
+                'dob' => '1992-03-15',
                 'description' => 'Senior Software Engineer with 10+ years of experience in cloud architecture and distributed systems.',
+                'phone' => '+1 (555) 234-5678',
             ],
             [
                 'first_name' => 'Michael',
                 'last_name' => 'Chen',
                 'email' => 'michael.chen@innovate.io',
-                'dob' => $faker->dateTimeBetween('-40 years', '-30 years')->format('Y-m-d'),
+                'dob' => '1988-07-22',
                 'description' => 'Tech entrepreneur and startup advisor. Founded 3 successful SaaS companies.',
+                'phone' => '+1 (555) 345-6789',
             ],
             [
                 'first_name' => 'Emily',
                 'last_name' => 'Rodriguez',
                 'email' => 'emily.rodriguez@designhub.com',
-                'dob' => $faker->dateTimeBetween('-32 years', '-26 years')->format('Y-m-d'),
+                'dob' => '1995-11-08',
                 'description' => 'UX/UI Designer specializing in mobile applications and accessibility.',
+                'phone' => '+1 (555) 456-7890',
             ],
             [
                 'first_name' => 'David',
                 'last_name' => 'Kim',
                 'email' => 'david.kim@airesearch.org',
-                'dob' => $faker->dateTimeBetween('-38 years', '-28 years')->format('Y-m-d'),
+                'dob' => '1990-01-30',
                 'description' => 'AI Research Scientist focusing on natural language processing and computer vision.',
+                'phone' => '+1 (555) 567-8901',
             ],
             [
                 'first_name' => 'Jessica',
                 'last_name' => 'Thompson',
                 'email' => 'jessica.thompson@securitypro.net',
-                'dob' => $faker->dateTimeBetween('-36 years', '-27 years')->format('Y-m-d'),
+                'dob' => '1991-09-12',
                 'description' => 'Cybersecurity expert and ethical hacker. CISSP certified with expertise in penetration testing.',
+                'phone' => '+1 (555) 678-9012',
             ],
         ];
 
         $baseId = BaseModel::getTypeOfId() === 'BIGINT' ? 11 : null;
 
         foreach ($additionalMembers as $index => $member) {
-            $createdAt = $faker->dateTimeBetween('-2 years', '-1 week');
+            $daysAgo = rand(30, 700);
+            $createdAt = Carbon::now()->subDays($daysAgo);
             $data[] = [
-                'id' => $baseId ? ($baseId + $index) : $faker->uuid(),
+                'id' => $baseId ? ($baseId + $index) : Str::uuid()->toString(),
                 'first_name' => $member['first_name'],
                 'last_name' => $member['last_name'],
                 'email' => $member['email'],
                 'password' => Hash::make('12345678'),
                 'dob' => $member['dob'],
                 'description' => $member['description'],
-                'phone' => $faker->phoneNumber(),
+                'phone' => $member['phone'],
                 'confirmed_at' => $createdAt,
                 'created_at' => $createdAt,
                 'updated_at' => $now,
             ];
         }
 
-        // Assign avatars to members
         foreach ($data as $index => &$item) {
             if (! isset($files[$index])) {
                 continue;

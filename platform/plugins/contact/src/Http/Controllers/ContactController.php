@@ -59,6 +59,12 @@ class ContactController extends BaseController
             throw ValidationException::withMessages(['message' => trans('validation.required', ['attribute' => 'message'])]);
         }
 
+        if (! $contact->email || ! filter_var($contact->email, FILTER_VALIDATE_EMAIL)) {
+            throw ValidationException::withMessages([
+                'message' => trans('plugins/contact::contact.email_invalid_for_reply'),
+            ]);
+        }
+
         $args = [
             'contact_name' => $contact->name,
             'contact_subject' => $contact->subject,

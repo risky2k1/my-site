@@ -12,4 +12,7 @@ return [
     'parent' => 'Parent Category',
     'order' => 'Order',
     'is_default' => 'Is Default',
+    'intro' => [
+        'description' => 'Organize your blog posts into categories for better content management.',
+    ],
 ];

@@ -4,6 +4,7 @@ return [
     'common' => [
         'name' => 'Navn',
         'email' => 'E-mail',
+        'phone' => 'Telefon',
         'website' => 'Hjemmeside',
         'comment' => 'Kommentar',
         'email_placeholder' => 'Din e-mailadresse vil ikke blive offentliggjort.',
@@ -12,7 +13,7 @@ return [
 
     'title' => 'Kommentarer',
     'author' => 'Forfatter',
-    'responsed_to' => 'Svar til',
+    'responded_to' => 'Svar til',
     'permalink' => 'Permalink',
     'url' => 'URL',
     'submitted_on' => 'Indsendt',
@@ -32,6 +33,8 @@ return [
 
         'list' => [
             'title' => ':count kommentar|:count kommentarer',
+            'title_singular' => ':count kommentar',
+            'title_plural' => ':count kommentarer',
             'reply' => 'Svar',
             'reply_to' => 'Svar til :name',
             'cancel_reply' => 'Annuller svar',
@@ -39,6 +42,7 @@ return [
         ],
 
         'form' => [
+            'description_email_optional' => 'Din e-mailadresse vil ikke blive offentliggjort. E-mail er valgfri. Obligatoriske felter er markeret *',
             'title' => 'Skriv en kommentar',
             'description' => 'Din e-mailadresse vil ikke blive offentliggjort. Obligatoriske felter er markeret *',
             'cookie_consent' => 'Gem mit navn, e-mail og hjemmeside i denne browser til næste gang jeg kommenterer.',
@@ -79,8 +83,18 @@ return [
             'display_admin_badge' => 'Vis administratormærke for administratorkommentarer',
             'show_admin_role_name_for_admin_badge' => 'Vis administratorrollenavn for administratormærket',
             'show_admin_role_name_for_admin_badge_helper' => 'Hvis aktiveret, vil administratormærket vise administratorrollenavnet i stedet for standardteksten "Admin". Hvis administratorrollenavnet er tomt, bruges standardteksten. Hvis brugeren har flere roller, bruges den første rolle.',
+            'avatar_provider' => 'Avatar-udbyder',
+            'avatar_provider_help' => 'Vælg, hvordan avatarer skal genereres til kommentarer. Gravatar kræver e-mail, UI Avatars genererer baseret på navn.',
+            'avatar_provider_choices' => [
+                'gravatar' => 'Gravatar (E-mail-baseret)',
+                'ui_avatars' => 'UI Avatars (Navn-baseret)',
+            ],
+            'email_optional' => 'Gør e-mailfeltet valgfrit',
+            'email_optional_help' => 'Når aktiveret, kan besøgende indsende kommentarer uden at angive en e-mailadresse.',
+            'show_website_field' => 'Vis website-felt i kommentarskemaet',
+            'show_website_field_help' => 'Når den er deaktiveret, skjules website-feltet i den offentlige kommentarsformular.',
             'default_avatar' => 'Standard avatar',
-            'default_avatar_helper' => 'Standard avatar for forfatteren når de ikke har en avatar. Hvis du ikke vælger noget billede, genereres det ved hjælp af Gravatar. Billedstørrelsen bør være 150x150px.',
+            'default_avatar_helper' => 'Standard avatar for forfatteren, når de ikke har en avatar. Hvis du ikke vælger et billede, genereres det ved hjælp af den valgte avatar-udbyder. Billedstørrelsen skal være 150x150px.',
         ],
     ],
 ];

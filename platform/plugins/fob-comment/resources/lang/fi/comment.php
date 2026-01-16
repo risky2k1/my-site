@@ -4,6 +4,7 @@ return [
     'common' => [
         'name' => 'Nimi',
         'email' => 'Sähköposti',
+        'phone' => 'Puhelin',
         'website' => 'Verkkosivusto',
         'comment' => 'Kommentti',
         'email_placeholder' => 'Sähköpostiosoitettasi ei julkaista.',
@@ -12,7 +13,7 @@ return [
 
     'title' => 'Kommentit',
     'author' => 'Kirjoittaja',
-    'responsed_to' => 'Vastaus',
+    'responded_to' => 'Vastaus',
     'permalink' => 'Pysyvä linkki',
     'url' => 'URL',
     'submitted_on' => 'Lähetetty',
@@ -32,6 +33,8 @@ return [
 
         'list' => [
             'title' => ':count kommentti|:count kommenttia',
+            'title_singular' => ':count kommentti',
+            'title_plural' => ':count kommenttia',
             'reply' => 'Vastaa',
             'reply_to' => 'Vastaa käyttäjälle :name',
             'cancel_reply' => 'Peruuta vastaus',
@@ -39,6 +42,7 @@ return [
         ],
 
         'form' => [
+            'description_email_optional' => 'Your email address will not be published. Email is optional. Required fields are marked *',
             'title' => 'Jätä kommentti',
             'description' => 'Sähköpostiosoitettasi ei julkaista. Pakolliset kentät on merkitty *',
             'cookie_consent' => 'Tallenna nimeni, sähköpostini ja verkkosivustoni tähän selaimeen seuraavaa kommenttiani varten.',
@@ -79,8 +83,18 @@ return [
             'display_admin_badge' => 'Näytä ylläpitäjämerkki ylläpitäjien kommenteissa',
             'show_admin_role_name_for_admin_badge' => 'Näytä ylläpitäjäroolin nimi ylläpitäjämerkissä',
             'show_admin_role_name_for_admin_badge_helper' => 'Jos käytössä, ylläpitäjämerkki näyttää ylläpitäjäroolin nimen oletustekstin "Ylläpitäjä" sijaan. Jos ylläpitäjäroolin nimi on tyhjä, käytetään oletustekstiä. Jos käyttäjällä on useita rooleja, käytetään ensimmäistä roolia.',
+            'avatar_provider' => 'Avatar provider',
+            'avatar_provider_help' => 'Choose how to generate avatars for comments. Gravatar requires email, UI Avatars generates based on name.',
+            'avatar_provider_choices' => [
+                'gravatar' => 'Gravatar (Email-based)',
+                'ui_avatars' => 'UI Avatars (Name-based)',
+            ],
+            'email_optional' => 'Make email field optional',
+            'email_optional_help' => 'When enabled, visitors can submit comments without providing an email address.',
+            'show_website_field' => 'Näytä verkkosivukenttä kommenttilomakkeessa',
+            'show_website_field_help' => 'Kun poistettu käytöstä, verkkosivukenttä piilotetaan julkisesta kommenttilomakkeesta.',
             'default_avatar' => 'Oletusavatar',
-            'default_avatar_helper' => 'Oletusavatar kirjoittajalle, kun hänellä ei ole avataria. Jos et valitse mitään kuvaa, se luodaan Gravatarin avulla. Kuvan koon tulisi olla 150x150px.',
+            'default_avatar_helper' => 'Default avatar for the author when they don\'t have an avatar. If you don\'t select any image, it will be generated using the selected avatar provider. Image size should be 150x150px.',
         ],
     ],
 ];

@@ -4,6 +4,7 @@ return [
     'common' => [
         'name' => 'Vardas',
         'email' => 'El. paštas',
+        'phone' => 'Telefonas',
         'website' => 'Svetainė',
         'comment' => 'Komentaras',
         'email_placeholder' => 'Jūsų el. pašto adresas nebus skelbiamas.',
@@ -12,7 +13,7 @@ return [
 
     'title' => 'Komentarai',
     'author' => 'Autorius',
-    'responsed_to' => 'Atsakymas į',
+    'responded_to' => 'Atsakymas į',
     'permalink' => 'Nuolatinė nuoroda',
     'url' => 'URL',
     'submitted_on' => 'Pateikta',
@@ -32,6 +33,8 @@ return [
 
         'list' => [
             'title' => ':count komentaras|:count komentarai|:count komentarų',
+            'title_singular' => ':count komentaras',
+            'title_plural' => ':count komentarų',
             'reply' => 'Atsakyti',
             'reply_to' => 'Atsakyti :name',
             'cancel_reply' => 'Atšaukti atsakymą',
@@ -39,6 +42,7 @@ return [
         ],
 
         'form' => [
+            'description_email_optional' => 'Your email address will not be published. Email is optional. Required fields are marked *',
             'title' => 'Palikite komentarą',
             'description' => 'Jūsų el. pašto adresas nebus skelbiamas. Privalomi laukai pažymėti *',
             'cookie_consent' => 'Išsaugoti mano vardą, el. paštą ir svetainę šioje naršyklėje kitam kartui, kai komentuosiu.',
@@ -79,8 +83,18 @@ return [
             'display_admin_badge' => 'Rodyti administratoriaus ženklelį administratorių komentarams',
             'show_admin_role_name_for_admin_badge' => 'Rodyti administratoriaus vaidmens pavadinimą administratoriaus ženklelyje',
             'show_admin_role_name_for_admin_badge_helper' => 'Jei įjungta, administratoriaus ženklelis rodys administratoriaus vaidmens pavadinimą vietoj numatytojo teksto "Administratorius". Jei administratoriaus vaidmens pavadinimas tuščias, bus naudojamas numatytasis tekstas. Jei vartotojas turi kelis vaidmenis, bus naudojamas pirmasis vaidmuo.',
+            'avatar_provider' => 'Avatar provider',
+            'avatar_provider_help' => 'Choose how to generate avatars for comments. Gravatar requires email, UI Avatars generates based on name.',
+            'avatar_provider_choices' => [
+                'gravatar' => 'Gravatar (Email-based)',
+                'ui_avatars' => 'UI Avatars (Name-based)',
+            ],
+            'email_optional' => 'Make email field optional',
+            'email_optional_help' => 'When enabled, visitors can submit comments without providing an email address.',
+            'show_website_field' => 'Rodyti svetainės lauką komentaro formoje',
+            'show_website_field_help' => 'Kai išjungta, svetainės laukas bus paslėptas viešojoje komentaro formoje.',
             'default_avatar' => 'Numatytasis avataras',
-            'default_avatar_helper' => 'Numatytasis avataras autoriui, kai jis neturi avataro. Jei nepasirinksite jokio paveikslėlio, jis bus sugeneruotas naudojant Gravatar. Paveikslėlio dydis turėtų būti 150x150px.',
+            'default_avatar_helper' => 'Default avatar for the author when they don\'t have an avatar. If you don\'t select any image, it will be generated using the selected avatar provider. Image size should be 150x150px.',
         ],
     ],
 ];

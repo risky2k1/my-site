@@ -5,7 +5,10 @@
         </button>
     </div>
     <div class="header__center">
-        <a class="ps-logo" href="{{ route('public.member.dashboard') }}">
+        <a
+            class="ps-logo"
+            href="{{ route('public.member.dashboard') }}"
+        >
             {!! Theme::getLogoImage(maxHeight: 40) !!}
         </a>
     </div>
@@ -42,8 +45,8 @@
                         />
                     </div>
                     <div class="ps-block__right">
-                        <p>{{ __('Hello') }}, {{ auth('member')->user()->name }}</p>
-                        <small>{{ __('Joined on :date', ['date' => auth('member')->user()->created_at->translatedFormat('M d, Y')]) }}</small>
+                        <p>{{ trans('plugins/member::dashboard.hello') }}, {{ auth('member')->user()->name }}</p>
+                        <small>{{ trans('plugins/member::dashboard.joined_on', ['date' => auth('member')->user()->created_at->translatedFormat('M d, Y')]) }}</small>
                     </div>
                     <div class="ps-block__action">
                         <a href="{{ route('public.member.logout') }}">
@@ -53,7 +56,7 @@
                 </div>
 
                 <div class="ps-block--earning-count">
-                    <small>{{ __('Posts approved') }}</small>
+                    <small>{{ trans('plugins/member::dashboard.posts_approved') }}</small>
                     <h3>{{ number_format(auth('member')->user()->posts()->wherePublished()->count()) }}</h3>
                 </div>
             </div>
@@ -63,7 +66,10 @@
                 </div>
                 <div class="ps-sidebar__footer">
                     <div class="ps-copyright">
-                        <a href="{{ BaseHelper::getHomepageUrl() }}" title="{{ $siteTitle = theme_option('site_title') }}">
+                        <a
+                            href="{{ BaseHelper::getHomepageUrl() }}"
+                            title="{{ $siteTitle = theme_option('site_title') }}"
+                        >
                             {!! Theme::getLogoImage(maxHeight: 40) !!}
                         </a>
 
@@ -88,8 +94,12 @@
                     @include('plugins/member::themes.dashboard.layouts.language-switcher')
                 @endif
 
-                <a href="{{ BaseHelper::getHomepageUrl() }}" target="_blank" class="d-flex align-items-center gap-2 text-uppercase">
-                    {{ __('Go to homepage') }}
+                <a
+                    href="{{ BaseHelper::getHomepageUrl() }}"
+                    target="_blank"
+                    class="d-flex align-items-center gap-2 text-uppercase"
+                >
+                    {{ trans('plugins/member::dashboard.go_to_homepage') }}
                     <x-core::icon name="ti ti-arrow-right" />
                 </a>
             </div>

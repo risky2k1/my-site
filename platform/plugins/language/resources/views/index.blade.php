@@ -166,11 +166,14 @@
                                         </x-core::table.header.cell>
                                     </x-core::table.header>
                                     <x-core::table.body>
-                                        @if(count($activeLanguages))
+                                        @if (count($activeLanguages))
                                             @each('plugins/language::partials.language-item', $activeLanguages, 'item')
                                         @else
                                             <tr>
-                                                <td colspan="6" class="bg-gray-200">
+                                                <td
+                                                    colspan="6"
+                                                    class="bg-gray-200"
+                                                >
                                                     {{ trans('plugins/language::language.no_languages') }}
                                                 </td>
                                             </tr>
@@ -182,7 +185,10 @@
                     </div>
                 </div>
 
-                <div class="tab-pane" id="tabs-settings">
+                <div
+                    class="tab-pane"
+                    id="tabs-settings"
+                >
                     {!! $languageSettingForm->renderForm() !!}
                 </div>
             </div>

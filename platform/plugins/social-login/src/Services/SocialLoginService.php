@@ -11,11 +11,14 @@ class SocialLoginService
 {
     public function getSocialLogin(Model $user, string $provider): ?SocialLogin
     {
-        return SocialLogin::query()
+        /** @var SocialLogin|null $socialLogin */
+        $socialLogin = SocialLogin::query()
             ->where('user_id', $user->getKey())
             ->where('user_type', $user::class)
             ->where('provider', $provider)
             ->first();
+
+        return $socialLogin;
     }
 
     public function hasSocialLogin(Model $user, string $provider): bool
@@ -29,10 +32,13 @@ class SocialLoginService
 
     public function findSocialLoginByProviderAndId(string $provider, string $providerId): ?SocialLogin
     {
-        return SocialLogin::query()
+        /** @var SocialLogin|null $socialLogin */
+        $socialLogin = SocialLogin::query()
             ->where('provider', $provider)
             ->where('provider_id', $providerId)
             ->first();
+
+        return $socialLogin;
     }
 
     public function addSocialLogin(Model $user, array $data): SocialLogin
@@ -56,6 +62,7 @@ class SocialLoginService
         }
 
         // Check if the user already has a social login for this provider (different provider_id)
+        /** @var SocialLogin|null $userSocialLogin */
         $userSocialLogin = SocialLogin::query()
             ->where('user_id', $user->getKey())
             ->where('user_type', $user::class)
@@ -70,12 +77,15 @@ class SocialLoginService
         }
 
         // Create new social login
-        return SocialLogin::query()->create($data);
+        /** @var SocialLogin $newSocialLogin */
+        $newSocialLogin = SocialLogin::query()->create($data);
+
+        return $newSocialLogin;
     }
 
     public function updateSocialLogin(Model $user, string $provider, array $data): bool
     {
-        return SocialLogin::query()
+        return (bool) SocialLogin::query()
             ->where('user_id', $user->getKey())
             ->where('user_type', $user::class)
             ->where('provider', $provider)

@@ -3,11 +3,19 @@
 namespace Botble\ACL\Http\Requests;
 
 use Botble\Base\Facades\BaseHelper;
+use Botble\Base\Http\Requests\Concerns\HasPhoneFieldValidation;
 use Botble\Base\Rules\EmailRule;
 use Botble\Support\Http\Requests\Request;
 
 class UpdateProfileRequest extends Request
 {
+    use HasPhoneFieldValidation;
+
+    protected function prepareForValidation(): void
+    {
+        $this->preparePhoneForValidation();
+    }
+
     public function rules(): array
     {
         return [

@@ -19,9 +19,13 @@ class LanguageSeeder extends BaseSeeder
 
         if (is_plugin_active('language-advanced')) {
             foreach (LanguageAdvancedManager::supportedModels() as $model) {
+                if (!class_exists($model)) {
+                    continue;
+                }
+
                 $table = (new $model())->getModel()->getTable() . '_translations';
 
-                if (! Schema::hasTable($table)) {
+                if (!Schema::hasTable($table)) {
                     continue;
                 }
 
@@ -55,7 +59,5 @@ class LanguageSeeder extends BaseSeeder
             'language_display' => 'all',
             'language_hide_languages' => '[]',
         ])->save();
-
-
     }
 }

@@ -116,7 +116,7 @@ let defaultConfig = {
                 action: 'share',
                 order: 5,
                 class: 'rv-action-share',
-            }
+            },
         ],
         user: [
             {

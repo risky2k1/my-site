@@ -16,7 +16,6 @@ use Botble\Setting\Models\Setting as SettingModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -63,7 +62,7 @@ class GeneralSettingController extends SettingController
 
         $invalidMessage = 'Your license is invalid. Please activate your license!';
 
-        if (! $this->isLicenseExists($core)) {
+        if (! $core->hasLicenseData()) {
             $this
                 ->httpResponse()
                 ->setData([
@@ -77,7 +76,15 @@ class GeneralSettingController extends SettingController
         }
 
         try {
-            if (! $core->verifyLicense(true)) {
+            if (! $core->verifyLicense(false)) {
+                if (! $core->hasLicenseData()) {
+                    $this
+                        ->httpResponse()
+                        ->setData([
+                            'html' => view('core/base::system.license-invalid')->render(),
+                        ]);
+                }
+
                 return $this
                     ->httpResponse()
                     ->setError()
@@ -185,8 +192,6 @@ class GeneralSettingController extends SettingController
 
     protected function saveActivatedLicense(Core $core, string $buyer): array
     {
-        Setting::forceSet('licensed_to', $buyer)->save();
-
         $activatedAt = $this->getLicenseActivatedDate($core);
 
         $core->clearLicenseReminder();
@@ -201,8 +206,12 @@ class GeneralSettingController extends SettingController
 
     private function getLicenseActivatedDate(Core $core): Carbon
     {
+        $activatedAt = Setting::get('license_activated_at');
+        if ($activatedAt) {
+            return Carbon::parse($activatedAt);
+        }
+
         if (config('core.base.general.license_storage_method') === 'database') {
-            // For database storage, use the setting's updated_at timestamp or current time
             $licenseContent = SettingModel::query()->where('key', 'license_file_content')->first();
 
             return $licenseContent && $licenseContent->updated_at
@@ -210,16 +219,6 @@ class GeneralSettingController extends SettingController
                 : Carbon::now();
         }
 
-        // For file storage, use file creation time
         return Carbon::createFromTimestamp(filectime($core->getLicenseFilePath()));
-    }
-
-    private function isLicenseExists(Core $core): bool
-    {
-        if (config('core.base.general.license_storage_method') === 'database') {
-            return Setting::has('license_file_content') && ! empty(Setting::get('license_file_content'));
-        }
-
-        return File::exists($core->getLicenseFilePath());
     }
 }

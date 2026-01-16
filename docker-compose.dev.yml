@@ -1,0 +1,11 @@
+services:
+  app:
+    volumes:
+      - .:/var/www
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+
+  nginx:
+    volumes:
+      - .:/var/www

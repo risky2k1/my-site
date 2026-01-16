@@ -28,6 +28,7 @@ use Botble\Theme\Events\RenderingAdminBar;
 use Botble\Theme\Events\RenderingThemeOptionSettings;
 use Botble\Theme\Facades\AdminBar;
 use Botble\Theme\Facades\Theme;
+use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -37,16 +38,18 @@ class HookServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        if (is_plugin_active('language') && is_plugin_active('language-advanced')) {
-            LanguageAdvancedManager::registerTranslationImportExport(
-                Post::class,
-                trans('plugins/blog::posts.post_translations'),
-                [
-                    'import' => 'post-translations.import',
-                    'export' => 'post-translations.export',
-                ]
-            );
-        }
+        $this->app['events']->listen(RouteMatched::class, function (): void {
+            if (is_plugin_active('language') && is_plugin_active('language-advanced')) {
+                LanguageAdvancedManager::registerTranslationImportExport(
+                    Post::class,
+                    fn () => trans('plugins/blog::posts.post_translations'),
+                    [
+                        'import' => 'post-translations.import',
+                        'export' => 'post-translations.export',
+                    ]
+                );
+            }
+        });
 
         Menu::addMenuOptionModel(Category::class);
         Menu::addMenuOptionModel(Tag::class);
@@ -108,14 +111,15 @@ class HookServiceProvider extends ServiceProvider
                                 'category_ids[]',
                                 SelectField::class,
                                 SelectFieldOption::make()
-                                    ->label(__('Select categories'))
+                                    ->label(trans('plugins/blog::base.select_categories'))
                                     ->choices($categories)
                                     ->when(Arr::get($attributes, 'category_ids'), function (SelectFieldOption $option, $categoriesIds): void {
-                                        $option->selected(explode(',', $categoriesIds));
+                                        $selected = is_array($categoriesIds) ? $categoriesIds : explode(',', $categoriesIds);
+                                        $option->selected($selected);
                                     })
                                     ->multiple()
                                     ->searchable()
-                                    ->helperText(__('Leave categories empty if you want to show posts from all categories.'))
+                                    ->helperText(trans('plugins/blog::base.leave_categories_empty'))
                             );
                     }
                 );
@@ -300,7 +304,6 @@ class HookServiceProvider extends ServiceProvider
             }
 
             return view($view, [
-                'featuredPost' => get_featured_posts(1)->first(),
                 'posts' => get_all_posts(true, (int) theme_option('number_of_posts_in_a_category', 12)),
             ])->render();
         }

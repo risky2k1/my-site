@@ -36,7 +36,8 @@ class ThemeServiceProvider extends ServiceProvider
     {
         $this
             ->setNamespace('packages/theme')
-            ->loadAndPublishConfigurations(['general', 'permissions'])
+            ->loadAndPublishConfigurations(['general'])
+            ->loadAndPublishConfigurations(['permissions'])
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()
             ->loadHelpers()

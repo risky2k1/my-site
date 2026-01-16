@@ -4,6 +4,7 @@ return [
     'common' => [
         'name' => 'Nama',
         'email' => 'E-mel',
+        'phone' => 'Telefon',
         'website' => 'Laman web',
         'comment' => 'Komen',
         'email_placeholder' => 'Alamat e-mel anda tidak akan diterbitkan.',
@@ -12,7 +13,7 @@ return [
 
     'title' => 'Komen',
     'author' => 'Pengarang',
-    'responsed_to' => 'Respons kepada',
+    'responded_to' => 'Respons kepada',
     'permalink' => 'Pautan kekal',
     'url' => 'URL',
     'submitted_on' => 'Dihantar pada',
@@ -32,6 +33,8 @@ return [
 
         'list' => [
             'title' => ':count komen',
+            'title_singular' => ':count komen',
+            'title_plural' => ':count komen',
             'reply' => 'Balas',
             'reply_to' => 'Balas kepada :name',
             'cancel_reply' => 'Batal balasan',
@@ -39,6 +42,7 @@ return [
         ],
 
         'form' => [
+            'description_email_optional' => 'Alamat e-mel anda tidak akan diterbitkan. E-mel adalah pilihan. Medan yang diperlukan ditandai dengan *',
             'title' => 'Tinggalkan komen',
             'description' => 'Alamat e-mel anda tidak akan diterbitkan. Medan yang diperlukan ditandai dengan *',
             'cookie_consent' => 'Simpan nama, e-mel dan laman web saya dalam pelayar ini untuk komen saya yang seterusnya.',
@@ -79,8 +83,18 @@ return [
             'display_admin_badge' => 'Paparkan lencana admin untuk komen pentadbir',
             'show_admin_role_name_for_admin_badge' => 'Tunjukkan nama peranan admin untuk lencana admin',
             'show_admin_role_name_for_admin_badge_helper' => 'Jika didayakan, lencana admin akan memaparkan nama peranan admin dan bukannya teks lalai "Admin". Jika nama peranan admin kosong, teks lalai akan digunakan. Jika pengguna mempunyai berbilang peranan, peranan pertama akan digunakan.',
+            'avatar_provider' => 'Pembekal avatar',
+            'avatar_provider_help' => 'Pilih cara untuk menjana avatar untuk komen. Gravatar memerlukan e-mel, UI Avatars menjana berdasarkan nama.',
+            'avatar_provider_choices' => [
+                'gravatar' => 'Gravatar (Berasaskan e-mel)',
+                'ui_avatars' => 'UI Avatars (Berasaskan nama)',
+            ],
+            'email_optional' => 'Jadikan medan e-mel pilihan',
+            'email_optional_help' => 'Apabila didayakan, pelawat boleh menghantar komen tanpa memberikan alamat e-mel.',
+            'show_website_field' => 'Tunjukkan medan laman web dalam borang komen',
+            'show_website_field_help' => 'Apabila dinyahdayakan, medan laman web akan disembunyikan daripada borang komen awam.',
             'default_avatar' => 'Avatar lalai',
-            'default_avatar_helper' => 'Avatar lalai untuk pengarang apabila mereka tidak mempunyai avatar. Jika anda tidak memilih sebarang imej, ia akan dijana menggunakan Gravatar. Saiz imej mestilah 150x150px.',
+            'default_avatar_helper' => 'Avatar lalai untuk pengarang apabila mereka tidak mempunyai avatar. Jika anda tidak memilih sebarang imej, ia akan dijana menggunakan pembekal avatar yang dipilih. Saiz imej hendaklah 150x150px.',
         ],
     ],
 ];

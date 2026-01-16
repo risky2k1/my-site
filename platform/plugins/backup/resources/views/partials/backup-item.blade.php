@@ -35,9 +35,7 @@
                 />
             @endif
 
-            @if (
-                $driver === 'mysql' &&
-                    auth()->guard()->user()->hasPermission('backups.restore'))
+            @if ($driver === 'mysql' && auth()->guard()->user()->hasPermission('backups.restore'))
                 <x-core::button
                     size="sm"
                     :tooltip="trans('plugins/backup::backup.restore_tooltip')"

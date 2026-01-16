@@ -4,6 +4,7 @@ return [
     'common' => [
         'name' => 'Namn',
         'email' => 'E-post',
+        'phone' => 'Telefon',
         'website' => 'Webbplats',
         'comment' => 'Kommentar',
         'email_placeholder' => 'Din e-postadress publiceras inte.',
@@ -12,7 +13,7 @@ return [
 
     'title' => 'Kommentarer',
     'author' => 'Författare',
-    'responsed_to' => 'Svar till',
+    'responded_to' => 'Svar till',
     'permalink' => 'Permalänk',
     'url' => 'URL',
     'submitted_on' => 'Inskickad',
@@ -32,6 +33,8 @@ return [
 
         'list' => [
             'title' => ':count kommentar|:count kommentarer',
+            'title_singular' => ':count kommentar',
+            'title_plural' => ':count kommentarer',
             'reply' => 'Svara',
             'reply_to' => 'Svara :name',
             'cancel_reply' => 'Avbryt svar',
@@ -39,6 +42,7 @@ return [
         ],
 
         'form' => [
+            'description_email_optional' => 'Din e-postadress publiceras inte. E-post är valfritt. Obligatoriska fält är märkta *',
             'title' => 'Lämna en kommentar',
             'description' => 'Din e-postadress publiceras inte. Obligatoriska fält är märkta *',
             'cookie_consent' => 'Spara mitt namn, e-post och webbplats i denna webbläsare till nästa gång jag kommenterar.',
@@ -79,8 +83,18 @@ return [
             'display_admin_badge' => 'Visa administratörsmärke för administratörskommentarer',
             'show_admin_role_name_for_admin_badge' => 'Visa administratörsrollnamn för administratörsmärket',
             'show_admin_role_name_for_admin_badge_helper' => 'Om aktiverat kommer administratörsmärket att visa administratörsrollnamnet istället för standardtexten "Admin". Om administratörsrollnamnet är tomt används standardtexten. Om användaren har flera roller används den första rollen.',
+            'avatar_provider' => 'Avatarleverantör',
+            'avatar_provider_help' => 'Välj hur avatarer ska genereras för kommentarer. Gravatar kräver e-post, UI Avatars genererar baserat på namn.',
+            'avatar_provider_choices' => [
+                'gravatar' => 'Gravatar (E-postbaserad)',
+                'ui_avatars' => 'UI Avatars (Namnbaserad)',
+            ],
+            'email_optional' => 'Gör e-postfältet valfritt',
+            'email_optional_help' => 'När aktiverat kan besökare skicka kommentarer utan att ange en e-postadress.',
+            'show_website_field' => 'Visa webbplatsfält i kommentarsformuläret',
+            'show_website_field_help' => 'När den är inaktiverad döljs webbplatsfältet i det offentliga kommentarsformuläret.',
             'default_avatar' => 'Standardavatar',
-            'default_avatar_helper' => 'Standardavatar för författaren när de inte har en avatar. Om du inte väljer någon bild genereras den med Gravatar. Bildstorleken bör vara 150x150px.',
+            'default_avatar_helper' => 'Standardavatar för författaren när de inte har en avatar. Om du inte väljer någon bild genereras den med den valda avatarleverantören. Bildstorleken bör vara 150x150px.',
         ],
     ],
 ];

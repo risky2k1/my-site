@@ -163,6 +163,7 @@ class HookServiceProvider extends ServiceProvider
             $language = null;
             if (! empty($code) && is_string($code)) {
                 Language::setCurrentAdminLocale($code);
+                LanguageAdvancedManager::clearLocaleCache();
                 $language = LanguageModel::query()->where('lang_code', $code)->value('lang_name');
             }
 
@@ -188,6 +189,7 @@ class HookServiceProvider extends ServiceProvider
         }
 
         Language::setCurrentAdminLocale($code);
+        LanguageAdvancedManager::clearLocaleCache();
 
         return $code;
     }
@@ -259,7 +261,7 @@ class HookServiceProvider extends ServiceProvider
         EloquentBuilder|Model $query,
         Model|string|null $model
     ): EloquentBuilder|Model {
-        return $this->getDataByCurrentLanguageCode($query, $model, Language::getCurrentAdminLocaleCode());
+        return $this->getDataByCurrentLanguageCode($query, $model, LanguageAdvancedManager::getTranslationLocale());
     }
 
     protected function getDataByCurrentLanguageCode(
@@ -292,7 +294,7 @@ class HookServiceProvider extends ServiceProvider
             ! $model instanceof BaseModel
             || ! $model->getKey()
             || ! is_in_admin()
-            || Language::getCurrentAdminLocaleCode() === Language::getDefaultLocaleCode()
+            || LanguageAdvancedManager::isDefaultLocale()
             || ! LanguageAdvancedManager::isSupported($model)) {
             return $form;
         }
@@ -326,12 +328,12 @@ class HookServiceProvider extends ServiceProvider
 
         $refLang = null;
 
-        if (Language::getCurrentAdminLocaleCode() != Language::getDefaultLocaleCode()) {
-            $refLang = '?ref_lang=' . Language::getCurrentAdminLocaleCode();
+        if (! LanguageAdvancedManager::isDefaultLocale()) {
+            $refLang = '?ref_lang=' . LanguageAdvancedManager::getTranslationLocale();
         }
 
         return $form
-            ->setFormOption('url', route('language-advanced.save', $model->getKey()) . $refLang)
+            ->setUrl(route('language-advanced.save', $model->getKey()) . $refLang)
             ->add('model', 'hidden', ['value' => $model::class])
             ->add('form', 'hidden', ['value' => $form::class]);
     }
@@ -340,7 +342,7 @@ class HookServiceProvider extends ServiceProvider
     {
         if (
             is_in_admin() &&
-            Language::getCurrentAdminLocaleCode() != Language::getDefaultLocaleCode() &&
+            ! LanguageAdvancedManager::isDefaultLocale() &&
             LanguageAdvancedManager::isSupported($object)
         ) {
             foreach (MetaBox::getMetaBoxes() as $reference => $metaBox) {
@@ -361,17 +363,15 @@ class HookServiceProvider extends ServiceProvider
 
     public function storeMetaBoxKey(string $key, Model|string|null $object): string
     {
-        $locale = is_in_admin() ? Language::getCurrentAdminLocaleCode() : Language::getCurrentLocaleCode();
-
         $translatableColumns = LanguageAdvancedManager::getTranslatableColumns($object);
 
         $translatableColumns[] = 'seo_meta';
 
         if (
-            $locale != Language::getDefaultLocaleCode() &&
+            ! LanguageAdvancedManager::isDefaultLocale() &&
             in_array($key, $translatableColumns)
         ) {
-            $key = $locale . '_' . $key;
+            $key = LanguageAdvancedManager::getTranslationLocale() . '_' . $key;
         }
 
         return $key;

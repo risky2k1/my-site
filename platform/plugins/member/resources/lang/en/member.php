@@ -3,6 +3,7 @@
 return [
     'create' => 'New member',
     'menu_name' => 'Members',
+    'edit_this_member' => 'Edit this member',
     'menu_description' => 'View and manage your members',
     'confirmation_subject' => 'Email verification',
     'confirmation_subject_title' => 'Verify your email',

@@ -8,7 +8,7 @@
         style="opacity: 0.7"
     ></div>
     <div class="container">
-        <h3 class="page-intro__title">{{ __('Galleries') }}</h3>
+        <h3 class="page-intro__title">{{ trans('plugins/gallery::gallery.galleries') }}</h3>
         {!! Theme::breadcrumb()->render() !!}
     </div>
 </section>
@@ -31,7 +31,9 @@
                                             <a href="{{ $gallery->url }}">{{ $gallery->name }}</a>
                                         </div>
                                         @if (trim($gallery->user->name))
-                                            <div class="gallery-author">{{ __('By :name', ['name' => $gallery->user->name]) }}</div>
+                                            <div class="gallery-author">
+                                                {{ trans('plugins/gallery::gallery.by_name', ['name' => $gallery->user->name]) }}
+                                            </div>
                                         @endif
                                     </div>
                                 </div>

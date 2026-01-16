@@ -2,7 +2,6 @@
 
 namespace Botble\Menu\Database\Traits;
 
-use Botble\Language\Facades\Language;
 use Botble\Language\Models\LanguageMeta;
 use Botble\Menu\Facades\Menu;
 use Botble\Menu\Models\Menu as MenuModel;
@@ -20,7 +19,6 @@ trait HasMenuSeeder
             MenuLocation::query()->truncate();
             MenuNode::query()->truncate();
         }
-        $supportedLocales = Language::getSupportedLocales();
 
         foreach ($data as $item) {
             $item['slug'] = Str::slug($item['name']);
@@ -40,9 +38,7 @@ trait HasMenuSeeder
                 ]);
 
                 if (is_plugin_active('language')) {
-                    foreach ($supportedLocales as $locale=>$data) {
-                        LanguageMeta::saveMetaData($menuLocation, $locale);
-                    }
+                    LanguageMeta::saveMetaData($menuLocation);
                 }
             }
 
@@ -51,9 +47,7 @@ trait HasMenuSeeder
             }
 
             if (is_plugin_active('language')) {
-                foreach ($supportedLocales as $locale=>$data) {
-                    LanguageMeta::saveMetaData($menu, $locale);
-                }
+                LanguageMeta::saveMetaData($menu);
             }
 
             $this->createMetadata($menu, $item);

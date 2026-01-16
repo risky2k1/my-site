@@ -10,6 +10,7 @@ use Botble\DataSynchronize\PanelSections\ExportPanelSection;
 use Botble\DataSynchronize\PanelSections\ImportPanelSection;
 use Botble\Translation\Console\AutoTranslateCoreCommand;
 use Botble\Translation\Console\AutoTranslateThemeCommand;
+use Botble\Translation\Console\CheckMissingTranslationCommand;
 use Botble\Translation\Console\CleanupTranslationsCommand;
 use Botble\Translation\Console\DownloadLocaleCommand;
 use Botble\Translation\Console\FindTranslationsByPathCommand;
@@ -26,7 +27,8 @@ class TranslationServiceProvider extends ServiceProvider
     {
         $this
             ->setNamespace('plugins/translation')
-            ->loadAndPublishConfigurations(['general', 'permissions'])
+            ->loadAndPublishConfigurations(['general'])
+            ->loadAndPublishConfigurations(['permissions'])
             ->loadMigrations()
             ->loadRoutes()
             ->loadAndPublishViews()
@@ -99,6 +101,7 @@ class TranslationServiceProvider extends ServiceProvider
                 RemoveLocaleCommand::class,
                 AutoTranslateThemeCommand::class,
                 AutoTranslateCoreCommand::class,
+                CheckMissingTranslationCommand::class,
             ]);
         }
     }
