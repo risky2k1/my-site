@@ -7,24 +7,25 @@
                 <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
                     Khám phá những địa điểm tuyệt vời cho buổi hẹn hò của bạn
                 </p>
-                
+
                 <!-- Layout Toggle Buttons -->
                 <div class="flex justify-center gap-4 mt-4">
-                    <button 
+                    <button
                         @click="isVertical = true"
                         :class="['px-4 py-2 rounded-lg flex items-center gap-2 transition-all', isVertical ? 'bg-primary-600 text-white shadow-lg' : 'bg-white text-gray-600 hover:bg-gray-100']"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
                         </svg>
                         Vertical
                     </button>
-                    <button 
+                    <button
                         @click="isVertical = false"
                         :class="['px-4 py-2 rounded-lg flex items-center gap-2 transition-all', !isVertical ? 'bg-primary-600 text-white shadow-lg' : 'bg-white text-gray-600 hover:bg-gray-100']"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
                         </svg>
                         Horizontal
                     </button>
@@ -144,9 +145,11 @@
                                 </svg>
                             </div>
                             <div class="absolute top-4 left-4">
-                <span class="px-3 py-1 bg-white text-primary-700 text-sm rounded-full font-medium shadow-md">
-                  {{ getTypeLabel(idea.type) }}
-                </span>
+                                <div
+                                    v-if="idea.categories && idea.categories.length"
+                                    class="px-3 py-1 bg-white text-primary-700 text-sm rounded-full font-medium shadow-md">
+                                    {{ idea.categories[0].name }}
+                                </div>
                             </div>
                         </div>
 
@@ -173,13 +176,13 @@
                             </div>
 
                             <div class="flex flex-wrap gap-2">
-                <span
-                    v-for="tag in idea.tags"
-                    :key="tag"
-                    class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                >
-                  {{ tag }}
-                </span>
+                                <div
+                                    v-for="mood in idea.moods"
+                                    :key="mood"
+                                    class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
+                                >
+                                    {{ mood.name }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -206,7 +209,7 @@
                         <button @click="loadMore" class="btn btn-outline flex items-center gap-2">
                             Xem thêm
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                     </div>
@@ -217,6 +220,8 @@
 </template>
 
 <script>
+import http from '../http'
+
 export default {
     name: 'DateIdea',
     data() {
@@ -226,7 +231,7 @@ export default {
                 price: '',
                 location: ''
             },
-            isVertical: true,
+            isVertical: false,
             randomResult: null,
             loading: false,
             page: 1,
@@ -252,51 +257,8 @@ export default {
     },
     methods: {
         async fetchIdeas() {
-            if (this.loading) return
-            this.loading = true
-            
-            try {
-                // TODO: Replace with actual API call
-                // const response = await axios.get('/api/date-ideas', {
-                //     params: {
-                //         ...this.filters,
-                //         page: this.page
-                //     }
-                // })
-                
-                // MOCK API DELAY
-                await new Promise(resolve => setTimeout(resolve, 800))
-                
-                // MOCK DATA (In real case, this would come from the API)
-                const mockData = [
-                    {
-                        id: (this.page - 1) * 6 + 1,
-                        name: 'The Coffee House ' + this.page,
-                        type: 'cafe',
-                        location: 'Hà Nội',
-                        address: '86 Trần Quang Khải, Hoàn Kiếm',
-                        priceRange: '50k - 150k',
-                        price: 'budget',
-                        description: 'Quán cà phê yên tĩnh với không gian ấm cúng, phù hợp cho những buổi hẹn hò lãng mạn.',
-                        tags: ['Wifi', 'Yên tĩnh', 'View đẹp']
-                    },
-                    // ... simulate more items
-                ]
-
-                if (this.page === 1) {
-                    this.ideas = mockData
-                } else {
-                    this.ideas = [...this.ideas, ...mockData]
-                }
-                
-                // Simulate end of data
-                this.hasMore = this.page < 3
-                
-            } catch (error) {
-                console.error('Error fetching date ideas:', error)
-            } finally {
-                this.loading = false
-            }
+            const res = await http.get('/api/v1/date-ideas')
+            this.ideas = res.data.data
         },
         resetAndFetch() {
             this.page = 1

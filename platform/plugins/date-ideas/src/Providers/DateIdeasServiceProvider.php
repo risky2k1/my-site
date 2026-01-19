@@ -28,6 +28,8 @@ class DateIdeasServiceProvider extends ServiceProvider
             ->loadAndPublishViews()
             ->loadMigrations();
 
+        $this->loadRoutes(['api']);
+
         $this->app->booted(function () {
             if (is_plugin_active('gallery')) {
                 Gallery::registerModule(Place::class);

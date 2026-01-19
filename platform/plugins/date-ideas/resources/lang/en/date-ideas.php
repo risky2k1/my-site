@@ -8,9 +8,9 @@ return [
     'moods' => 'Place Moods',
     'reviews' => 'Place Review',
     'enums' => [
-        'low' => 'low',
-        'medium' => 'medium',
-        'high' => 'high',
+        'low' => 'Low',
+        'medium' => 'Medium',
+        'high' => 'High',
     ],
     'review' => [
         'name' => 'Reviews',

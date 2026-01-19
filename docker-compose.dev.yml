@@ -6,6 +6,9 @@ services:
     environment:
       APP_ENV: local
       APP_DEBUG: "true"
+  mysql:
+    ports:
+      - "3306:3306"
 
   nginx:
     volumes:
