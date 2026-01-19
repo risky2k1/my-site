@@ -16,6 +16,7 @@ class LanguageSettingRequest extends Request
             'language_hide_languages' => ['nullable', 'array'],
             'language_hide_languages.*' => ['sometimes', 'exists:languages,lang_id'],
             'language_auto_detect_user_language' => $onOffRule,
+            'language_enable_public_assets' => $onOffRule,
         ];
     }
 }

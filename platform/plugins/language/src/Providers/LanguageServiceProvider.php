@@ -68,11 +68,11 @@ class LanguageServiceProvider extends ServiceProvider
             add_filter(BASE_FILTER_GROUP_PUBLIC_ROUTE, [$this, 'addLanguageMiddlewareToPublicRoute'], 958);
         }
 
-        if (! $this->app->runningInConsole() && is_plugin_active('language')) {
+        if (!$this->app->runningInConsole() && is_plugin_active('language')) {
             PanelSectionManager::default()->beforeRendering(function (): void {
                 PanelSectionManager::registerItem(
                     SettingCommonPanelSection::class,
-                    fn () => PanelSectionItem::make('language')
+                    fn() => PanelSectionItem::make('language')
                         ->setTitle(trans('plugins/language::language.name'))
                         ->withIcon('ti ti-language')
                         ->withDescription(trans('plugins/language::language.description'))
@@ -95,7 +95,9 @@ class LanguageServiceProvider extends ServiceProvider
                     Language::registerModule(WIDGET_MANAGER_MODULE_SCREEN_NAME);
                 }
 
-                if (defined('THEME_OPTIONS_MODULE_SCREEN_NAME') && ! $this->app->isDownForMaintenance()) {
+                $isEnablePublicAssets = setting('language_enable_public_assets', true);
+
+                if (defined('THEME_OPTIONS_MODULE_SCREEN_NAME') && !$this->app->isDownForMaintenance() && $isEnablePublicAssets) {
                     Theme::asset()
                         ->usePath(false)
                         ->add(
@@ -132,10 +134,10 @@ class LanguageServiceProvider extends ServiceProvider
         $locale = Language::setLocale();
 
         if (
-            ! isset($data['prefix']) &&
-            (! is_in_admin() || ! Language::hideDefaultLocaleInURL() || $locale !== Language::getDefaultLocale())
+            !isset($data['prefix']) &&
+            (!is_in_admin() || !Language::hideDefaultLocaleInURL() || $locale !== Language::getDefaultLocale())
         ) {
-            $data['prefix'] = trim((string) $locale);
+            $data['prefix'] = trim((string)$locale);
         }
 
         $data['middleware'] = array_merge(Arr::get($data, 'middleware', []), [

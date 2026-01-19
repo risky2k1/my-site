@@ -28,10 +28,12 @@
                 </a>
 
                 <div class="hidden md:flex items-center gap-6">
-                    <a href="{{ BaseHelper::getHomepageUrl() }}" class="text-gray-700 hover:text-primary-600 transition-colors">Home</a>
-                    <a href="/date-idea" class="text-gray-700 hover:text-primary-600 transition-colors">Date Ideas</a>
-                    <a href="/timeline" class="text-gray-700 hover:text-primary-600 transition-colors">Timeline</a>
-                    <a href="/contact" class="btn btn-primary">Contact</a>
+                    {!! Menu::renderMenuLocation('main-menu', [
+                        'options' => ['class' => 'flex items-center gap-6'],
+                        'view'    => 'main-menu',
+                    ]) !!}
+
+                    {!! Theme::partial('language-switcher') !!}
                 </div>
             </div>
         </div>

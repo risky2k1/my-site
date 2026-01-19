@@ -65,7 +65,7 @@ class LanguageSettingForm extends FormAbstract
         if ($languageActives = Language::getActiveLanguage()) {
             $choices = [];
             foreach ($languageActives as $language) {
-                if (! $language->lang_is_default) {
+                if (!$language->lang_is_default) {
                     $choices[$language->lang_id] = $language->lang_name;
                 }
             }
@@ -119,6 +119,14 @@ class LanguageSettingForm extends FormAbstract
                     ->label(trans('plugins/language::language.language_auto_detect_user_language'))
                     ->helperText(trans('plugins/language::language.language_auto_detect_user_language_helper'))
                     ->value(setting('language_auto_detect_user_language', false))
+            )
+            ->add(
+                'language_enable_public_assets',
+                OnOffCheckboxField::class,
+                OnOffFieldOption::make()
+                    ->label(trans('Enable public assets'))
+                    ->helperText(trans('Disable this if your theme does not use jQuery or does not need language switcher JS'))
+                    ->value(setting('language_enable_public_assets', true))
             )
             ->add(
                 'button_action',

@@ -20748,6 +20748,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'DateIdea',
   data: function data() {
@@ -20759,139 +20769,24 @@ __webpack_require__.r(__webpack_exports__);
       },
       isVertical: true,
       randomResult: null,
-      ideas: [{
-        id: 1,
-        name: 'The Coffee House',
-        type: 'cafe',
-        location: 'Hà Nội',
-        address: '86 Trần Quang Khải, Hoàn Kiếm',
-        priceRange: '50k - 150k',
-        price: 'budget',
-        description: 'Quán cà phê yên tĩnh với không gian ấm cúng, phù hợp cho những buổi hẹn hò lãng mạn.',
-        tags: ['Wifi', 'Yên tĩnh', 'View đẹp']
-      }, {
-        id: 2,
-        name: 'Nhà hàng Ngon',
-        type: 'restaurant',
-        location: 'Hà Nội',
-        address: '79 Phan Bội Châu, Hoàn Kiếm',
-        priceRange: '200k - 400k',
-        price: 'medium',
-        description: 'Nhà hàng phục vụ các món ăn truyền thống Việt Nam trong không gian vườn xanh mát.',
-        tags: ['Món Việt', 'Không gian đẹp', 'Phục vụ tốt']
-      }, {
-        id: 3,
-        name: 'Dalat Homestay',
-        type: 'homestay',
-        location: 'Đà Lạt',
-        address: 'Đường Trần Phú, Phường 4',
-        priceRange: '500k - 800k/đêm',
-        price: 'medium',
-        description: 'Homestay view thung lũng, không gian lãng mạn giữa thiên nhiên Đà Lạt.',
-        tags: ['View núi', 'Romantic', 'Bữa sáng']
-      }, {
-        id: 4,
-        name: 'Rạp CGV',
-        type: 'activity',
-        location: 'TP. Hồ Chí Minh',
-        address: 'Vincom Center, Quận 1',
-        priceRange: '100k - 200k',
-        price: 'budget',
-        description: 'Rạp chiếu phim hiện đại với công nghệ âm thanh và hình ảnh tốt nhất.',
-        tags: ['Phim mới', 'Ghế đôi', 'Popcorn']
-      }, {
-        id: 5,
-        name: 'Highlands Coffee Rooftop',
-        type: 'cafe',
-        location: 'TP. Hồ Chí Minh',
-        address: 'Lầu 5, Bitexco, Quận 1',
-        priceRange: '80k - 200k',
-        price: 'budget',
-        description: 'Quán cà phê trên cao với view toàn cảnh thành phố, lý tưởng cho buổi tối.',
-        tags: ['View thành phố', 'Rooftop', 'Sunset']
-      }, {
-        id: 6,
-        name: 'Nhà hàng Hải Sản Biển Đông',
-        type: 'restaurant',
-        location: 'Đà Nẵng',
-        address: 'Đường Võ Nguyên Giáp, Sơn Trà',
-        priceRange: '300k - 600k',
-        price: 'medium',
-        description: 'Nhà hàng hải sản tươi sống với view biển tuyệt đẹp.',
-        tags: ['Hải sản', 'View biển', 'Tươi sống']
-      }, {
-        id: 7,
-        name: 'Vườn Dâu Đà Lạt',
-        type: 'activity',
-        location: 'Đà Lạt',
-        address: 'Xã Xuân Thọ, Đà Lạt',
-        priceRange: '50k - 100k',
-        price: 'budget',
-        description: 'Trải nghiệm hái dâu tươi trong vườn, chụp ảnh check-in đẹp.',
-        tags: ['Trải nghiệm', 'Check-in', 'Thiên nhiên']
-      }, {
-        id: 8,
-        name: 'Ana Mandara Resort',
-        type: 'homestay',
-        location: 'Đà Nẵng',
-        address: 'Đường Trần Hưng Đạo, Sơn Trà',
-        priceRange: '2tr - 5tr/đêm',
-        price: 'premium',
-        description: 'Resort 5 sao bên bờ biển với dịch vụ đẳng cấp quốc tế.',
-        tags: ['5 sao', 'Spa', 'Bãi biển riêng']
-      }, {
-        id: 9,
-        name: 'Quán Ăn Vặt 37',
-        type: 'restaurant',
-        location: 'Hà Nội',
-        address: '37 Nguyễn Hữu Huân, Hoàn Kiếm',
-        priceRange: '100k - 200k',
-        price: 'budget',
-        description: 'Quán ăn vặt phong cách Hà Nội xưa với nhiều món ngon.',
-        tags: ['Ăn vặt', 'Giá rẻ', 'Đông khách']
-      }, {
-        id: 10,
-        name: 'Cầu Rồng Show',
-        type: 'activity',
-        location: 'Đà Nẵng',
-        address: 'Cầu Rồng, Sông Hàn',
-        priceRange: 'Miễn phí',
-        price: 'budget',
-        description: 'Xem cầu Rồng phun lửa và nước vào cuối tuần, trải nghiệm độc đáo.',
-        tags: ['Miễn phí', 'Cuối tuần', 'Đặc sắc']
-      }, {
-        id: 11,
-        name: 'Terrace Cafe & Restaurant',
-        type: 'cafe',
-        location: 'Đà Lạt',
-        address: 'Đường Trần Phú, Phường 3',
-        priceRange: '100k - 250k',
-        price: 'medium',
-        description: 'Quán cà phê với view hồ Xuân Hương, không gian lãng mạn.',
-        tags: ['View hồ', 'Romantic', 'Sân thượng']
-      }, {
-        id: 12,
-        name: 'Nhà hàng Hương Sen',
-        type: 'restaurant',
-        location: 'TP. Hồ Chí Minh',
-        address: 'Đường Nguyễn Huệ, Quận 1',
-        priceRange: '400k - 800k',
-        price: 'premium',
-        description: 'Nhà hàng cao cấp phục vụ ẩm thực Á - Âu trong không gian sang trọng.',
-        tags: ['Cao cấp', 'Á - Âu', 'Sang trọng']
-      }]
+      loading: false,
+      page: 1,
+      hasMore: true,
+      ideas: []
     };
   },
+  watch: {
+    filters: {
+      handler: function handler() {
+        this.resetAndFetch();
+      },
+      deep: true
+    }
+  },
+  mounted: function mounted() {
+    this.fetchIdeas();
+  },
   computed: {
-    filteredIdeas: function filteredIdeas() {
-      var _this = this;
-      return this.ideas.filter(function (idea) {
-        var typeMatch = !_this.filters.type || idea.type === _this.filters.type;
-        var priceMatch = !_this.filters.price || idea.price === _this.filters.price;
-        var locationMatch = !_this.filters.location || idea.location === _this.filters.location;
-        return typeMatch && priceMatch && locationMatch;
-      });
-    },
     activeFiltersCount: function activeFiltersCount() {
       return Object.values(this.filters).filter(function (v) {
         return v !== '';
@@ -20899,6 +20794,75 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    fetchIdeas: function fetchIdeas() {
+      var _this = this;
+      return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+        var mockData, _t;
+        return _regenerator().w(function (_context) {
+          while (1) switch (_context.p = _context.n) {
+            case 0:
+              if (!_this.loading) {
+                _context.n = 1;
+                break;
+              }
+              return _context.a(2);
+            case 1:
+              _this.loading = true;
+              _context.p = 2;
+              _context.n = 3;
+              return new Promise(function (resolve) {
+                return setTimeout(resolve, 800);
+              });
+            case 3:
+              // MOCK DATA (In real case, this would come from the API)
+              mockData = [{
+                id: (_this.page - 1) * 6 + 1,
+                name: 'The Coffee House ' + _this.page,
+                type: 'cafe',
+                location: 'Hà Nội',
+                address: '86 Trần Quang Khải, Hoàn Kiếm',
+                priceRange: '50k - 150k',
+                price: 'budget',
+                description: 'Quán cà phê yên tĩnh với không gian ấm cúng, phù hợp cho những buổi hẹn hò lãng mạn.',
+                tags: ['Wifi', 'Yên tĩnh', 'View đẹp']
+              }
+              // ... simulate more items
+              ];
+              if (_this.page === 1) {
+                _this.ideas = mockData;
+              } else {
+                _this.ideas = [].concat(_toConsumableArray(_this.ideas), mockData);
+              }
+
+              // Simulate end of data
+              _this.hasMore = _this.page < 3;
+              _context.n = 5;
+              break;
+            case 4:
+              _context.p = 4;
+              _t = _context.v;
+              console.error('Error fetching date ideas:', _t);
+            case 5:
+              _context.p = 5;
+              _this.loading = false;
+              return _context.f(5);
+            case 6:
+              return _context.a(2);
+          }
+        }, _callee, null, [[2, 4, 5, 6]]);
+      }))();
+    },
+    resetAndFetch: function resetAndFetch() {
+      this.page = 1;
+      this.hasMore = true;
+      this.fetchIdeas();
+    },
+    loadMore: function loadMore() {
+      if (this.hasMore && !this.loading) {
+        this.page++;
+        this.fetchIdeas();
+      }
+    },
     getTypeLabel: function getTypeLabel(type) {
       var labels = {
         restaurant: 'Nhà hàng',
@@ -20909,7 +20873,8 @@ __webpack_require__.r(__webpack_exports__);
       return labels[type] || type;
     },
     randomPick: function randomPick() {
-      var available = this.filteredIdeas.length > 0 ? this.filteredIdeas : this.ideas;
+      var available = this.ideas.length > 0 ? this.ideas : [];
+      if (available.length === 0) return;
       var randomIndex = Math.floor(Math.random() * available.length);
       this.randomResult = available[randomIndex];
     },
@@ -21309,84 +21274,126 @@ var _hoisted_2 = {
   "class": "container-custom"
 };
 var _hoisted_3 = {
-  "class": "flex items-end"
+  "class": "text-center mb-12"
 };
 var _hoisted_4 = {
+  "class": "flex justify-center gap-4 mt-4"
+};
+var _hoisted_5 = {
+  "class": "flex items-end"
+};
+var _hoisted_6 = {
   key: 0,
   "class": "mt-4 flex items-center gap-2"
 };
-var _hoisted_5 = {
+var _hoisted_7 = {
   "class": "text-sm text-gray-600"
 };
-var _hoisted_6 = {
+var _hoisted_8 = {
   "class": "bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl p-6 mb-6"
 };
-var _hoisted_7 = {
+var _hoisted_9 = {
   "class": "flex items-start gap-3 mb-3"
 };
-var _hoisted_8 = {
+var _hoisted_10 = {
   "class": "px-3 py-1 bg-white text-primary-700 text-sm rounded-full font-medium"
 };
-var _hoisted_9 = {
+var _hoisted_11 = {
   "class": "px-3 py-1 bg-white text-gray-700 text-sm rounded-full"
 };
-var _hoisted_10 = {
-  "class": "text-xl font-bold text-gray-900 mb-2"
-};
-var _hoisted_11 = {
-  "class": "text-gray-700 mb-3"
-};
 var _hoisted_12 = {
-  "class": "flex items-center justify-between text-sm"
+  "class": "text-xl font-bold text-gray-900 mb-2"
 };
 var _hoisted_13 = {
-  "class": "text-gray-600"
+  "class": "text-gray-700 mb-3"
 };
 var _hoisted_14 = {
-  "class": "font-semibold text-primary-700"
+  "class": "flex items-center justify-between text-sm"
 };
 var _hoisted_15 = {
-  "class": "relative h-48 bg-gradient-to-br from-primary-100 to-primary-200"
+  "class": "text-gray-600"
 };
 var _hoisted_16 = {
-  "class": "absolute top-4 left-4"
+  "class": "font-semibold text-primary-700"
 };
 var _hoisted_17 = {
-  "class": "px-3 py-1 bg-white text-primary-700 text-sm rounded-full font-medium shadow-md"
+  "class": "relative h-48 bg-gradient-to-br from-primary-100 to-primary-200"
 };
 var _hoisted_18 = {
-  "class": "p-6"
+  "class": "absolute top-4 left-4"
 };
 var _hoisted_19 = {
-  "class": "text-xl font-bold text-gray-900 mb-2"
+  "class": "px-3 py-1 bg-white text-primary-700 text-sm rounded-full font-medium shadow-md"
 };
 var _hoisted_20 = {
-  "class": "text-gray-600 mb-4 line-clamp-2"
+  "class": "p-6"
 };
 var _hoisted_21 = {
-  "class": "space-y-2 mb-4"
+  "class": "text-xl font-bold text-gray-900 mb-2"
 };
 var _hoisted_22 = {
-  "class": "flex items-center text-sm text-gray-600"
+  "class": "text-gray-600 mb-4 line-clamp-2"
 };
 var _hoisted_23 = {
-  "class": "flex items-center text-sm text-gray-600"
+  "class": "space-y-2 mb-4"
 };
 var _hoisted_24 = {
-  "class": "flex flex-wrap gap-2"
+  "class": "flex items-center text-sm text-gray-600"
 };
 var _hoisted_25 = {
+  "class": "flex items-center text-sm text-gray-600"
+};
+var _hoisted_26 = {
+  "class": "flex flex-wrap gap-2"
+};
+var _hoisted_27 = {
   key: 0,
   "class": "col-span-full text-center py-16"
 };
+var _hoisted_28 = {
+  key: 1,
+  "class": "col-span-full flex justify-center py-8"
+};
+var _hoisted_29 = {
+  key: 2,
+  "class": "col-span-full flex justify-center mt-8"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-center mb-12"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "text-4xl md:text-5xl font-bold text-gray-900 mb-4"
-  }, "Date Ideas"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-lg text-gray-600 max-w-2xl mx-auto"
-  }, " Khám phá những địa điểm tuyệt vời cho buổi hẹn hò của bạn ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters & Random Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Date Ideas", -1 /* CACHED */)), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-lg text-gray-600 max-w-2xl mx-auto mb-6"
+  }, " Khám phá những địa điểm tuyệt vời cho buổi hẹn hò của bạn ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Layout Toggle Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $data.isVertical = true;
+    }),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['px-4 py-2 rounded-lg flex items-center gap-2 transition-all', $data.isVertical ? 'bg-primary-600 text-white shadow-lg' : 'bg-white text-gray-600 hover:bg-gray-100'])
+  }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+    "class": "w-5 h-5",
+    fill: "none",
+    stroke: "currentColor",
+    viewBox: "0 0 24 24"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    "stroke-width": "2",
+    d: "M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"
+  })], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Vertical ", -1 /* CACHED */)])), 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $data.isVertical = false;
+    }),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['px-4 py-2 rounded-lg flex items-center gap-2 transition-all', !$data.isVertical ? 'bg-primary-600 text-white shadow-lg' : 'bg-white text-gray-600 hover:bg-gray-100'])
+  }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+    "class": "w-5 h-5",
+    fill: "none",
+    stroke: "currentColor",
+    viewBox: "0 0 24 24"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    "stroke-width": "2",
+    d: "M4 6h16M4 12h16m-7 6h7"
+  })], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Horizontal ", -1 /* CACHED */)])), 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters & Random Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
       'grid md:grid-cols-4 gap-8': $data.isVertical
     })
@@ -21394,21 +21401,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bg-white rounded-xl shadow-md p-6 mb-8', $data.isVertical ? 'md:col-span-1 mb-0 h-fit sticky top-4' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['gap-4', $data.isVertical ? 'flex flex-col' : 'grid md:grid-cols-4'])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Type Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Type Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "block text-sm font-medium text-gray-700 mb-2"
   }, "Loại địa điểm", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.filters.type = $event;
     }),
     "class": "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-  }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"\" data-v-44a2af34>Tất cả</option><option value=\"restaurant\" data-v-44a2af34>Nhà hàng</option><option value=\"cafe\" data-v-44a2af34>Quán cà phê</option><option value=\"homestay\" data-v-44a2af34>Homestay</option><option value=\"activity\" data-v-44a2af34>Hoạt động</option>", 5)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.filters.type]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Price Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, _toConsumableArray(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"\" data-v-44a2af34>Tất cả</option><option value=\"restaurant\" data-v-44a2af34>Nhà hàng</option><option value=\"cafe\" data-v-44a2af34>Quán cà phê</option><option value=\"homestay\" data-v-44a2af34>Homestay</option><option value=\"activity\" data-v-44a2af34>Hoạt động</option>", 5)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.filters.type]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Price Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "block text-sm font-medium text-gray-700 mb-2"
   }, "Mức giá", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.filters.price = $event;
     }),
     "class": "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-  }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, _toConsumableArray(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "Tất cả", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "budget"
@@ -21416,19 +21423,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: "medium"
   }, "Trung bình (200k - 500k)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "premium"
-  }, "Cao cấp (> 500k)", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.filters.price]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Location Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Cao cấp (> 500k)", -1 /* CACHED */)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.filters.price]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Location Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "block text-sm font-medium text-gray-700 mb-2"
   }, "Khu vực", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.filters.location = $event;
     }),
     "class": "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-  }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"\" data-v-44a2af34>Tất cả</option><option value=\"hanoi\" data-v-44a2af34>Hà Nội</option><option value=\"hcm\" data-v-44a2af34>TP. Hồ Chí Minh</option><option value=\"danang\" data-v-44a2af34>Đà Nẵng</option><option value=\"dalat\" data-v-44a2af34>Đà Lạt</option>", 5)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.filters.location]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Random Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[3] || (_cache[3] = function () {
+  }, _toConsumableArray(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"\" data-v-44a2af34>Tất cả</option><option value=\"hanoi\" data-v-44a2af34>Hà Nội</option><option value=\"hcm\" data-v-44a2af34>TP. Hồ Chí Minh</option><option value=\"danang\" data-v-44a2af34>Đà Nẵng</option><option value=\"dalat\" data-v-44a2af34>Đà Lạt</option>", 5)])), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.filters.location]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Random Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[5] || (_cache[5] = function () {
       return $options.randomPick && $options.randomPick.apply($options, arguments);
     }),
     "class": "w-full btn btn-primary flex items-center justify-center gap-2"
-  }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+  }, _toConsumableArray(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
     "class": "w-5 h-5",
     fill: "none",
     stroke: "currentColor",
@@ -21438,32 +21445,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "stroke-linejoin": "round",
     "stroke-width": "2",
     d: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-  })], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Random ", -1 /* CACHED */)])))])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Filters Count "), $options.activeFiltersCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.filteredIdeas.length) + " kết quả", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[4] || (_cache[4] = function () {
+  })], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Random ", -1 /* CACHED */)])))])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Filters Count "), $options.activeFiltersCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.filteredIdeas.length) + " kết quả", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[6] || (_cache[6] = function () {
       return $options.clearFilters && $options.clearFilters.apply($options, arguments);
     }),
     "class": "text-sm text-primary-600 hover:text-primary-700"
   }, " Xóa bộ lọc ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Random Result Modal "), $data.randomResult ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     "class": "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4",
-    onClick: _cache[7] || (_cache[7] = function ($event) {
+    onClick: _cache[9] || (_cache[9] = function ($event) {
       return $data.randomResult = null;
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "bg-white rounded-2xl p-8 max-w-md w-full transform scale-100 animate-bounce-in",
-    onClick: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
-  }, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"text-center mb-6\" data-v-44a2af34><div class=\"w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4\" data-v-44a2af34><svg class=\"w-8 h-8 text-primary-600\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" data-v-44a2af34><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M5 13l4 4L19 7\" data-v-44a2af34></path></svg></div><h3 class=\"text-2xl font-bold text-gray-900 mb-2\" data-v-44a2af34>Gợi ý cho bạn!</h3><p class=\"text-gray-600\" data-v-44a2af34>Hãy thử địa điểm này nhé</p></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getTypeLabel($data.randomResult.type)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.randomResult.location), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.randomResult.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.randomResult.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.randomResult.address), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.randomResult.priceRange), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[5] || (_cache[5] = function ($event) {
+    onClick: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
+  }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"text-center mb-6\" data-v-44a2af34><div class=\"w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4\" data-v-44a2af34><svg class=\"w-8 h-8 text-primary-600\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" data-v-44a2af34><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M5 13l4 4L19 7\" data-v-44a2af34></path></svg></div><h3 class=\"text-2xl font-bold text-gray-900 mb-2\" data-v-44a2af34>Gợi ý cho bạn!</h3><p class=\"text-gray-600\" data-v-44a2af34>Hãy thử địa điểm này nhé</p></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getTypeLabel($data.randomResult.type)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.randomResult.location), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.randomResult.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.randomResult.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.randomResult.address), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.randomResult.priceRange), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[7] || (_cache[7] = function ($event) {
       return $data.randomResult = null;
     }),
     "class": "w-full btn btn-primary"
   }, " Đóng ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ideas Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['grid gap-6', $data.isVertical ? 'md:col-span-3 grid-cols-1 md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-3'])
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredIdeas, function (idea) {
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ideas, function (idea) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: idea.id,
       "class": "bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "absolute inset-0 flex items-center justify-center"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
       "class": "w-16 h-16 text-primary-400",
@@ -21475,7 +21482,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "stroke-linejoin": "round",
       "stroke-width": "2",
       d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-    })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getTypeLabel(idea.type)), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(idea.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(idea.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+    })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getTypeLabel(idea.type)), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(idea.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(idea.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
       "class": "w-4 h-4 mr-2",
       fill: "none",
       stroke: "currentColor",
@@ -21485,7 +21492,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "stroke-linejoin": "round",
       "stroke-width": "2",
       d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(idea.address), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(idea.address), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
       "class": "w-4 h-4 mr-2",
       fill: "none",
       stroke: "currentColor",
@@ -21495,13 +21502,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "stroke-linejoin": "round",
       "stroke-width": "2",
       d: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(idea.priceRange), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(idea.tags, function (tag) {
+    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(idea.priceRange), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(idea.tags, function (tag) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: tag,
         "class": "px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
     }), 128 /* KEYED_FRAGMENT */))])])]);
-  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Empty State within Layout "), $options.filteredIdeas.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Empty State within Layout "), !$data.loading && $data.ideas.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
     "class": "w-24 h-24 text-gray-300 mx-auto mb-4",
     fill: "none",
     stroke: "currentColor",
@@ -21511,16 +21518,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "stroke-linejoin": "round",
     "stroke-width": "2",
     d: "M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-  })], -1 /* CACHED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  })], -1 /* CACHED */)), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "text-xl font-semibold text-gray-700 mb-2"
-  }, "Không tìm thấy kết quả", -1 /* CACHED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Không tìm thấy kết quả", -1 /* CACHED */)), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-gray-500 mb-4"
   }, "Thử thay đổi bộ lọc hoặc nhấn nút Random", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[8] || (_cache[8] = function () {
+    onClick: _cache[10] || (_cache[10] = function () {
       return $options.clearFilters && $options.clearFilters.apply($options, arguments);
     }),
     "class": "btn btn-primary"
-  }, " Xóa bộ lọc ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)], 2 /* CLASS */)])]);
+  }, " Xóa bộ lọc ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"
+  }, null, -1 /* CACHED */)])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Load More "), $data.hasMore && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[11] || (_cache[11] = function () {
+      return $options.loadMore && $options.loadMore.apply($options, arguments);
+    }),
+    "class": "btn btn-outline flex items-center gap-2"
+  }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Xem thêm ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+    "class": "w-4 h-4",
+    fill: "none",
+    stroke: "currentColor",
+    viewBox: "0 0 24 24"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    "stroke-width": "2",
+    d: "M19 9l-7 7-7-7"
+  })], -1 /* CACHED */)])))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)], 2 /* CLASS */)])]);
 }
 
 /***/ },
@@ -21888,7 +21912,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       href: project.url,
       "class": "btn btn-primary transform scale-0 group-hover:scale-100 transition-transform duration-300"
     }, " View Project ", 8 /* PROPS */, _hoisted_6)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(project.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(project.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(project.technologies, function (tech) {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: tech,
         "class": "px-3 py-1 bg-primary-50 text-primary-700 text-sm rounded-full"
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tech), 1 /* TEXT */);
@@ -22022,7 +22046,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.line-clamp-2[data-v-44a2af34] {\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n}\n@keyframes bounce-in-44a2af34 {\n0% {\n    transform: scale(0.3);\n    opacity: 0;\n}\n50% {\n    transform: scale(1.05);\n}\n70% {\n    transform: scale(0.9);\n}\n100% {\n    transform: scale(1);\n    opacity: 1;\n}\n}\n.animate-bounce-in[data-v-44a2af34] {\n  animation: bounce-in-44a2af34 0.5s ease-out;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.line-clamp-2[data-v-44a2af34] {\n    display: -webkit-box;\n    -webkit-line-clamp: 2;\n    -webkit-box-orient: vertical;\n    overflow: hidden;\n}\n@keyframes bounce-in-44a2af34 {\n0% {\n        transform: scale(0.3);\n        opacity: 0;\n}\n50% {\n        transform: scale(1.05);\n}\n70% {\n        transform: scale(0.9);\n}\n100% {\n        transform: scale(1);\n        opacity: 1;\n}\n}\n.animate-bounce-in[data-v-44a2af34] {\n    animation: bounce-in-44a2af34 0.5s ease-out;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22045,7 +22069,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@keyframes blob-586fc011 {\n0%, 100% { transform: translate(0, 0) scale(1);\n}\n33% { transform: translate(30px, -50px) scale(1.1);\n}\n66% { transform: translate(-20px, 20px) scale(0.9);\n}\n}\n.animate-blob[data-v-586fc011] {\n  animation: blob-586fc011 7s infinite;\n}\n.animation-delay-2000[data-v-586fc011] {\n  animation-delay: 2s;\n}\n.animation-delay-4000[data-v-586fc011] {\n  animation-delay: 4s;\n}\n@keyframes fade-in-up-586fc011 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.animate-fade-in-up[data-v-586fc011] {\n  animation: fade-in-up-586fc011 0.6s ease-out forwards;\n}\n.animation-delay-200[data-v-586fc011] {\n  animation-delay: 0.2s;\n  opacity: 0;\n}\n.animation-delay-400[data-v-586fc011] {\n  animation-delay: 0.4s;\n  opacity: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@keyframes blob-586fc011 {\n0%, 100% {\n        transform: translate(0, 0) scale(1);\n}\n33% {\n        transform: translate(30px, -50px) scale(1.1);\n}\n66% {\n        transform: translate(-20px, 20px) scale(0.9);\n}\n}\n.animate-blob[data-v-586fc011] {\n    animation: blob-586fc011 7s infinite;\n}\n.animation-delay-2000[data-v-586fc011] {\n    animation-delay: 2s;\n}\n.animation-delay-4000[data-v-586fc011] {\n    animation-delay: 4s;\n}\n@keyframes fade-in-up-586fc011 {\nfrom {\n        opacity: 0;\n        transform: translateY(20px);\n}\nto {\n        opacity: 1;\n        transform: translateY(0);\n}\n}\n.animate-fade-in-up[data-v-586fc011] {\n    animation: fade-in-up-586fc011 0.6s ease-out forwards;\n}\n.animation-delay-200[data-v-586fc011] {\n    animation-delay: 0.2s;\n    opacity: 0;\n}\n.animation-delay-400[data-v-586fc011] {\n    animation-delay: 0.4s;\n    opacity: 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22068,7 +22092,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.timeline-item[data-v-c46e7a3c] {\n  opacity: 0;\n  animation: fadeInUp-c46e7a3c 0.6s ease-out forwards;\n}\n.timeline-item[data-v-c46e7a3c]:nth-child(1) { animation-delay: 0.1s;\n}\n.timeline-item[data-v-c46e7a3c]:nth-child(2) { animation-delay: 0.2s;\n}\n.timeline-item[data-v-c46e7a3c]:nth-child(3) { animation-delay: 0.3s;\n}\n.timeline-item[data-v-c46e7a3c]:nth-child(4) { animation-delay: 0.4s;\n}\n@keyframes fadeInUp-c46e7a3c {\nfrom {\n    opacity: 0;\n    transform: translateY(30px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@media (max-width: 768px) {\n.md\\:pr-1\\/2[data-v-c46e7a3c],\n  .md\\:pl-1\\/2[data-v-c46e7a3c] {\n    padding-left: 2rem !important;\n    padding-right: 0 !important;\n    text-align: left !important;\n}\n.md\\:mr-12[data-v-c46e7a3c],\n  .md\\:ml-12[data-v-c46e7a3c] {\n    margin-left: 0 !important;\n    margin-right: 0 !important;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.timeline-item[data-v-c46e7a3c] {\n    opacity: 0;\n    animation: fadeInUp-c46e7a3c 0.6s ease-out forwards;\n}\n.timeline-item[data-v-c46e7a3c]:nth-child(1) {\n    animation-delay: 0.1s;\n}\n.timeline-item[data-v-c46e7a3c]:nth-child(2) {\n    animation-delay: 0.2s;\n}\n.timeline-item[data-v-c46e7a3c]:nth-child(3) {\n    animation-delay: 0.3s;\n}\n.timeline-item[data-v-c46e7a3c]:nth-child(4) {\n    animation-delay: 0.4s;\n}\n@keyframes fadeInUp-c46e7a3c {\nfrom {\n        opacity: 0;\n        transform: translateY(30px);\n}\nto {\n        opacity: 1;\n        transform: translateY(0);\n}\n}\n@media (max-width: 768px) {\n.md\\:pr-1\\/2[data-v-c46e7a3c],\n    .md\\:pl-1\\/2[data-v-c46e7a3c] {\n        padding-left: 2rem !important;\n        padding-right: 0 !important;\n        text-align: left !important;\n}\n.md\\:mr-12[data-v-c46e7a3c],\n    .md\\:ml-12[data-v-c46e7a3c] {\n        margin-left: 0 !important;\n        margin-right: 0 !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

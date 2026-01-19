@@ -8,19 +8,19 @@ use Theme\TestVue\Http\Controllers\TestVueController;
 // You can delete this route group if you don't need to add your custom routes.
 Theme::registerRoutes(function (): void {
     // Date Ideas page
-    Route::get('custom-date-idea', function () {
-        return Theme::scope('date-idea')->render();
-    });
+    // Route::get('custom-date-idea', function () {
+    //     return Theme::scope('date-idea')->render();
+    // });
 
-    // Timeline page
-    Route::get('custom-timeline', function () {
-        return Theme::scope('timeline')->render();
-    });
+    // // Timeline page
+    // Route::get('custom-timeline', function () {
+    //     return Theme::scope('timeline')->render();
+    // });
 
-    // Contact page
-    Route::get('custom-contact', function () {
-        return Theme::scope('contact')->render();
-    });
+    // // Contact page
+    // Route::get('custom-contact', function () {
+    //     return Theme::scope('contact')->render();
+    // });
 });
 
 Theme::routes();
