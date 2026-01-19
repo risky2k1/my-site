@@ -1,0 +1,10 @@
+{
+    "id": "risky2k1/test-vue",
+    "name": "Test Vue",
+    "namespace": "Theme\\TestVue\\",
+    "author": "Risky2k1",
+    "url": "https://example.com",
+    "version": "1.0.0",
+    "description": "A modern portfolio theme built with Vue.js and TailwindCSS",
+    "required_plugins": []
+}
