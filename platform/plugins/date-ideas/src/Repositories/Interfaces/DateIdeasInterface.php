@@ -9,4 +9,5 @@ use Illuminate\Support\Collection;
 
 interface DateIdeasInterface extends RepositoryInterface
 {
+    public function getAllPlaces(int $perPage = 12, bool $active = true, array $with = ['slugable']): Collection|LengthAwarePaginator;
 }

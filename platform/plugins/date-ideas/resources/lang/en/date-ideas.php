@@ -7,6 +7,7 @@ return [
     'place_category' => 'Place Category',
     'moods' => 'Place Moods',
     'reviews' => 'Place Review',
+    'date_ideas_page_id' => 'Date ideas page',
     'enums' => [
         'low' => 'Low',
         'medium' => 'Medium',

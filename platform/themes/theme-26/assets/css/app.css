@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "./animation.css";
+@import "./style.css";
 
 /* Custom styles */
 @layer base {

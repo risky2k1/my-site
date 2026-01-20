@@ -10,13 +10,23 @@ use Botble\DateIdeas\Models\DateIdeas;
 use Botble\DateIdeas\Models\Place;
 use Botble\DateIdeas\Models\PlaceCategory;
 use Botble\DateIdeas\Models\PlaceMood;
+use Botble\DateIdeas\Repositories\Eloquent\DateIdeasRepository;
+use Botble\DateIdeas\Repositories\Interfaces\DateIdeasInterface;
 use Botble\Gallery\Facades\Gallery;
 use Botble\LanguageAdvanced\Supports\LanguageAdvancedManager;
+use Botble\SeoHelper\Facades\SeoHelper;
+use Botble\Slug\Facades\SlugHelper;
 
 class DateIdeasServiceProvider extends ServiceProvider
 {
     use LoadAndPublishDataTrait;
 
+     public function register(): void
+    {
+        $this->app->bind(DateIdeasInterface::class, function () {
+            return new DateIdeasRepository(new Place());
+        });
+    }
     public function boot(): void
     {
         $this
@@ -30,10 +40,32 @@ class DateIdeasServiceProvider extends ServiceProvider
 
         $this->loadRoutes(['api']);
 
+        /*$this->app->register(EventServiceProvider::class);
+
+        $this->app['events']->listen(ThemeRoutingBeforeEvent::class, function (): void {
+            SiteMapManager::registerKey([
+                'blog-categories',
+                'blog-tags',
+                'blog-posts',
+            ]);
+
+            SiteMapManager::registerMonthlyArchives('blog-posts');
+        });
+*/
+        SlugHelper::registering(function (): void {
+            SlugHelper::registerModule(Place::class, fn () => trans('plugins/date-ideas::date-ideas.name'));
+
+            SlugHelper::setPrefix(Place::class, null, true);
+        });
+
         $this->app->booted(function () {
             if (is_plugin_active('gallery')) {
                 Gallery::registerModule(Place::class);
             }
+
+//            SeoHelper::registerModule([Post::class, Category::class, Tag::class]);
+
+            $this->app->register(HookServiceProvider::class);
         });
 
         if (defined('LANGUAGE_ADVANCED_MODULE_SCREEN_NAME')) {

@@ -14,4 +14,19 @@ use Illuminate\Support\Collection;
 
 class DateIdeasRepository extends RepositoriesAbstract implements DateIdeasInterface
 {
+    public function getAllPlaces(
+        int $perPage = 12,
+        bool $active = true,
+        array $with = ['slugable']
+    ): Collection|LengthAwarePaginator {
+        $data = $this->model
+            ->with($with)
+            ->orderByDesc('created_at');
+
+        if ($active) {
+            $data = $data->wherePublished();
+        }
+
+        return $this->applyBeforeExecuteQuery($data)->paginate($perPage);
+    }
 }
