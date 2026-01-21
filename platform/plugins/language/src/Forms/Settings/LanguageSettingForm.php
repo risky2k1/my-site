@@ -116,7 +116,7 @@ class LanguageSettingForm extends FormAbstract
                 'language_auto_detect_user_language',
                 OnOffCheckboxField::class,
                 OnOffFieldOption::make()
-                    ->label(trans('123123'))
+                    ->label(trans('plugins/language::language.language_auto_detect_user_language'))
                     ->helperText(trans('plugins/language::language.language_auto_detect_user_language_helper'))
                     ->value(setting('language_auto_detect_user_language', false))
             )
