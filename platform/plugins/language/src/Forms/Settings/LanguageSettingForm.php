@@ -116,9 +116,17 @@ class LanguageSettingForm extends FormAbstract
                 'language_auto_detect_user_language',
                 OnOffCheckboxField::class,
                 OnOffFieldOption::make()
-                    ->label(trans('plugins/language::language.language_auto_detect_user_language'))
+                    ->label(trans('123123'))
                     ->helperText(trans('plugins/language::language.language_auto_detect_user_language_helper'))
                     ->value(setting('language_auto_detect_user_language', false))
+            )
+            ->add(
+                'language_enable_public_assets',
+                OnOffCheckboxField::class,
+                OnOffFieldOption::make()
+                    ->label(trans('Enable public assets'))
+                    ->helperText(trans('Disable this if your theme does not use jQuery or does not need language switcher JS'))
+                    ->value(setting('language_enable_public_assets', true))
             )
             ->add(
                 'button_action',
