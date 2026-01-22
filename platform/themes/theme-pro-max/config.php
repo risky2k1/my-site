@@ -47,6 +47,10 @@ return [
 
             $version = get_cms_version();
 
+            $theme->addBodyAttributes([
+                'class' => 'bg-base-100 text-base-content antialiased',
+            ]);
+
             $theme->asset()->add('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css', version: '5.3.7');
             $theme->asset()->add('bootstrap-icon', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css', version: '1.11.3');
             $theme->asset()->usePath()->add('style', 'css/style.css', version: $version);

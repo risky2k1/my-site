@@ -10,25 +10,38 @@
     <body {!! Theme::bodyAttributes() !!}>
         {!! apply_filters(THEME_FRONT_BODY, null) !!}
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container">
-                <a class="navbar-brand" href="{{ BaseHelper::getHomepageUrl() }}">
+        <nav class="fixed top-4 left-4 right-4 z-50">
+            <div class="navbar max-w-6xl mx-auto bg-base-200/80 backdrop-blur-md border border-white/10 rounded-2xl px-6 shadow-lg">
+                <div class="navbar-start">
                     @if($logo = Theme::getLogo())
                         {{ Theme::getLogoImage(maxHeight: 50) }}
                     @else
-                        {{ theme_option('site_title', 'Your Site') }}
+                        <a href="{{ Theme::getHomepageUrl() }}" class="text-xl font-heading font-bold text-white tracking-tight">
+                            {{ theme_option('site_title', 'Your Site') }}
+                        </a>
                     @endif
-                </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
+                </div>
+                <div class="navbar-center hidden md:flex">
                     {!! Menu::renderMenuLocation('main-menu', [
-                        'options' => ['class' => 'navbar-nav ms-auto'],
+                        'options' => ['class' => 'menu menu-horizontal px-1 gap-2'],
                         'view' => 'main-menu',
                     ]) !!}
+                </div>
+                <div class="navbar-end gap-2">
+                    <a href="#contact" class="btn btn-primary btn-sm">Contact Me</a>
+                    <!-- Mobile Menu Button -->
+                    <div class="dropdown dropdown-end md:hidden">
+                        <label tabindex="0" class="btn btn-ghost btn-circle text-white">
+                            <i data-lucide="menu" class="w-6 h-6"></i>
+                        </label>
+                        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52 border border-white/10">
+                            <li><a href="#projects">Projects</a></li>
+                            <li><a href="#skills">Skills</a></li>
+                            <li><a href="date-places.html">Date Places</a></li>
+                            <li><a href="#contact">Contact Me</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>

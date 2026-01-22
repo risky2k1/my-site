@@ -1,24 +1,21 @@
 <ul {!! BaseHelper::clean($options) !!}>
     @foreach ($menu_nodes as $key => $row)
         <li @class([
-            'nav-item',
             'dropdown' => $row->has_child,
             $row->css_class,
         ])>
             <a @class([
-                'nav-link',
+                'font-medium hover:text-primary transition-colors',
                 'dropdown-toggle' => $row->has_child,
                 'active' => $row->active,
                ])
                href="{{ url($row->url) }}"
                @if ($row->has_child)
-                   data-bs-toggle="dropdown"
-                   aria-expanded="false"
                @endif
                @if ($row->target !== '_self')
                    target="{{ $row->target }}"
                @endif>
-                {!! $row->icon_html !!}
+                {{-- {!! $row->icon_html !!} --}}
                 {{ $row->title }}
             </a>
 
