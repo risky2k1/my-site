@@ -6,16 +6,26 @@ use Botble\Base\Supports\DashboardMenuItem;
 use Botble\Base\Supports\ServiceProvider;
 use Botble\Base\Traits\LoadAndPublishDataTrait;
 use Botble\Base\Facades\DashboardMenu;
-use Botble\DateIdeas\Models\DateIdeas;
 use Botble\DateIdeas\Models\Place;
 use Botble\DateIdeas\Models\PlaceCategory;
 use Botble\DateIdeas\Models\PlaceMood;
 use Botble\Gallery\Facades\Gallery;
 use Botble\LanguageAdvanced\Supports\LanguageAdvancedManager;
+use Botble\DateIdeas\Repositories\Interfaces\PlaceInterface;
+use Botble\DateIdeas\Repositories\Eloquent\PlaceRepository;
+use Botble\Slug\Facades\SlugHelper;
 
 class DateIdeasServiceProvider extends ServiceProvider
 {
     use LoadAndPublishDataTrait;
+
+    public function register(): void
+    {
+        $this->app->bind(PlaceInterface::class, function () {
+            return new PlaceRepository(new Place());
+        });
+
+    }
 
     public function boot(): void
     {
@@ -32,6 +42,11 @@ class DateIdeasServiceProvider extends ServiceProvider
             if (is_plugin_active('gallery')) {
                 Gallery::registerModule(Place::class);
             }
+        });
+
+        SlugHelper::registering(function (): void {
+            SlugHelper::registerModule(Place::class, fn () => trans('plugins/date-ideas::date-ideas.name'));
+            SlugHelper::setPrefix(Place::class, null, true);
         });
 
         if (defined('LANGUAGE_ADVANCED_MODULE_SCREEN_NAME')) {
@@ -95,6 +110,10 @@ class DateIdeasServiceProvider extends ServiceProvider
                         ->route('date-ideas.place-review.index')
                 )
             ;
+        });
+
+        $this->app->booted(function (): void {
+            $this->app->register(HookServiceProvider::class);
         });
     }
 }

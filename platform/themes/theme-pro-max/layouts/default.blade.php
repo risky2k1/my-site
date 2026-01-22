@@ -1,6 +1,6 @@
 {!! Theme::partial('header') !!}
 
-{{-- {!! Theme::partial('breadcrumbs') !!} --}}
+{!! Theme::partial('breadcrumbs') !!}
 
 {!! Theme::content() !!}
 
