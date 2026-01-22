@@ -51,18 +51,11 @@ return [
                 'class' => 'bg-base-100 text-base-content antialiased',
             ]);
 
-            $theme->asset()->add('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css', version: '5.3.7');
-            $theme->asset()->add('bootstrap-icon', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css', version: '1.11.3');
-            $theme->asset()->usePath()->add('style', 'css/style.css', version: $version);
+            $theme->asset()->usePath()->add('style', 'css/tailwind.css', version: $version);
+            $theme->asset()->usePath()->add('custom-style', 'css/custom.css', version: $version);
 
-            $theme->asset()->container('footer')->add('jquery', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js');
-
-            $theme->asset()->container('footer')->usePath()->add(
-                'script',
-                'js/script.js',
-                ['jquery'],
-                version: $version
-            );
+            $theme->asset()->container('footer')->usePath()->add('script','js/main.js',[],version: $version);
+            $theme->asset()->container('footer')->usePath()->add('custom-script','js/custom.js',[],version: $version);
 
             if (function_exists('shortcode')) {
                 $theme->composer(['page'], function (View $view) {
