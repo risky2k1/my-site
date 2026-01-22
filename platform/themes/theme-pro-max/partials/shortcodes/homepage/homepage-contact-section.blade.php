@@ -1,28 +1,45 @@
  <!-- Contact Section -->
  <section id="contact" class="py-24 px-6 bg-base-200/30">
      <div class="hero-content max-w-4xl mx-auto flex-col text-center w-full">
-         <h2 class="text-3xl md:text-4xl font-heading font-bold mb-6">Let's work together</h2>
+         <h2 class="text-3xl md:text-4xl font-heading font-bold mb-6">{{ $shortcode->title }}</h2>
          <p class="text-base-content/70 mb-12 text-lg">
-             Have a project in mind? I'd love to hear about it. Send me a message and I'll get back to you as soon as
-             possible.
+             {!! BaseHelper::clean($shortcode->description) !!}
          </p>
-
-         <form class="card w-full max-w-md mx-auto shadow-2xl bg-base-100">
+         <form class="card w-full max-w-md mx-auto shadow-2xl bg-base-100" method="POST"
+             action="{{ route('public.send.contact') }}">
+             @csrf
              <div class="card-body text-left">
+                 <div class="form-control">
+                     <label class="label">
+                         <span class="label-text">Name</span>
+                     </label>
+                     <input type="text" name="name" placeholder="Your name" class="input input-bordered"
+                         required />
+                 </div>
                  <div class="form-control">
                      <label class="label">
                          <span class="label-text">Email</span>
                      </label>
-                     <input type="email" placeholder="you@example.com" class="input input-bordered" />
+                     <input type="email" name="email" placeholder="you@example.com" class="input input-bordered"
+                         required />
                  </div>
                  <div class="form-control">
                      <label class="label">
                          <span class="label-text">Message</span>
                      </label>
-                     <textarea class="textarea textarea-bordered h-24" placeholder="Tell me about your project..."></textarea>
+                     <textarea name="content" class="textarea textarea-bordered h-24" placeholder="Tell me about your project..." required></textarea>
+                 </div>
+                 <div class="form-control">
+                     <label class="cursor-pointer label">
+                         <input type="checkbox" name="agree_terms_and_policy" value="1"
+                             class="checkbox checkbox-primary" required>
+                         <span class="label-text ml-2">
+                             I agree to the terms and privacy policy
+                         </span>
+                     </label>
                  </div>
                  <div class="form-control mt-6">
-                     <button class="btn btn-primary">Send Message</button>
+                     <button type="submit" class="btn btn-primary">Send Message</button>
                  </div>
              </div>
          </form>

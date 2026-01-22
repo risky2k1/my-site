@@ -3,7 +3,7 @@
         @if ($copyright = Theme::getSiteCopyright())
             <p>{!! $copyright !!}</p>
         @else
-            <p>&copy; {{ __('© :year Tuan. All rights reserved.', ['year' => date('Y')]) }}</p>
+            <p>{{ __('© :year Tuan. All rights reserved.', ['year' => date('Y')]) }}</p>
         @endif
 
     </div>

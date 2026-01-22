@@ -2,11 +2,11 @@
  <section id="projects" class="py-24 px-6">
      <div class="max-w-6xl mx-auto">
          <h2 class="text-3xl md:text-4xl font-heading font-bold mb-12 flex items-center gap-3">
-             <i data-lucide="folder-git-2" class="text-primary"></i> Featured Projects
+             {!! BaseHelper::renderIcon('ti ti-terminal-2', null, ['class' => 'text-primary w-8 h-8']) !!} {{ $shortcode->title }}
          </h2>
          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
              <!-- Project Card 1 -->
-             <article class="card image-full h-[400px] group overflow-hidden before:!bg-transparent">
+             {{-- <article class="card image-full h-[400px] group overflow-hidden before:!bg-transparent">
                  <figure class="relative w-full h-full">
                      <div
                          class="absolute inset-0 bg-secondary/50 group-hover:scale-105 transition-transform duration-500 z-0 w-full h-full">
@@ -33,10 +33,10 @@
                          </a>
                      </div>
                  </div>
-             </article>
+             </article> --}}
 
              <!-- Project Card 2 -->
-             <article class="card image-full h-[400px] group overflow-hidden before:!bg-transparent">
+             {{-- <article class="card image-full h-[400px] group overflow-hidden before:!bg-transparent">
                  <figure class="relative w-full h-full">
                      <div
                          class="absolute inset-0 bg-secondary/50 group-hover:scale-105 transition-transform duration-500 z-0 w-full h-full">
@@ -63,10 +63,10 @@
                          </a>
                      </div>
                  </div>
-             </article>
+             </article> --}}
 
              <!-- Project Card 3: Date Places Promo -->
-             <article
+             {{-- <article
                  class="card image-full h-[400px] group overflow-hidden border border-primary/50 before:!bg-transparent">
                  <figure class="relative w-full h-full">
                      <div
@@ -92,7 +92,15 @@
                          </a>
                      </div>
                  </div>
-             </article>
+             </article> --}}
+
+             <!-- coming soon -->
+             <div
+                 class="card bg-base-200 border border-white/5 hover:border-primary/50 transition-colors group cursor-default items-center">
+                 <div class="card-body p-6 items-center text-center gap-3">
+                     <span class="font-medium">Coming soon</span>
+                 </div>
+             </div>
          </div>
      </div>
  </section>
