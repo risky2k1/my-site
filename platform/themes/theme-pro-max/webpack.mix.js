@@ -10,8 +10,12 @@ mix.options({ processCssUrls: false, })
 
 mix
     .js(source + '/assets/js/main.js', dist + '/js')
+    .js(source + '/assets/js/custom.js', dist + '/js')
     .postCss(source + '/assets/css/tailwind.css', dist + '/css', [
         require('tailwindcss')(`${source}/tailwind.config.js`),
+        require('autoprefixer'),
+    ])
+    .postCss(source + '/assets/css/custom.css', dist + '/css', [
         require('autoprefixer'),
     ])
     .disableSuccessNotifications()
@@ -19,5 +23,7 @@ mix
 if (mix.inProduction()) {
     mix
         .copy(dist + '/css/tailwind.css', source + '/public/css')
+        .copy(dist + '/css/custom.css', source + '/public/css')
         .copy(dist + '/js/main.js', source + '/public/js')
+        .copy(dist + '/js/custom.js', source + '/public/js')
 }

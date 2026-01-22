@@ -3,7 +3,7 @@ const filterButtons = document.querySelectorAll('.filter-btn');
 
 // Initial Render
 document.addEventListener('DOMContentLoaded', () => {
-    lucide.createIcons();
+    // lucide.createIcons();
 });
 
 // Event Listeners - Visual toggle only for filters
