@@ -14,7 +14,7 @@ class FilterPlace
 
         return [
             'page' => $request['page'] ?? 1,
-            'per_page' => $request['per_page'] ?? 10,
+            'per_page' => $request['per_page'] ?? 12,
             'search' => $request['search'] ?? null,
             'exclude' => $request['exclude'] ?? null,
             'include' => $request['include'] ?? null,

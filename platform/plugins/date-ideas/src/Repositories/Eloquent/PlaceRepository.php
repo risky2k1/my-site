@@ -89,17 +89,17 @@ class PlaceRepository extends RepositoriesAbstract implements PlaceInterface
             $data = $data->whereIn('au_city_id', $cities);
         }
 
-        // if ($filters['rating'] !== null) {
-        //     $ratings = array_filter((array) $filters['rating']);
-        //     $data = $data->whereIn('rating', $ratings);
-        // }
-
         $orderBy = Arr::get($filters, 'order_by', 'created_at');
 
         $data = $data
             ->wherePublished()
             ->orderBy($orderBy);
 
-        return $this->applyBeforeExecuteQuery($data)->paginate((int) $filters['per_page']);
+        return $this->applyBeforeExecuteQuery($data)->paginate(
+            (int) $filters['per_page'],
+            ['*'],
+            'page',
+            (int) $filters['page'] ?? 1
+        );
     }
 }

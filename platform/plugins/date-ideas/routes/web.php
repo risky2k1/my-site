@@ -34,6 +34,7 @@ AdminHelper::registerRoutes(function () {
                 'as' => 'ajax.'
             ], function () {
                 Route::get('filter-places', [PublicController::class, 'filterPlaces'])->name('filter-places');
+                Route::get('place-detail', [PublicController::class, 'placeDetail'])->name('place-detail');
             });
         });
     }

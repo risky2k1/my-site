@@ -18,9 +18,28 @@ class PublicController extends BaseController
         $data = $placeRepository->filterPlaces($filters);
 
         $view = Theme::getThemeNamespace() . '::views.date-ideas.partials.place-items';
+
+        return response()->json([
+            'html' => view($view, [
+                'places' => $data,
+            ])->render(),
         
-        return view($view, [
-            'places' => $data,
-        ])->render();
+            'meta' => [
+                'current_page' => $data->currentPage(),
+                'last_page' => $data->lastPage(),
+                'has_more' => $data->hasMorePages(),
+            ],
+        ]);
+    }
+
+    public function placeDetail(Request $request, PlaceInterface $placeRepository)
+    {
+        $place = $placeRepository->findOrFail($request->input('id'));
+
+        return response()->json([
+            'html' => view(Theme::getThemeNamespace() . '::views.date-ideas.partials.place-modal-detail', [
+                'place' => $place,
+            ])->render(),
+        ]);
     }
 }
