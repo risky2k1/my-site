@@ -33,19 +33,23 @@
                 ]) !!}
             </div>
             <div class="navbar-end gap-2">
-                <a href="#contact" class="btn btn-primary btn-sm">Contact Me</a>
+                {{-- Language Switcher --}}
+                {!! Theme::partial('switcher') !!}
+
+
                 <!-- Mobile Menu Button -->
                 <div class="dropdown dropdown-end md:hidden">
                     <label tabindex="0" class="btn btn-ghost btn-circle text-white">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
+                        {!! BaseHelper::renderIcon('ti ti-menu-2', null, ['class' => 'w-6 h-6']) !!}
                     </label>
-                    <ul tabindex="0"
-                        class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52 border border-white/10">
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#skills">Skills</a></li>
-                        <li><a href="date-places.html">Date Places</a></li>
-                        <li><a href="#contact">Contact Me</a></li>
-                    </ul>
+
+                    {!! Menu::renderMenuLocation('main-menu', [
+                        'options' => [
+                            'class' => 'menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52 border border-white/10',
+                            'z-index' => 0,
+                        ],
+                        'view' => 'main-menu',
+                    ]) !!}
                 </div>
             </div>
         </div>
