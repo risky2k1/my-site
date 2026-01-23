@@ -102,8 +102,14 @@ class HookServiceProvider extends ServiceProvider
                 $view = $viewPath;
             }
 
+            $places = get_all_places(true, (int) theme_option('number_of_places_in_a_category', 12));
+            if (!view()->exists($paginationView = Theme::getThemeNamespace('partials.paginate'))) {
+                $paginationView = 'pagination::bootstrap-5';
+            }
+
             return view($view, [
-                'places' => get_all_places(true, (int) theme_option('number_of_places_in_a_category', 12)),
+                'places' => $places,
+                'paginationView' => $paginationView,
             ])->render();
         }
 

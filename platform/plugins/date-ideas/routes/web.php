@@ -8,6 +8,8 @@ use Botble\DateIdeas\Http\Controllers\PlaceMoodController;
 use Botble\DateIdeas\Http\Controllers\PlaceReviewController;
 use Botble\DateIdeas\Models\PlaceReview;
 use Illuminate\Support\Facades\Route;
+use Botble\Theme\Facades\Theme;
+use Botble\DateIdeas\Http\Controllers\Ajax\PublicController;
 
 AdminHelper::registerRoutes(function () {
     Route::group(['prefix' => 'date-ideas', 'as' => 'date-ideas.'], function () {
@@ -24,4 +26,17 @@ AdminHelper::registerRoutes(function () {
             Route::resource('', PlaceReviewController::class)->parameters(['' => 'place-review']);
         });
     });
+
+    if (defined('THEME_MODULE_SCREEN_NAME')) {
+        Theme::registerRoutes(function (): void {
+            Route::group([
+                'prefix' => 'ajax', 
+                'as' => 'ajax.'
+            ], function () {
+                Route::get('filter-places', [PublicController::class, 'filterPlaces'])->name('filter-places');
+            });
+        });
+    }
 });
+
+
