@@ -5,6 +5,7 @@ namespace Botble\AdministrativeUnit\Models;
 use Botble\Base\Casts\SafeContent;
 use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Base\Models\BaseModel;
+use Botble\DateIdeas\Models\Place;
 
 class City extends BaseModel
 {
@@ -21,4 +22,9 @@ class City extends BaseModel
         'status' => BaseStatusEnum::class,
         'name' => SafeContent::class,
     ];
+
+    public function places(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Place::class, 'au_city_id', 'id');
+    }
 }

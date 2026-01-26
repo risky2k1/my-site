@@ -19,4 +19,12 @@ app()->booted(function () {
     ThemeSupport::registerLazyLoadImages();
     ThemeSupport::registerSocialSharing();
     ThemeSupport::registerSiteLogoHeight();
+
+    $events = app('events');
+
+    $events->listen('core.page::registering-templates', function (): void {
+        register_page_template([
+            'left-sidebar' => __('Left sidebar'),
+        ]);
+    });
 });

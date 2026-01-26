@@ -9,6 +9,7 @@ use Botble\Blog\Models\Category;
 use Botble\Blog\Models\Post;
 use Botble\Blog\Models\Tag;
 use Botble\Blog\Repositories\Interfaces\PostInterface;
+use Botble\DateIdeas\Models\Place;
 use Botble\Media\Facades\RvMedia;
 use Botble\SeoHelper\Facades\SeoHelper;
 use Botble\SeoHelper\SeoOpenGraph;
@@ -36,106 +37,62 @@ class PlaceService
         }
 
         switch ($slug->reference_type) {
-            case Post::class:
+            case Place::class:
                 /**
-                 * @var Post $post
+                 * @var Place $place
                  */
-                $post = Post::query()
+                $place = Place::query()
                     ->where($condition)
-                    ->with(['categories', 'tags', 'slugable', 'categories.slugable', 'tags.slugable'])
+                    ->with(['categories', 'moods', 'slugable'])
                     ->firstOrFail();
 
-                Helper::handleViewCount($post, 'viewed_post');
+                // Helper::handleViewCount($place, 'viewed_place');
 
-                SeoHelper::setTitle($post->name)
-                    ->setDescription($post->description);
+                SeoHelper::setTitle($place->name)
+                    ->setDescription($place->description);
 
                 $meta = new SeoOpenGraph();
-                if ($post->image) {
-                    $meta->setImage(RvMedia::getImageUrl($post->image));
+                if ($place->image) {
+                    $meta->setImage(RvMedia::getImageUrl($place->image));
                 }
-                $meta->setDescription($post->description);
-                $meta->setUrl($post->url);
-                $meta->setTitle($post->name);
+                $meta->setDescription($place->description);
+                $meta->setUrl($place->url);
+                $meta->setTitle($place->name);
                 $meta->setType('article');
 
                 SeoHelper::setSeoOpenGraph($meta);
 
-                SeoHelper::meta()->setUrl($post->url);
+                SeoHelper::meta()->setUrl($place->url);
 
-                if (function_exists('admin_bar')) {
-                    AdminBar::registerLink(
-                        trans('plugins/blog::posts.edit_this_post'),
-                        route('posts.edit', $post->getKey()),
-                        null,
-                        'posts.edit'
-                    );
-                }
+                // if (function_exists('admin_bar')) {
+                //     AdminBar::registerLink(
+                //         trans('plugins/blog::posts.edit_this_post'),
+                //         route('posts.edit', $post->getKey()),
+                //         null,
+                //         'posts.edit'
+                //     );
+                // }
 
-                if (function_exists('shortcode')) {
-                    shortcode()->getCompiler()->setEditLink(route('posts.edit', $post->id), 'posts.edit');
-                }
+                // if (function_exists('shortcode')) {
+                //     shortcode()->getCompiler()->setEditLink(route('posts.edit', $post->id), 'posts.edit');
+                // }
 
-                $category = $post->categories->sortByDesc('id')->first();
+                $category = $place->categories->sortByDesc('id')->first();
                 if ($category) {
-                    if ($category->parents->isNotEmpty()) {
-                        foreach ($category->parents as $parentCategory) {
-                            Theme::breadcrumb()->add($parentCategory->name, $parentCategory->url);
-                        }
-                    }
-
                     Theme::breadcrumb()->add($category->name, $category->url);
                 }
 
-                Theme::breadcrumb()->add($post->name, $post->url);
+                Theme::breadcrumb()->add($place->name, $place->url);
+                
+                Theme::set('section-name', $place->name);
 
-                do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, POST_MODULE_SCREEN_NAME, $post);
-
-                return [
-                    'view' => 'post',
-                    'default_view' => 'plugins/blog::themes.post',
-                    'data' => compact('post'),
-                    'slug' => $post->slug,
-                ];
-           
-                $tag = Tag::query()
-                    ->where($condition)
-                    ->with(['slugable'])
-                    ->firstOrFail();
-
-                SeoHelper::setTitle($tag->name)
-                    ->setDescription($tag->description);
-
-                $meta = new SeoOpenGraph();
-                $meta->setDescription($tag->description);
-                $meta->setUrl($tag->url);
-                $meta->setTitle($tag->name);
-                $meta->setType('article');
-
-                SeoHelper::setSeoOpenGraph($meta);
-
-                SeoHelper::meta()->setUrl($tag->url);
-
-                if (function_exists('admin_bar')) {
-                    AdminBar::registerLink(
-                        trans('plugins/blog::tags.edit_this_tag'),
-                        route('tags.edit', $tag->getKey()),
-                        null,
-                        'tags.edit'
-                    );
-                }
-
-                $posts = get_posts_by_tag($tag->getKey(), (int) theme_option('number_of_posts_in_a_tag', 12));
-
-                Theme::breadcrumb()->add($tag->name, $tag->url);
-
-                do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, TAG_MODULE_SCREEN_NAME, $tag);
+                do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, PLACE_MODULE_SCREEN_NAME, $place);
 
                 return [
-                    'view' => 'tag',
-                    'default_view' => 'plugins/blog::themes.tag',
-                    'data' => compact('tag', 'posts'),
-                    'slug' => $tag->slug,
+                    'view' => 'date-ideas.show',
+                    'default_view' => 'plugins/date-ideas::themes.place',
+                    'data' => compact('place'),
+                    'slug' => $place->slug,
                 ];
         }
 
