@@ -1,14 +1,14 @@
 <!-- Main Grid & Controls -->
 <div class="flex-grow">
     <!-- Top Controls -->
-    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+    {{-- <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
         <button id="random-btn" class="btn btn-primary gap-2 group animate-bounce-slow">
             {!! BaseHelper::renderIcon('ti ti-arrows-shuffle-2', null, [
                 'class' => 'w-4 h-4 group-hover:rotate-180 transition-transform duration-500',
             ]) !!}
             {{ __('Random Pick') }}
         </button>
-    </div>
+    </div> --}}
 
     <!-- Grid -->
     <div id="places-grid" class="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-12">

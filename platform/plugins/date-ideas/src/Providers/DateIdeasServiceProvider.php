@@ -35,6 +35,7 @@ class DateIdeasServiceProvider extends ServiceProvider
             ->loadAndPublishConfigurations(['permissions'])
             ->loadAndPublishTranslations()
             ->loadRoutes()
+            ->publishAssets()
             ->loadAndPublishViews()
             ->loadMigrations();
 
