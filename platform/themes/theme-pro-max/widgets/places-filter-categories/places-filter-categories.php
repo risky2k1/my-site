@@ -31,10 +31,6 @@ class PlacesFilterCategoriesWidget extends AbstractWidget
             ->wherePublished()
             ->when($categoryIds, function ($query) use ($categoryIds) {
                 return $query->whereIn('id', $categoryIds);
-            }, function ($query) {
-                return $query
-                    ->take(5)
-                    ->where(fn ($query) => $query->whereNull('parent_id')->orWhere('parent_id', 0));
             })
             ->orderByDesc('created_at')
             ->get();
