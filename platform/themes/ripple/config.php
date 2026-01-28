@@ -35,7 +35,7 @@ return [
 
             $version = get_cms_version();
 
-            $theme->asset()->container('footer')->usePath()->add('jquery', 'plugins/jquery/jquery-3.7.1.min.js');
+            $theme->asset()->container('footer')->usePath()->add('jquery', 'plugins/jquery/jquery-4.0.0.min.js');
 
             $theme->asset()->container('footer')->usePath()
                 ->add('custom', 'js/custom.min.js', ['jquery'], [], $version);

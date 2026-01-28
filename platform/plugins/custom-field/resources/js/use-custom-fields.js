@@ -65,7 +65,7 @@ export class Helpers {
         if (typeof jsonString === 'string') {
             let result
             try {
-                result = $.parseJSON(jsonString)
+                result = JSON.parse(jsonString)
             } catch (err) {
                 result = defaultValue
             }

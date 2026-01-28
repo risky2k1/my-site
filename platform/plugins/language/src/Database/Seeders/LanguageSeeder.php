@@ -19,13 +19,13 @@ class LanguageSeeder extends BaseSeeder
 
         if (is_plugin_active('language-advanced')) {
             foreach (LanguageAdvancedManager::supportedModels() as $model) {
-                if (!class_exists($model)) {
+                if (! class_exists($model)) {
                     continue;
                 }
 
                 $table = (new $model())->getModel()->getTable() . '_translations';
 
-                if (!Schema::hasTable($table)) {
+                if (! Schema::hasTable($table)) {
                     continue;
                 }
 
@@ -34,23 +34,13 @@ class LanguageSeeder extends BaseSeeder
         }
 
         Language::query()->create([
-            'lang_name' => 'Tiếng Việt',
-            'lang_locale' => 'vi',
-            'lang_is_default' => true,
-            'lang_code' => 'vi',
-            'lang_is_rtl' => false,
-            'lang_flag' => 'vn',
-            'lang_order' => 0,
-        ]);
-
-        Language::query()->create([
             'lang_name' => 'English',
             'lang_locale' => 'en',
-            'lang_is_default' => false,
+            'lang_is_default' => true,
             'lang_code' => 'en_US',
             'lang_is_rtl' => false,
             'lang_flag' => 'us',
-            'lang_order' => 1,
+            'lang_order' => 0,
         ]);
 
         Setting::set([

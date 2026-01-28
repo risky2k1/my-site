@@ -480,14 +480,26 @@ const PreviewIframe = {
             })
         }
 
+        // Use ref_lang for translated content preview
+        let refLang = config.refLang || null
+        if (!refLang) {
+            const urlParams = new URLSearchParams(window.location.search)
+            refLang = urlParams.get('ref_lang')
+        }
+
+        const requestData = {
+            _token: config.csrfToken,
+            name: shortcode.name,
+            attributes: refinedAttributes
+        }
+        if (refLang) {
+            requestData.ref_lang = refLang
+        }
+
         $.ajax({
             url: '/ajax/render-ui-blocks',
             method: 'POST',
-            data: {
-                _token: config.csrfToken,
-                name: shortcode.name,
-                attributes: refinedAttributes
-            },
+            data: requestData,
             success: (response) => {
                 if (response && response.data) {
                     this.replaceShortcodeContent(shortcodeId, response.data)

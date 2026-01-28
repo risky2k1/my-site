@@ -283,7 +283,8 @@ class ShortcodeCompiler
 
         $attributes = [];
 
-        $pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
+        // Pattern handles escaped quotes: \" within double-quoted values and \' within single-quoted values
+        $pattern = '/(\w+)\s*=\s*"((?:[^"\\\\]|\\\\.)*)"\s*|(\w+)\s*=\s*\'((?:[^\'\\\\]|\\\\.)*)\'\s*|(\w+)\s*=\s*([^\s\'"]+)\s*|"((?:[^"\\\\]|\\\\.)*)"\s*|(\S+)\s*/';
 
         if (preg_match_all($pattern, preg_replace('/[\x{00a0}\x{200b}]+/u', ' ', $text), $match, PREG_SET_ORDER)) {
             foreach ($match as $item) {
@@ -310,7 +311,11 @@ class ShortcodeCompiler
     {
         $value = stripcslashes($value);
 
-        return str_replace('{{NEWLINE}}', "\n", $value);
+        return str_replace(
+            ['{{NEWLINE}}', '{{BR}}', '{{NBSP}}'],
+            ["\n", '<br>', '&nbsp;'],
+            $value
+        );
     }
 
     public function getShortcodeNames(array $except = []): string

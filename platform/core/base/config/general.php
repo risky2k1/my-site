@@ -2,6 +2,7 @@
 
 return [
     'admin_dir' => env('ADMIN_DIR', 'admin'),
+    'disable_front_theme' => env('CMS_DISABLE_FRONT_THEME', false),
     'base_name' => env('APP_NAME', 'Botble Technologies'),
     'logo' => '/vendor/core/core/base/images/logo.png',
     'favicon' => '/vendor/core/core/base/images/favicon.png',

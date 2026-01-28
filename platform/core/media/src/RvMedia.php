@@ -65,6 +65,8 @@ class RvMedia
             'download' => route('media.download'),
             'upload_file' => route('media.files.upload'),
             'get_breadcrumbs' => route('media.breadcrumbs'),
+            'folder_list' => route('media.folder_list'),
+            'folder_tree' => route('media.folder_tree'),
             'global_actions' => route('media.global_actions'),
             'media_upload_from_editor' => route('media.files.upload.from.editor'),
             'download_url' => route('media.download_url'),
@@ -236,6 +238,10 @@ class RvMedia
     public function url(?string $path): string
     {
         $path = $path ? trim($path) : $path;
+
+        if (empty($path)) {
+            return '';
+        }
 
         if (Str::contains($path, ['http://', 'https://'])) {
             return $path;

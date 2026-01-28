@@ -40,8 +40,10 @@
                 <div>
                     <x-core::button
                         color="warning"
+                        icon="ti ti-x"
                         @click="deactivateLicense"
-                        :disabled="!$manageLicense"
+                        v-bind:disabled="loading || {{ !$manageLicense ? 'true' : 'false' }}"
+                        v-bind:class="{ 'btn-loading': loading }"
                     >
                         Deactivate license
                     </x-core::button>

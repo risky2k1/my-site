@@ -65,8 +65,41 @@
         padding-right: 6px;
     }
 
+    /* RTL fixes for intl-tel-input dropdown */
     body[dir="rtl"] .iti__country-list {
         text-align: left;
+    }
+
+    body[dir="rtl"] .iti__country {
+        padding-left: 15px !important;
+    }
+
+    body[dir="rtl"] .iti-mobile .iti--container {
+        left: 15px !important;
+        right: 15px !important;
+        direction: ltr;
+    }
+
+    body[dir="rtl"] .iti-mobile .iti__country-list {
+        width: 100%;
+        max-width: none;
+    }
+
+    @media (max-width: 768px) {
+        body[dir="rtl"] .iti--container {
+            direction: ltr;
+            left: 15px !important;
+            right: 15px !important;
+        }
+
+        body[dir="rtl"] .iti__country-list {
+            white-space: normal;
+            padding-left: 5px !important;
+        }
+
+        body[dir="rtl"] .iti__country {
+            padding: 10px 10px 10px 18px !important;
+        }
     }
 </style>
 

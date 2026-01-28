@@ -47,6 +47,6 @@ trait HasPageSeeder
                 Arr::get($shortcode, 'content')
             ),
             $shortcodes
-        )));
+        )), ENT_NOQUOTES, 'UTF-8');
     }
 }

@@ -383,6 +383,10 @@ final class Core
 
             throw_if($response->unauthorized(), RequiresLicenseActivatedException::class);
 
+            if (! $response->successful()) {
+                throw new Exception('Failed to download update. Server returned status: ' . $response->status());
+            }
+
             try {
                 $this->files->put($filePath, $response->body());
             } catch (Throwable) {
