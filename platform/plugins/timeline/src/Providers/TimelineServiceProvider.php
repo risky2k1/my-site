@@ -11,10 +11,20 @@ use Botble\LanguageAdvanced\Supports\LanguageAdvancedManager;
 use Botble\Timeline\Models\Timeline;
 use Botble\Timeline\Models\TimelineCategory;
 use Botble\Timeline\Models\TimelineItem;
+use Botble\Timeline\Repositories\Interfaces\TimelineInterface;
+use Botble\Timeline\Repositories\Eloquent\TimelineRepository;
 
 class TimelineServiceProvider extends ServiceProvider
 {
     use LoadAndPublishDataTrait;
+
+    public function register(): void
+    {
+        $this->app->bind(TimelineInterface::class, function () {
+            return new TimelineRepository(new Timeline());
+        });
+
+    }
 
     public function boot(): void
     {
@@ -24,6 +34,7 @@ class TimelineServiceProvider extends ServiceProvider
             ->loadAndPublishConfigurations(['permissions'])
             ->loadAndPublishTranslations()
             ->loadRoutes()
+            ->publishAssets()
             ->loadAndPublishViews()
             ->loadMigrations();
 
@@ -47,6 +58,7 @@ class TimelineServiceProvider extends ServiceProvider
             if (is_plugin_active('gallery')) {
                 Gallery::registerModule(TimelineItem::class);
             }
+            $this->app->register(HookServiceProvider::class);
         });
 
         DashboardMenu::default()->beforeRetrieving(function () {

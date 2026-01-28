@@ -106,6 +106,11 @@ class HookServiceProvider extends ServiceProvider
             if (!view()->exists($paginationView = Theme::getThemeNamespace('partials.paginate'))) {
                 $paginationView = 'pagination::bootstrap-5';
             }
+            
+            Theme::asset()
+            ->container('footer')
+            ->usePath()
+            ->add('places-js', 'js/places.js', [], ['defer'], version: get_cms_version());
 
             return view($view, [
                 'places' => $places,
