@@ -7,5 +7,6 @@
         'icon' => $item->icon,
         'color' => $item->color,
         'timelineItem' => $item,
+        'content' => $item->content,
     ])
 @endforeach
