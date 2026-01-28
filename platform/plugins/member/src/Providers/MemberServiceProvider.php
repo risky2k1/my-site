@@ -241,39 +241,33 @@ class MemberServiceProvider extends ServiceProvider
 
         $this->app->booted(function (): void {
             if (is_plugin_active('blog')) {
-                PostForm::beforeRendering(function (PostForm $form) {
+                PostForm::beforeRendering(function (PostForm $form): PostForm {
                     $authors = Member::query()
                         ->select(['id', 'first_name', 'last_name'])
                         ->get()
-                        ->mapWithKeys(function ($author) {
-                            return [
-                                $author->id => $author->name,
-                            ];
-                        })
+                        ->mapWithKeys(fn ($author) => [$author->id => $author->name])
                         ->all();
 
-                    $form
-                        ->when($authors, function (PostForm $form) use ($authors): void {
-                            $form
-                                ->addAfter(
-                                    'status',
-                                    'author_id',
-                                    SelectField::class,
-                                    SelectFieldOption::make()
-                                        ->label(trans('plugins/member::member.author'))
-                                        ->helperText(trans('plugins/member::member.author_helper'))
-                                        ->choices($authors)
-                                        ->searchable()
-                                        ->emptyValue(trans('plugins/member::member.select_author'))
-                                        ->allowClear()
-                                )
-                                ->add(
-                                    'author_type',
-                                    HiddenField::class,
-                                    HiddenFieldOption::make()
-                                        ->value(Member::class)
-                                );
-                        });
+                    if ($authors) {
+                        $form
+                            ->modify(
+                                'author_id',
+                                SelectField::class,
+                                SelectFieldOption::make()
+                                    ->label(trans('plugins/member::member.author'))
+                                    ->helperText(trans('plugins/member::member.author_helper'))
+                                    ->choices($authors)
+                                    ->searchable()
+                                    ->emptyValue(trans('plugins/member::member.select_author'))
+                                    ->allowClear()
+                            )
+                            ->add(
+                                'author_type',
+                                HiddenField::class,
+                                HiddenFieldOption::make()
+                                    ->value(Member::class)
+                            );
+                    }
 
                     return $form;
                 });

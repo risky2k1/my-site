@@ -179,6 +179,10 @@ class ThemeSupport
                 return $html;
             }
 
+            if (request()->has('visual_builder') || request()->has('preview')) {
+                return $html;
+            }
+
             $preloader = null;
 
             if (theme_option('preloader_version', 'v1') === 'v1') {
@@ -808,8 +812,10 @@ class ThemeSupport
         ];
     }
 
-    public static function getSocialSharingButtons(string $url, string $title, ?string $thumbnail = null): array
+    public static function getSocialSharingButtons(string $url, ?string $title, ?string $thumbnail = null): array
     {
+        $title = $title ?: '';
+
         $socialSharing = theme_option('social_sharing') ?: self::getDefaultSocialSharingData();
 
         if (empty($socialSharing)) {

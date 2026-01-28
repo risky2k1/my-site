@@ -149,6 +149,7 @@ class EditorManagement {
             image: {
                 toolbar: [
                     'imageTextAlternative',
+                    'linkImage',
                     'imageStyle:inline',
                     'imageStyle:block',
                     'imageStyle:side',

@@ -59,20 +59,51 @@ class CommentHelper
         return setting('fob_comment_email_optional', false);
     }
 
+    public static function getRateLimitSeconds(): int
+    {
+        return (int) setting('fob_comment_rate_limit_seconds', 15);
+    }
+
+    public static function isAllowAuthorDelete(): bool
+    {
+        return setting('fob_comment_allow_author_delete', false);
+    }
+
+    public static function isGuestCommentDisabled(): bool
+    {
+        return setting('fob_comment_disable_guest_comment', false);
+    }
+
+    public static function getAvailableAuthGuards(): array
+    {
+        $guards = array_keys(config('auth.guards', []));
+        $excludedGuards = ['web', 'api', 'sanctum'];
+
+        return array_values(array_filter($guards, fn ($guard) => ! in_array($guard, $excludedGuards)));
+    }
+
+    public static function hasMultipleAuthGuards(): bool
+    {
+        return count(self::getAvailableAuthGuards()) > 0;
+    }
+
     public static function getAuthorizedUser(): ?Authenticatable
     {
-        $guard = match (true) {
-            is_plugin_active('member') => 'member',
-            is_plugin_active('real-estate') => 'account',
-            is_plugin_active('ecommerce') => 'customer',
-            default => null,
-        };
+        // Get all configured guards except web and api
+        $guards = array_keys(config('auth.guards', []));
+        $excludedGuards = ['web', 'api', 'sanctum'];
 
-        if (! $guard) {
-            return null;
+        foreach ($guards as $guard) {
+            if (in_array($guard, $excludedGuards)) {
+                continue;
+            }
+
+            if (auth($guard)->check()) {
+                return auth($guard)->user();
+            }
         }
 
-        return auth($guard)->user();
+        return null;
     }
 
     public static function preparedDataForFill(): array

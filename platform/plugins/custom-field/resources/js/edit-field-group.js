@@ -70,7 +70,7 @@ class ManageCustomFields {
     handleRules() {
         let _self = this
 
-        let CURRENT_RULES = $.parseJSON($('#custom_fields_rules').val())
+        let CURRENT_RULES = JSON.parse($('#custom_fields_rules').val())
         let $_GLOBAL_TEMPLATE = $(_self.RULES_GROUP_TEMPLATE_HTML),
             LINE_GROUP_TEMPLATE = $('#rules_line_group_template').html(),
             $_GROUP_CONTAINER = $('.line-group-container')
@@ -146,7 +146,7 @@ class ManageCustomFields {
 
         let totalAdded = 0
 
-        let CUSTOM_FIELDS_DATA = $.parseJSON($('#custom_fields').val())
+        let CUSTOM_FIELDS_DATA = JSON.parse($('#custom_fields').val())
 
         /**
          * Deleted fields

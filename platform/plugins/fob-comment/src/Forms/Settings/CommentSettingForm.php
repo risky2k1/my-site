@@ -3,11 +3,15 @@
 namespace FriendsOfBotble\Comment\Forms\Settings;
 
 use Botble\Base\Facades\Html;
+use Botble\Base\Forms\FieldOptions\ColorFieldOption;
 use Botble\Base\Forms\FieldOptions\MediaImageFieldOption;
+use Botble\Base\Forms\FieldOptions\NumberFieldOption;
 use Botble\Base\Forms\FieldOptions\OnOffFieldOption;
 use Botble\Base\Forms\FieldOptions\RadioFieldOption;
 use Botble\Base\Forms\FieldOptions\SelectFieldOption;
+use Botble\Base\Forms\Fields\ColorField;
 use Botble\Base\Forms\Fields\MediaImageField;
+use Botble\Base\Forms\Fields\NumberField;
 use Botble\Base\Forms\Fields\OnOffCheckboxField;
 use Botble\Base\Forms\Fields\RadioField;
 use Botble\Base\Forms\Fields\SelectField;
@@ -48,6 +52,17 @@ class CommentSettingForm extends SettingForm
                         ->toArray()
                 );
             })
+            ->when(CommentHelper::hasMultipleAuthGuards(), function (FormAbstract $form): void {
+                $form->add(
+                    'fob_comment_disable_guest_comment',
+                    OnOffCheckboxField::class,
+                    OnOffFieldOption::make()
+                        ->label(trans('plugins/fob-comment::comment.settings.form.disable_guest_comment'))
+                        ->helperText(trans('plugins/fob-comment::comment.settings.form.disable_guest_comment_help'))
+                        ->value(CommentHelper::isGuestCommentDisabled())
+                        ->toArray()
+                );
+            })
             ->add(
                 'fob_comment_comment_moderation',
                 OnOffCheckboxField::class,
@@ -58,10 +73,20 @@ class CommentSettingForm extends SettingForm
                     ->toArray()
             )
             ->add(
+                'fob_comment_rate_limit_seconds',
+                NumberField::class,
+                NumberFieldOption::make()
+                    ->label(trans('plugins/fob-comment::comment.settings.form.rate_limit_seconds'))
+                    ->helperText(trans('plugins/fob-comment::comment.settings.form.rate_limit_seconds_help'))
+                    ->value(CommentHelper::getRateLimitSeconds())
+                    ->toArray()
+            )
+            ->add(
                 'fob_comment_show_comment_cookie_consent',
                 OnOffCheckboxField::class,
                 OnOffFieldOption::make()
                     ->label(trans('plugins/fob-comment::comment.settings.form.show_comment_cookie_consent'))
+                    ->helperText(trans('plugins/fob-comment::comment.settings.form.show_comment_cookie_consent_help'))
                     ->value(CommentHelper::isShowCommentCookieConsent())
                     ->toArray()
             )
@@ -110,6 +135,7 @@ class CommentSettingForm extends SettingForm
                 OnOffCheckboxField::class,
                 OnOffFieldOption::make()
                     ->label(trans('plugins/fob-comment::comment.settings.form.display_admin_badge'))
+                    ->helperText(trans('plugins/fob-comment::comment.settings.form.display_admin_badge_help'))
                     ->value(CommentHelper::isDisplayAdminBadge())
                     ->toArray()
             )
@@ -142,6 +168,33 @@ class CommentSettingForm extends SettingForm
                     ->label(trans('plugins/fob-comment::comment.settings.form.default_avatar'))
                     ->helperText(trans('plugins/fob-comment::comment.settings.form.default_avatar_helper'))
                     ->value(setting('fob_comment_default_avatar'))
+                    ->toArray()
+            )
+            ->add(
+                'fob_comment_allow_author_delete',
+                OnOffCheckboxField::class,
+                OnOffFieldOption::make()
+                    ->label(trans('plugins/fob-comment::comment.settings.form.allow_author_delete'))
+                    ->helperText(trans('plugins/fob-comment::comment.settings.form.allow_author_delete_help'))
+                    ->value(CommentHelper::isAllowAuthorDelete())
+                    ->toArray()
+            )
+            ->add(
+                'fob_comment_primary_color',
+                ColorField::class,
+                ColorFieldOption::make()
+                    ->label(trans('plugins/fob-comment::comment.settings.form.primary_color'))
+                    ->helperText(trans('plugins/fob-comment::comment.settings.form.primary_color_helper'))
+                    ->value(setting('fob_comment_primary_color'))
+                    ->toArray()
+            )
+            ->add(
+                'fob_comment_primary_color_hover',
+                ColorField::class,
+                ColorFieldOption::make()
+                    ->label(trans('plugins/fob-comment::comment.settings.form.primary_color_hover'))
+                    ->helperText(trans('plugins/fob-comment::comment.settings.form.primary_color_hover_helper'))
+                    ->value(setting('fob_comment_primary_color_hover'))
                     ->toArray()
             );
     }

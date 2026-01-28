@@ -1,6 +1,8 @@
 {!! Theme::partial('header') !!}
-@if (Theme::get('section-name'))
-    {!! Theme::partial('breadcrumbs') !!}
-@endif
-{!! Theme::content() !!}
+<main>
+    @if (Theme::get('section-name'))
+        {!! Theme::partial('breadcrumbs') !!}
+    @endif
+    {!! Theme::content() !!}
+</main>
 {!! Theme::partial('footer') !!}

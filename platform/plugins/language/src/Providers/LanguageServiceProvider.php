@@ -95,9 +95,7 @@ class LanguageServiceProvider extends ServiceProvider
                     Language::registerModule(WIDGET_MANAGER_MODULE_SCREEN_NAME);
                 }
 
-                $isEnablePublicAssets = setting('language_enable_public_assets', true);
-
-                if (defined('THEME_OPTIONS_MODULE_SCREEN_NAME') && ! $this->app->isDownForMaintenance() && $isEnablePublicAssets) {
+                if (defined('THEME_OPTIONS_MODULE_SCREEN_NAME') && ! $this->app->isDownForMaintenance()) {
                     Theme::asset()
                         ->usePath(false)
                         ->add(

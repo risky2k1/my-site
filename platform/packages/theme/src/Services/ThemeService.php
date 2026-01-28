@@ -70,10 +70,8 @@ class ThemeService
             ];
         }
 
-        if (! empty($inheritTheme)) {
-            $this->copyThemeOptions($theme);
-            $this->copyThemeWidgets($theme);
-        }
+        $this->copyThemeOptions($theme);
+        $this->copyThemeWidgets($theme);
 
         Theme::setThemeName($theme);
 
@@ -143,18 +141,28 @@ class ThemeService
         }
 
         $copiedWidgets = Widget::query()
-            ->where('theme', $fromTheme)
+            ->where(function ($query) use ($fromTheme): void {
+                $query->where('theme', $fromTheme)
+                    ->orWhere('theme', 'LIKE', $fromTheme . '-%');
+            })
             ->get()
             ->toArray();
 
         foreach ($copiedWidgets as $key => $widget) {
-            $copiedWidgets[$key]['theme'] = $theme;
+            $widgetTheme = $widget['theme'];
+            if ($widgetTheme === $fromTheme) {
+                $copiedWidgets[$key]['theme'] = $theme;
+            } else {
+                $copiedWidgets[$key]['theme'] = str_replace($fromTheme . '-', $theme . '-', $widgetTheme);
+            }
             $copiedWidgets[$key]['data'] = json_encode($widget['data']);
             unset($copiedWidgets[$key]['id']);
         }
 
-        Widget::query()
-            ->insertOrIgnore($copiedWidgets);
+        if (! empty($copiedWidgets)) {
+            Widget::query()
+                ->insertOrIgnore($copiedWidgets);
+        }
     }
 
     protected function validate(string $theme): array

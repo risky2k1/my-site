@@ -9,6 +9,7 @@ use Botble\Media\Facades\RvMedia;
 use Botble\SeoHelper\Facades\SeoHelper;
 use Botble\Setting\Facades\Setting;
 use Botble\Theme\Contracts\Theme as ThemeContract;
+use Botble\Theme\Events\RenderingTheme;
 use Botble\Theme\Exceptions\UnknownPartialFileException;
 use Botble\Theme\Exceptions\UnknownThemeException;
 use Botble\Theme\Supports\SocialLink;
@@ -68,6 +69,10 @@ class Theme implements ThemeContract
         protected Filesystem $files,
         protected Breadcrumb $breadcrumb
     ) {
+        if ($this->config->get('core.base.general.disable_front_theme')) {
+            return;
+        }
+
         $this->uses($this->getThemeName())->layout(setting('layout', 'default'));
     }
 
@@ -210,7 +215,7 @@ class Theme implements ThemeContract
         return empty($key) ? $config : Arr::get($config, $key);
     }
 
-    protected function loadConfigFromTheme(string $theme): void
+    protected function loadConfigFromTheme(?string $theme): void
     {
         // Config inside a public theme.
         // This config having buffer by array object.
@@ -301,7 +306,7 @@ class Theme implements ThemeContract
             return $theme;
         }
 
-        return Arr::first(BaseHelper::scanFolder(theme_path()));
+        return Arr::first(BaseHelper::scanFolder(theme_path())) ?: '';
     }
 
     public function setThemeName(string $theme): self
@@ -906,7 +911,8 @@ class Theme implements ThemeContract
     {
         $this->fire('asset', $this->asset);
 
-        // Fire event before render theme.
+        RenderingTheme::dispatch();
+
         $this->fire('beforeRenderTheme', $this);
 
         // Fire event before render layout.
