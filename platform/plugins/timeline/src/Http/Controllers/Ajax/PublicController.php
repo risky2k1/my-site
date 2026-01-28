@@ -15,7 +15,7 @@ class PublicController extends BaseController
         $page = (int) $request->input('page', 1);
 
         $timelineItems = TimelineItem::query()
-            ->select('id','title','description','date', 'order','icon')
+            ->select('id','title','description','content','date', 'order','icon')
             ->wherePublished()
             ->where('timeline_id', 1)
             ->orderByRaw('CASE WHEN `order` > 0 THEN 0 ELSE 1 END')

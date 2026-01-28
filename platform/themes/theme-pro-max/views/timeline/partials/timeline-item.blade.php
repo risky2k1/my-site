@@ -3,6 +3,7 @@
     'date' => '',
     'title' => '',
     'description' => '',
+    'content' => '',
     'icon' => 'ti ti-heart-filled',
     'color' => 'pink',
     'timelineItem' => null,
@@ -55,6 +56,12 @@
                             {!! BaseHelper::clean($description) !!}
                         </p>
 
+                        @if ($content)
+                            <p class="text-base-content/70 text-sm leading-relaxed mb-4">
+                                {!! BaseHelper::clean($content) !!}
+                            </p>
+                        @endif
+                        
                         @if (get_timeline_item_gallery($timelineItem))
                             <a href="javascript:void(0)"
                                 class="link link-primary text-sm inline-flex items-center gap-1 open-gallery"
