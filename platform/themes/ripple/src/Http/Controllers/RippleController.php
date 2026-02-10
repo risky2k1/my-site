@@ -26,7 +26,7 @@ class RippleController extends PublicController
 
             $data = [
                 'items' => Theme::partial('search', compact('posts')),
-                'query' => $query,
+                'query' => e($query),
                 'count' => $posts->count(),
             ];
 

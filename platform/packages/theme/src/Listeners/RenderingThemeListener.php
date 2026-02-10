@@ -2,7 +2,6 @@
 
 namespace Botble\Theme\Listeners;
 
-use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\Html;
 use Botble\Shortcode\Compilers\ShortcodeCompiler;
 use Botble\Theme\Facades\AdminBar;
@@ -17,7 +16,6 @@ class RenderingThemeListener
     {
         $this->registerAdminBar();
         $this->registerShortcodeGuideline();
-        $this->registerCkeditorStyles();
     }
 
     protected function registerAdminBar(): void
@@ -42,6 +40,10 @@ class RenderingThemeListener
             function (?string $html, string $name, $callback, ShortcodeCompiler $compiler) {
                 $editLink = $compiler->getEditLink();
 
+                if (request()->expectsJson() || request()->ajax()) {
+                    return $html;
+                }
+
                 if (! $editLink || ! setting('show_theme_guideline_link', false) || request()->input('visual_builder')) {
                     return $html;
                 }
@@ -61,15 +63,5 @@ class RenderingThemeListener
             9999,
             4
         );
-    }
-
-    protected function registerCkeditorStyles(): void
-    {
-        add_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, function (): void {
-            if (BaseHelper::getRichEditor() === 'ckeditor') {
-                Theme::asset()
-                    ->add('ckeditor-content-styles', 'vendor/core/core/base/libraries/ckeditor/content-styles.css');
-            }
-        }, 15);
     }
 }

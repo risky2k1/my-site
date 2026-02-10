@@ -82,6 +82,13 @@ class HookServiceProvider extends ServiceProvider
             return $defaultView;
         }, 10, 2);
 
+        add_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, function (): void {
+            if (BaseHelper::getRichEditor() === 'ckeditor') {
+                Theme::asset()
+                    ->add('ckeditor-content-styles', 'vendor/core/core/base/libraries/ckeditor/content-styles.css');
+            }
+        }, 15);
+
         add_filter('core_email_template_site_logo', function (?string $defaultLogo): string {
             if (! $defaultLogo && ($logo = Theme::getLogo())) {
                 $defaultLogo = RvMedia::getImageUrl($logo);

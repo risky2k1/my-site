@@ -858,11 +858,17 @@ final class Core
     {
         $data = $response->json();
 
-        if ($response->ok() && Arr::get($data, 'status')) {
+        $updateId = Arr::get($data, 'update_id');
+        $version = Arr::get($data, 'version');
+
+        if ($response->ok() && Arr::get($data, 'status') && $updateId && $version) {
+            $releaseDate = Arr::get($data, 'release_date');
+            $parsedDate = $releaseDate ? Carbon::parse($releaseDate) : Carbon::now();
+
             return new CoreProduct(
-                Arr::get($data, 'update_id'),
-                Arr::get($data, 'version'),
-                Carbon::createFromFormat('Y-m-d', Arr::get($data, 'release_date')),
+                $updateId,
+                $version,
+                $parsedDate,
                 trim((string) Arr::get($data, 'summary')),
                 trim((string) Arr::get($data, 'changelog')),
                 (bool) Arr::get($data, 'has_sql')

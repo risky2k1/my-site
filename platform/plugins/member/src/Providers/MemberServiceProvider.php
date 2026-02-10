@@ -12,6 +12,7 @@ use Botble\Base\Forms\Fields\HiddenField;
 use Botble\Base\Forms\Fields\SelectField;
 use Botble\Base\Forms\FormAbstract;
 use Botble\Base\Http\Responses\BaseHttpResponse;
+use Botble\Base\Models\BaseModel;
 use Botble\Base\PanelSections\PanelSectionItem;
 use Botble\Base\Supports\DashboardMenuItem;
 use Botble\Base\Supports\Language as BaseLanguage;
@@ -216,8 +217,7 @@ class MemberServiceProvider extends ServiceProvider
                     in_array('member', Route::current()->middleware()) &&
                     Auth::guard('member')->check() &&
                     ! $isDefaultLocale &&
-                    $model &&
-                    $model instanceof Member &&
+                    $model instanceof BaseModel &&
                     $model->getKey() &&
                     LanguageAdvancedManager::isSupported($model)
                 ) {
