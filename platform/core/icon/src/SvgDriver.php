@@ -38,6 +38,10 @@ class SvgDriver extends IconDriver
 
         $contents = trim(preg_replace('/^(<\?xml.+?\?>)/', '', $contents));
 
+        $contents = preg_replace('/<!--.*?-->/s', '', $contents);
+
+        $contents = trim($contents);
+
         return str_replace(
             '<svg',
             rtrim(sprintf('<svg %s', $this->parseAttributesToHtml($attributes))),
@@ -94,7 +98,7 @@ class SvgDriver extends IconDriver
             return true;
         }
 
-        $file = $this->iconPath() . '/' . $basename . '.svg';
+        $file = $this->iconPath() . DIRECTORY_SEPARATOR . $basename . '.svg';
 
         if (! $this->files->exists($file)) {
             return false;

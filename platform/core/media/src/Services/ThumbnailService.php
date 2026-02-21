@@ -172,7 +172,9 @@ class ThumbnailService
         }
 
         try {
-            $this->uploadManager->saveFile($destinationPath, $thumbImage->encode(new AutoEncoder()));
+            $encodedImage = $thumbImage->encode(new AutoEncoder());
+
+            $this->uploadManager->saveFile($destinationPath, (string) $encodedImage);
         } catch (Throwable $exception) {
             BaseHelper::logError($exception);
 

@@ -51,6 +51,9 @@ return [
     'hide_languages' => 'Hide languages',
     'hide_languages_description' => 'You can completely hide content in specific languages from visitors and search engines, but still view it yourself. This allows reviewing translations that are in progress.',
     'hide_languages_helper_display_hidden' => '{0} All languages are currently displayed.|{1} :language is currently hidden to visitors.|[2, Inf] :language are currently hidden to visitors.',
+    'hide_languages_helper_display_hidden_zero' => 'All languages are currently displayed.',
+    'hide_languages_helper_display_hidden_singular' => ':language is currently hidden to visitors.',
+    'hide_languages_helper_display_hidden_plural' => ':language are currently hidden to visitors.',
     'show_all' => 'Show all',
     'change_language' => 'Language',
     'select_flag' => 'Select a flag...',
@@ -61,4 +64,7 @@ return [
     'setup_site_language' => 'To set up the site language, please go to :link page. Or go to :appearance_link to set up the admin language.',
     'no_languages' => 'There are no languages in your site!',
     'update' => 'Update',
+    'default_language_warning' => 'You should set the default language only once during the initial setup and avoid changing it later.',
+    'default_language_warning_details' => 'Changing the default language does not automatically update your existing content — all previously entered data remains tied to the original default language.',
+    'default_language_warning_action' => 'If you decide to change the default language, you will need to manually update your site content to match the new default language, as it won\'t be updated automatically.',
 ];

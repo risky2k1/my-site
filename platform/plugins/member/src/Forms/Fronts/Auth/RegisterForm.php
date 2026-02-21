@@ -32,8 +32,8 @@ class RegisterForm extends AuthForm
             ->setValidatorClass(RegisterRequest::class)
             ->model(Member::class)
             ->icon('ti ti-user-plus')
-            ->heading(__('Register an account'))
-            ->description(__('Your personal data will be used to support your experience throughout this website, to manage access to your account.'))
+            ->heading(trans('plugins/member::dashboard.register_an_account'))
+            ->description(trans('plugins/member::dashboard.personal_data_description'))
             ->when(
                 theme_option('register_background'),
                 fn (AuthForm $form, string $background) => $form->banner($background)
@@ -42,40 +42,40 @@ class RegisterForm extends AuthForm
                 'first_name',
                 TextField::class,
                 TextFieldOption::make()
-                    ->label(__('First name'))
-                    ->placeholder(__('First name'))
+                    ->label(trans('plugins/member::dashboard.first_name'))
+                    ->placeholder(trans('plugins/member::dashboard.first_name'))
                     ->icon('ti ti-user')
             )
             ->add(
                 'last_name',
                 TextField::class,
                 TextFieldOption::make()
-                    ->label(__('Last name'))
-                    ->placeholder(__('Last name'))
+                    ->label(trans('plugins/member::dashboard.last_name'))
+                    ->placeholder(trans('plugins/member::dashboard.last_name'))
                     ->icon('ti ti-user')
             )
             ->add(
                 'email',
                 EmailField::class,
                 EmailFieldOption::make()
-                    ->label(__('Email'))
-                    ->placeholder(__('Your email'))
+                    ->label(trans('plugins/member::dashboard.email'))
+                    ->placeholder(trans('plugins/member::dashboard.your_email'))
                     ->icon('ti ti-mail')
             )
             ->add(
                 'password',
                 PasswordField::class,
                 TextFieldOption::make()
-                    ->label(__('Password'))
-                    ->placeholder(__('Password'))
+                    ->label(trans('plugins/member::dashboard.password'))
+                    ->placeholder(trans('plugins/member::dashboard.password'))
                     ->icon('ti ti-lock')
             )
             ->add(
                 'password_confirmation',
                 PasswordField::class,
                 TextFieldOption::make()
-                    ->label(__('Password confirmation'))
-                    ->placeholder(__('Password confirmation'))
+                    ->label(trans('plugins/member::dashboard.password-confirmation'))
+                    ->placeholder(trans('plugins/member::dashboard.password-confirmation'))
                     ->icon('ti ti-lock')
             )
             ->when(
@@ -90,16 +90,16 @@ class RegisterForm extends AuthForm
                             ->when(
                                 $privacyPolicyUrl,
                                 function (CheckboxFieldOption $fieldOption, string $url): void {
-                                    $fieldOption->label(__('I agree to the :link', ['link' => Html::link($url, __('Terms and Privacy Policy'), attributes: ['class' => 'text-decoration-underline', 'target' => '_blank'])]));
+                                    $fieldOption->label(trans('plugins/member::dashboard.agree_terms_link', ['link' => Html::link($url, trans('plugins/member::dashboard.terms_and_privacy_policy'), attributes: ['class' => 'text-decoration-underline', 'target' => '_blank'])]));
                                 }
                             )
                             ->when(! $privacyPolicyUrl, function (CheckboxFieldOption $fieldOption): void {
-                                $fieldOption->label(__('I agree to the Terms and Privacy Policy'));
+                                $fieldOption->label(trans('plugins/member::dashboard.agree_terms'));
                             })
                     );
                 }
             )
-            ->submitButton(sprintf('%s %s', __('Register'), BaseHelper::renderIcon('ti ti-arrow-narrow-right', null, ['class' => 'ms-1'])))
+            ->submitButton(sprintf('%s %s', trans('plugins/member::dashboard.register-cta'), BaseHelper::renderIcon('ti ti-arrow-narrow-right', null, ['class' => 'ms-1'])))
             ->add(
                 'login',
                 HtmlField::class,

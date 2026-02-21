@@ -24,7 +24,10 @@
 
         <x-core::card.body>
             <x-core::tab.content>
-                <x-core::tab.pane id="profile-tab" :is-active="true">
+                <x-core::tab.pane
+                    id="profile-tab"
+                    :is-active="true"
+                >
                     {!! $profileForm !!}
                 </x-core::tab.pane>
                 <x-core::tab.pane id="avatar-tab">

@@ -3,6 +3,7 @@
 namespace FriendsOfBotble\Comment\Models;
 
 use Botble\ACL\Contracts\HasPermissions;
+use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Models\BaseModel;
 use Botble\Media\Facades\RvMedia;
 use FriendsOfBotble\Comment\Enums\CommentStatus;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Facades\Config;
 
 class Comment extends BaseModel
 {
@@ -65,6 +67,18 @@ class Comment extends BaseModel
                 return RvMedia::getImageUrl($defaultAvatar, 'thumb');
             }
 
+            $avatarProvider = setting('fob_comment_avatar_provider', 'gravatar');
+
+            // If email is not provided or using UI Avatars, generate avatar based on name
+            if (empty($this->email) || $avatarProvider === 'ui_avatars') {
+                // Use UI Avatars service for name-based avatars
+                $name = urlencode($this->name);
+                $background = substr(md5($this->name), 0, 6); // Generate color from name
+
+                return "https://ui-avatars.com/api/?name={$name}&size=128&background={$background}&color=fff&bold=true";
+            }
+
+            // Use Gravatar for email-based avatars
             $email = strtolower(trim($this->email));
             $hash = hash('sha256', $email);
 
@@ -92,11 +106,26 @@ class Comment extends BaseModel
     protected function formattedContent(): Attribute
     {
         return Attribute::get(function () {
-            if (! $this->is_admin) {
-                return strip_tags($this->content);
+            if ($this->is_admin) {
+                return preg_replace('/<p[^>]*><\\/p[^>]*>/', '', $this->content);
             }
 
-            return preg_replace('/<p[^>]*><\\/p[^>]*>/', '', $this->content);
+            $cleanContent = BaseHelper::clean(nl2br(strip_tags($this->content)));
+
+            return preg_replace_callback('/(https?:\/\/[^\s<]+)/', function ($matches) {
+                $url = $matches[0];
+                $parsedUrl = parse_url($url);
+                $host = $parsedUrl['host'] ?? '';
+
+                $allowedDomains = Config::get('marketplace.allowed_external_links.domains', ['prnt.sc']);
+                foreach ($allowedDomains as $domain) {
+                    if (str_ends_with($host, $domain)) {
+                        return '<a href="' . $url . '" target="_blank" rel="nofollow noindex" class="text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300">' . $url . '</a>';
+                    }
+                }
+
+                return $url;
+            }, $cleanContent);
         });
     }
 }

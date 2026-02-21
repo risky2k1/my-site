@@ -4,6 +4,7 @@ namespace Botble\Gallery\Providers;
 
 use Botble\Base\Facades\AdminHelper;
 use Botble\Base\Facades\Assets;
+use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\Html;
 use Botble\Base\Facades\MetaBox;
 use Botble\Base\Forms\FieldOptions\NumberFieldOption;
@@ -33,8 +34,9 @@ class HookServiceProvider extends ServiceProvider
     {
         add_action(BASE_ACTION_META_BOXES, [$this, 'addGalleryBox'], 13, 2);
 
-        // Register Facebook comments for gallery items
-        add_filter('facebook_comment_html', [$this, 'renderGalleryFacebookComments'], 10, 2);
+        if (BaseHelper::isFrontendRequest()) {
+            add_filter('facebook_comment_html', [$this, 'renderGalleryFacebookComments'], 10, 2);
+        }
 
         if (function_exists('shortcode')) {
             add_shortcode(
@@ -54,38 +56,42 @@ class HookServiceProvider extends ServiceProvider
                 return ShortcodeForm::createFromArray($attributes)
                     ->withLazyLoading()
                     ->add('title', TextField::class, [
-                        'label' => __('Title'),
+                        'label' => trans('plugins/gallery::gallery.title'),
                     ])
                     ->add(
                         'limit',
                         NumberField::class,
                         NumberFieldOption::make()
-                            ->label(__('Limit'))
-                            ->helperText(__('Number of galleries to show. Set to 0 or leave it empty to show all. It will be overridden if you select galleries below.'))
+                            ->label(trans('plugins/gallery::gallery.limit'))
+                            ->helperText(trans('plugins/gallery::gallery.limit_helper'))
                             ->defaultValue(5)
                     )
                     ->add(
                         'gallery_ids',
                         SelectField::class,
                         SelectFieldOption::make()
-                            ->label(__('Galleries'))
+                            ->label(trans('plugins/gallery::gallery.galleries'))
                             ->choices($galleries)
                             ->selected($galleryIds)
                             ->searchable()
                             ->multiple()
                     );
             });
+
+            shortcode()->registerLoadingState('gallery', 'plugins/gallery::shortcodes.gallery-skeleton');
         }
 
-        add_filter(BASE_FILTER_PUBLIC_SINGLE_DATA, [$this, 'handleSingleView'], 11);
+        if (BaseHelper::isFrontendRequest()) {
+            add_filter(BASE_FILTER_PUBLIC_SINGLE_DATA, [$this, 'handleSingleView'], 11);
+
+            if (defined('PAGE_MODULE_SCREEN_NAME')) {
+                add_filter(PAGE_FILTER_FRONT_PAGE_CONTENT, [$this, 'renderGalleriesPage'], 2, 2);
+            }
+        }
 
         PageTable::beforeRendering(function (): void {
             add_filter(PAGE_FILTER_PAGE_NAME_IN_ADMIN_LIST, [$this, 'addAdditionNameToPageName'], 147, 2);
         });
-
-        if (defined('PAGE_MODULE_SCREEN_NAME')) {
-            add_filter(PAGE_FILTER_FRONT_PAGE_CONTENT, [$this, 'renderGalleriesPage'], 2, 2);
-        }
 
         $this->app['events']->listen(RenderingThemeOptionSettings::class, function (): void {
             add_action(RENDERING_THEME_OPTIONS_PAGE, [$this, 'addThemeOptions'], 11);
@@ -131,7 +137,7 @@ class HookServiceProvider extends ServiceProvider
     {
         $limit = (int) $shortcode->limit;
 
-        $galleryIds = \Botble\Shortcode\Facades\Shortcode::fields()->parseIds($shortcode->gallery_ids);
+        $galleryIds = shortcode()->fields()->parseIds($shortcode->gallery_ids);
 
         $galleries = GalleryModel::query()
             ->with(['slugable', 'user'])
@@ -209,13 +215,6 @@ class HookServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * Render Facebook comments for gallery items
-     *
-     * @param string $html The current HTML content
-     * @param object|null $object The object being displayed
-     * @return string The HTML content with Facebook comments if applicable
-     */
     public function renderGalleryFacebookComments(string $html, ?object $object = null): string
     {
         if ($object instanceof GalleryModel && theme_option('facebook_comment_enabled_in_gallery', 'no') === 'yes') {

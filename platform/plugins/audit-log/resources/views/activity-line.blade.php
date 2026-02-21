@@ -8,7 +8,7 @@
             />
         @else
             <img
-                src="{{ setting('admin_favicon') ? RvMedia::getImageUrl(setting('admin_favicon')) : asset(RvMedia::getDefaultImage()) }}"
+                src="{{ AdminHelper::getAdminFaviconUrl() }}"
                 class="avatar"
                 alt="{{ trans('plugins/audit-log::history.system') }}"
             />
@@ -17,7 +17,7 @@
     <div class="col">
         <div class="text-truncate">
             <strong>
-                @if (class_exists($history->user_type) && $user = $history->user)
+                @if (class_exists($history->user_type) && ($user = $history->user))
                     <a href="{{ $user->url ?? '#' }}">{{ $history->user_name }}</a>
                     <span class="badge bg-primary text-white">{{ $history->user_type_label }}</span>
                 @else
@@ -31,7 +31,10 @@
                 {{ $history->action }}
             @endif
 
-            @if ($history->module != 'user' || (class_exists($history->user_type) && empty($history->user)) || (class_exists($history->user_type) && $history->user->id != Auth::guard()->id()))
+            @if (
+                $history->module != 'user' ||
+                    (class_exists($history->user_type) && empty($history->user)) ||
+                    (class_exists($history->user_type) && $history->user->id != Auth::guard()->id()))
                 @if (Lang::has("plugins/audit-log::history.$history->module"))
                     {{ trans("plugins/audit-log::history.$history->module") }}
                 @else

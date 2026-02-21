@@ -9,6 +9,7 @@ use Botble\Base\Traits\LoadAndPublishDataTrait;
 use Botble\Setting\PanelSections\SettingOthersPanelSection;
 use Botble\SocialLogin\Console\RefreshSocialTokensCommand;
 use Botble\SocialLogin\Facades\SocialService;
+use Botble\SocialLogin\Services\AppleJwtService;
 use Botble\SocialLogin\Services\SocialLoginService;
 use Botble\SocialLogin\Supports\SocialService as SocialServiceSupport;
 use Illuminate\Console\Scheduling\Schedule;
@@ -23,11 +24,12 @@ class SocialLoginServiceProvider extends ServiceProvider
         $this
             ->setNamespace('plugins/social-login')
             ->loadHelpers()
-            ->loadAndPublishConfigurations(['permissions', 'general'])
+            ->loadAndPublishConfigurations(['general'])
+            ->loadAndPublishConfigurations(['permissions'])
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()
             ->loadMigrations()
-            ->loadRoutes()
+            ->loadRoutes(['web', 'api'])
             ->publishAssets();
 
         AliasLoader::getInstance()->alias('SocialService', SocialService::class);
@@ -58,6 +60,7 @@ class SocialLoginServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(SocialLoginService::class);
+        $this->app->singleton(AppleJwtService::class);
 
         $this->commands([
             RefreshSocialTokensCommand::class,

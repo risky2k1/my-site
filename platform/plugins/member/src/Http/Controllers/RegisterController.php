@@ -25,13 +25,13 @@ class RegisterController extends BaseController
     {
         abort_unless(setting('member_enabled_registration', true), 404);
 
-        SeoHelper::setTitle(__('Register'));
+        SeoHelper::setTitle(trans('plugins/member::member.form.register_title'));
 
         if (! session()->has('url.intended')) {
             session(['url.intended' => url()->previous()]);
         }
 
-        Theme::breadcrumb()->add(__('Register'), route('public.member.register'));
+        Theme::breadcrumb()->add(trans('plugins/member::member.form.register_title'), route('public.member.register'));
 
         return Theme::scope(
             'member.auth.register',
@@ -77,7 +77,7 @@ class RegisterController extends BaseController
             return $this
                 ->httpResponse()
                 ->setError()
-                ->setMessage(__('Cannot find this account!'));
+                ->setMessage(trans('plugins/member::dashboard.cannot_find_account'));
         }
 
         $this->sendConfirmationToUser($member);
@@ -120,7 +120,7 @@ class RegisterController extends BaseController
 
             $this->registered($request, $member);
 
-            $message = __('We have sent you an email to verify your email. Please check and confirm your email address!');
+            $message = trans('plugins/member::dashboard.verification_email_sent');
 
             return $this
                 ->httpResponse()

@@ -1,7 +1,7 @@
-<h1>{{ __('Author') }}: {{ $author->name }}</h1>
+<h1>{{ trans('plugins/member::member.author') }}: {{ $author->name }}</h1>
 <p>{!! BaseHelper::clean($author->description) !!}</p>
 
-<h3>{{ __('Posts by :name', ['name' => $author->name]) }}:</h3>
+<h3>{{ trans('plugins/member::dashboard.posts_by_name', ['name' => $author->name]) }}:</h3>
 @if ($posts->count() > 0)
     @foreach ($posts as $post)
         <article>
@@ -17,7 +17,7 @@
                     <div>
                         <span>{{ $post->created_at->translatedFormat('M d, Y') }}</span><span>{{ $post->author->name }}</span>
                         -
-                        {{ __('Categories') }}:
+                        {{ trans('plugins/member::dashboard.categories') }}:
                         @foreach ($post->categories as $category)
                             <a href="{{ $category->url }}">{{ $category->name }}</a>
                             @if (!$loop->last)
@@ -36,5 +36,5 @@
         {!! $posts->withQueryString()->links() !!}
     </div>
 @else
-    <p>{{ __('No posts found!') }}</p>
+    <p>{{ trans('plugins/member::dashboard.no_posts_found') }}</p>
 @endif

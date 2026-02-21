@@ -29,7 +29,7 @@ class RequestLog extends BaseModel
     {
         $days = setting('request_log_data_retention_period', DataRetentionPeriod::ONE_MONTH);
 
-        if ($days === DataRetentionPeriod::NEVER) {
+        if ($days == DataRetentionPeriod::NEVER) {
             return $this->query()->where('id', '<', 0);
         }
 

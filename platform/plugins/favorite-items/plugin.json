@@ -1,0 +1,11 @@
+{
+    "id": "risky2k1/favorite-items",
+    "name": "Favorite Items",
+    "namespace": "Botble\\FavoriteItems\\",
+    "provider": "Botble\\FavoriteItems\\Providers\\FavoriteItemsServiceProvider",
+    "author": "",
+    "url": "",
+    "version": "1.0.0",
+    "description": "",
+    "minimum_core_version": "7.5.9.1"
+}

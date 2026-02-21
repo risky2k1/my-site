@@ -30,11 +30,20 @@ class BaseSeeder extends Seeder
 {
     use Conditionable;
 
-    protected Generator $faker;
+    private ?Generator $fakerInstance = null;
 
     protected Carbon $now;
 
     protected string $basePath;
+
+    public function __get(string $name)
+    {
+        if ($name === 'faker') {
+            return $this->fake();
+        }
+
+        throw new \InvalidArgumentException("Property {$name} does not exist on " . static::class);
+    }
 
     public function uploadFiles(string $folder, ?string $basePath = null): array
     {
@@ -78,6 +87,18 @@ class BaseSeeder extends Seeder
             return $path;
         }
 
+        if (File::exists($filePath)) {
+            try {
+                $uploadedFile = RvMedia::uploadFromPath($filePath, 0, dirname($path));
+                if (isset($uploadedFile['data']['url'])) {
+                    return str_replace(RvMedia::getUploadURL() . '/', '', $uploadedFile['data']['url']);
+                }
+            } catch (Throwable $exception) {
+                $this->command->warn('Error uploading file: ' . $filePath);
+                $this->command->warn($exception->getMessage());
+            }
+        }
+
         throw new FileNotFoundException('File not found: ' . $filePath);
     }
 
@@ -98,8 +119,6 @@ class BaseSeeder extends Seeder
     {
         MediaFile::query()->truncate();
         MediaFolder::query()->truncate();
-
-        $this->faker = $this->fake();
 
         Setting::newQuery()->truncate();
 
@@ -139,8 +158,8 @@ class BaseSeeder extends Seeder
 
     protected function fake(): Generator
     {
-        if (isset($this->faker)) {
-            return $this->faker;
+        if (isset($this->fakerInstance)) {
+            return $this->fakerInstance;
         }
 
         if (! class_exists(Factory::class)) {
@@ -164,9 +183,9 @@ class BaseSeeder extends Seeder
             exit(1);
         }
 
-        $this->faker = fake();
+        $this->fakerInstance = fake();
 
-        return $this->faker;
+        return $this->fakerInstance;
     }
 
     protected function now(): Carbon

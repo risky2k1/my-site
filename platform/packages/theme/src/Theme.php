@@ -6,8 +6,10 @@ use Botble\Base\Facades\AdminHelper;
 use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\Html;
 use Botble\Media\Facades\RvMedia;
+use Botble\SeoHelper\Facades\SeoHelper;
 use Botble\Setting\Facades\Setting;
 use Botble\Theme\Contracts\Theme as ThemeContract;
+use Botble\Theme\Events\RenderingTheme;
 use Botble\Theme\Exceptions\UnknownPartialFileException;
 use Botble\Theme\Exceptions\UnknownThemeException;
 use Botble\Theme\Supports\SocialLink;
@@ -67,6 +69,10 @@ class Theme implements ThemeContract
         protected Filesystem $files,
         protected Breadcrumb $breadcrumb
     ) {
+        if ($this->config->get('core.base.general.disable_front_theme')) {
+            return;
+        }
+
         $this->uses($this->getThemeName())->layout(setting('layout', 'default'));
     }
 
@@ -209,7 +215,7 @@ class Theme implements ThemeContract
         return empty($key) ? $config : Arr::get($config, $key);
     }
 
-    protected function loadConfigFromTheme(string $theme): void
+    protected function loadConfigFromTheme(?string $theme): void
     {
         // Config inside a public theme.
         // This config having buffer by array object.
@@ -300,7 +306,7 @@ class Theme implements ThemeContract
             return $theme;
         }
 
-        return Arr::first(BaseHelper::scanFolder(theme_path()));
+        return Arr::first(BaseHelper::scanFolder(theme_path())) ?: '';
     }
 
     public function setThemeName(string $theme): self
@@ -355,7 +361,7 @@ class Theme implements ThemeContract
     public function breadcrumb(): Breadcrumb
     {
         if (! $this->breadcrumb->getCrumbs()) {
-            $this->breadcrumb->add(__('Home'), BaseHelper::getHomepageUrl());
+            $this->breadcrumb->add(trans('packages/theme::theme.common.home'), BaseHelper::getHomepageUrl());
         }
 
         return $this->breadcrumb;
@@ -840,6 +846,20 @@ class Theme implements ThemeContract
                 ->writeScript('breadcrumb-schema', $schema, attributes: ['type' => 'application/ld+json']);
         }
 
+        $websiteSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'WebSite',
+            'name' => rescue(fn () => SeoHelper::openGraph()->getProperty('site_name')),
+            'url' => url(''),
+        ];
+
+        $websiteSchema = json_encode($websiteSchema, JSON_UNESCAPED_UNICODE);
+
+        $this
+            ->asset()
+            ->container('header')
+            ->writeScript('website-schema', $websiteSchema, attributes: ['type' => 'application/ld+json']);
+
         return $this->view->make('packages/theme::partials.header')->render();
     }
 
@@ -870,9 +890,9 @@ class Theme implements ThemeContract
         require package_path('theme/routes/public.php');
     }
 
-    public function registerRoutes(Closure|callable $closure): Router
+    public function registerRoutes(Closure|callable $closure, array $middlewares = ['web', 'core']): Router
     {
-        return Route::group(['middleware' => ['web', 'core']], function () use ($closure): void {
+        return Route::group(['middleware' => $middlewares], function () use ($closure): void {
             Route::group(apply_filters(BASE_FILTER_GROUP_PUBLIC_ROUTE, []), fn () => $closure());
         });
     }
@@ -891,7 +911,8 @@ class Theme implements ThemeContract
     {
         $this->fire('asset', $this->asset);
 
-        // Fire event before render theme.
+        RenderingTheme::dispatch();
+
         $this->fire('beforeRenderTheme', $this);
 
         // Fire event before render layout.
@@ -1081,7 +1102,13 @@ class Theme implements ThemeContract
         $height = theme_option('logo_height') ?: $maxHeight;
 
         if ($height) {
-            $attributes['style'] = sprintf('max-height: %s', is_numeric($height) ? "{$height}px" : $height);
+            $maxHeightStyle = 'max-height: %s';
+
+            if (setting('optimize_inline_css', 0)) {
+                $maxHeightStyle = 'max-height: %s !important';
+            }
+
+            $attributes['style'] = sprintf($maxHeightStyle, is_numeric($height) ? "{$height}px" : $height);
         }
 
         $attributes['loading'] = false;

@@ -81,6 +81,13 @@ class PostTable extends TableAbstract
                         return Html::link($url, $column->getItem()->author_name, ['target' => '_blank']);
                     })
                     ->withEmptyState(),
+                FormattedColumn::make('views')
+                    ->title(trans('plugins/blog::posts.views'))
+                    ->width(80)
+                    ->alignCenter()
+                    ->getValueUsing(function (FormattedColumn $column) {
+                        return number_format($column->getItem()->views);
+                    }),
                 CreatedAtColumn::make(),
                 StatusColumn::make(),
             ])
@@ -115,6 +122,7 @@ class PostTable extends TableAbstract
                         'updated_at',
                         'author_id',
                         'author_type',
+                        'views',
                     ]);
             })
             ->onAjax(function (self $table) {

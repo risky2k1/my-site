@@ -1,6 +1,9 @@
-@if($user->confirmed_at)
+@if ($user->confirmed_at)
     <small class="text-success d-flex align-items-center gap-1 mt-n2 mb-3">
-        <x-core::icon name="ti ti-circle-check" size="sm" />
+        <x-core::icon
+            name="ti ti-circle-check"
+            size="sm"
+        />
         {{ trans('plugins/member::dashboard.verified') }}
     </small>
 @else

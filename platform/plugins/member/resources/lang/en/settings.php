@@ -5,6 +5,8 @@ return [
     'description' => 'View and update member settings',
     'verify_account_email' => "Verify account's email?",
     'verify_account_email_helper' => "When it's enabled, a verification link will be sent to account's email, customers need to click on this link to verify their email before they can log in. Need to config email in Admin -> Settings -> Email to send email verification.",
+    'verification_expire_minutes' => 'Verification link expiration (minutes)',
+    'verification_expire_minutes_helper' => 'The number of minutes that the email verification link should be considered valid. Default is 60 minutes (1 hour). Maximum is 10080 minutes (7 days).',
     'enabled_login' => 'Allow visitors to login?',
     'enabled_login_helper' => 'When it is enabled, visitors can log in to your site if they have an account.',
     'enabled_registration' => 'Allow visitors to register account?',

@@ -43,7 +43,7 @@ class SocialLoginController extends BaseController
             return $this
                 ->httpResponse()
                 ->setError()
-                ->setMessage(__('This feature is temporary disabled in demo mode. Please use another login option. Such as Google.'));
+                ->setMessage(trans('plugins/social-login::social-login.demo_mode_disabled'));
         }
 
         $this->setProvider($provider);
@@ -53,7 +53,7 @@ class SocialLoginController extends BaseController
         return Socialite::driver($provider)->redirect();
     }
 
-    protected function guard(Request $request = null)
+    protected function guard(?Request $request = null)
     {
         if ($request) {
             $guard = $request->input('guard');
@@ -74,11 +74,13 @@ class SocialLoginController extends BaseController
 
     protected function setProvider(string $provider): bool
     {
+        $callbackUrl = apply_filters('social_login_callback_url', route('auth.social.callback', $provider), $provider);
+
         config()->set([
             'services.' . $provider => [
                 'client_id' => SocialService::setting($provider . '_app_id'),
                 'client_secret' => SocialService::setting($provider . '_app_secret'),
-                'redirect' => route('auth.social.callback', $provider),
+                'redirect' => $callbackUrl,
             ],
         ]);
 
@@ -96,7 +98,7 @@ class SocialLoginController extends BaseController
                 ->httpResponse()
                 ->setError()
                 ->setNextUrl(BaseHelper::getHomepageUrl())
-                ->setMessage(__('An error occurred while trying to login'));
+                ->setMessage(trans('plugins/social-login::social-login.login_error'));
         }
 
         $this->setProvider($provider);
@@ -116,17 +118,17 @@ class SocialLoginController extends BaseController
             }
 
             if (! $message) {
-                $message = __('An error occurred while trying to login');
+                $message = trans('plugins/social-login::social-login.login_error');
             }
 
             if ($exception instanceof InvalidStateException) {
-                $message = __('InvalidStateException occurred while trying to login');
+                $message = trans('plugins/social-login::social-login.invalid_state_exception');
             }
 
             return $this
                 ->httpResponse()
                 ->setError()
-                ->setNextUrl($providerData['login_url'])
+                ->setNextUrl(value($providerData['login_url']))
                 ->setMessage($message);
         }
 
@@ -134,8 +136,8 @@ class SocialLoginController extends BaseController
             return $this
                 ->httpResponse()
                 ->setError()
-                ->setNextUrl($providerData['login_url'])
-                ->setMessage(__('Cannot login, no email provided!'));
+                ->setNextUrl(value($providerData['login_url']))
+                ->setMessage(trans('plugins/social-login::social-login.no_email_provided'));
         }
 
         $avatarId = null;
@@ -143,20 +145,16 @@ class SocialLoginController extends BaseController
 
         $model = new $providerData['model']();
 
-        // Find account by email
         $account = $this->socialLoginService->findUserByEmail($oAuth->getEmail(), $model::class);
 
-        // Find social login by provider and provider ID
         $socialLoginUser = $this->socialLoginService->findUserByProvider($provider, $oAuth->getId());
 
         if ($socialLoginUser && $account && $socialLoginUser->getKey() !== $account->getKey()) {
-            // If social login exists but belongs to a different account, update it
             $this->socialLoginService->updateSocialLogin($socialLoginUser, $provider, [
                 'user_id' => $account->getKey(),
                 'user_type' => $account::class,
             ]);
         } elseif (! $account) {
-            // Create new account if not exists
             $beforeProcessData = apply_filters('social_login_before_creating_account', null, $oAuth, $providerData);
 
             if ($beforeProcessData instanceof BaseHttpResponse) {
@@ -201,7 +199,6 @@ class SocialLoginController extends BaseController
             event(new Registered($account));
         }
 
-        // Create or update social login
         $socialLoginData = $this->socialLoginService->createSocialLoginData([
             'provider' => $provider,
             'id' => $oAuth->getId(),
@@ -213,23 +210,13 @@ class SocialLoginController extends BaseController
             'avatar' => $oAuth->getAvatar(),
         ]);
 
-        if ($this->socialLoginService->hasSocialLogin($account, $provider)) {
-            $this->socialLoginService->updateSocialLogin($account, $provider, $socialLoginData);
-        } else {
-            $this->socialLoginService->addSocialLogin($account, $socialLoginData);
-        }
+        $this->socialLoginService->createOrUpdateSocialLogin($account, $socialLoginData);
 
-        // Update user information if changed
-        if ($account->name !== $oAuth->getName() || $account->email !== $oAuth->getEmail()) {
-            $account->name = $oAuth->getName() ?: $account->name;
-            $account->email = $oAuth->getEmail();
-            $account->save();
-        }
-
-        // Update avatar if changed
         try {
             $url = $oAuth->getAvatar();
-            if ($url && (! $account->avatar_id || $account->avatar_id !== $avatarId)) {
+            $hasAvatar = $account->isFillable('avatar_id') ? $account->avatar_id : $account->avatar;
+
+            if ($url && ! $hasAvatar) {
                 $result = RvMedia::uploadFromUrl($url, 0, $model->upload_folder ?: 'accounts', 'image/png');
 
                 if (! $result['error']) {
@@ -248,7 +235,7 @@ class SocialLoginController extends BaseController
 
         Auth::guard($guard)->login($account, true);
 
-        $redirectUrl = $providerData['redirect_url'] ?: BaseHelper::getHomepageUrl();
+        $redirectUrl = value($providerData['redirect_url']) ?: BaseHelper::getHomepageUrl();
 
         $redirectUrl = session()->has('url.intended') ? session('url.intended') : $redirectUrl;
 

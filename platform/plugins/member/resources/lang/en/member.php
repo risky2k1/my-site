@@ -3,6 +3,7 @@
 return [
     'create' => 'New member',
     'menu_name' => 'Members',
+    'edit_this_member' => 'Edit this member',
     'menu_description' => 'View and manage your members',
     'confirmation_subject' => 'Email verification',
     'confirmation_subject_title' => 'Verify your email',
@@ -53,5 +54,29 @@ return [
         'notification' => 'This account is not verified email yet? :approve_link to verify email.',
         'approve_here' => 'click here',
         'confirm_button' => 'Verify',
+    ],
+    'email_templates' => [
+        // Confirm email template
+        'confirm_email_title' => 'Verify Email',
+        'confirm_email_welcome' => 'We\'re glad to have you here, :member_name!',
+        'confirm_email_instruction' => 'Please verify your email address in order to access this website. Click on the button below to verify your email..',
+        'confirm_email_button' => 'Confirm your email address',
+
+        // New pending post template
+        'new_pending_post_title' => 'New Post Pending Review',
+        'new_pending_post_greeting' => 'Dear Admin,',
+        'new_pending_post_intro' => 'A new post has been submitted and is waiting for your review and approval.',
+        'new_pending_post_details_title' => 'Post Details:',
+        'new_pending_post_author_label' => 'Author:',
+        'new_pending_post_title_label' => 'Title:',
+        'new_pending_post_action_needed' => 'Please review this post and take appropriate action.',
+        'new_pending_post_review_button' => 'Review Post',
+        'new_pending_post_footer_note' => 'This post will remain in pending status until you approve or reject it.',
+
+        // Password reminder template
+        'password_reminder_title' => 'Reset Password Instruction',
+        'password_reminder_message' => 'You are receiving this email because we received a password reset request for your account.',
+        'password_reminder_button' => 'Reset password',
+        'password_reminder_trouble' => 'If you\'re having trouble clicking the "Reset Password" button, copy and paste the URL below into your web browser: <a href=":reset_link">:reset_link</a> and paste it into your browser. If you didn\'t request a password reset, please ignore this message or contact us if you have any questions.',
     ],
 ];

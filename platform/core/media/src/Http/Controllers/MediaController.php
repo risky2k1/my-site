@@ -156,18 +156,73 @@ class MediaController extends BaseController
                     ],
                 ];
 
-                if (! count($request->input('recent_items', []))) {
-                    break;
+                // Get recent items from the server instead of client-side localStorage
+                $recentItems = MediaSetting::query()
+                    ->where([
+                        'key' => 'recent_items',
+                        'user_id' => Auth::guard()->id(),
+                    ])->first();
+
+                // If we're in a specific folder, show all files in that folder
+                if ($folderId > 0) {
+                    // When in a specific folder, show all files in that folder like normal
+                    $queried = $this->fileRepository->getFilesByFolderId(
+                        $folderId,
+                        $paramsFile,
+                        true,
+                        $paramsFolder
+                    );
+
+                    $folders = FolderResource::collection($queried->where('is_folder', 1));
+                    $files = FileResource::collection($queried->where('is_folder', 0));
+                } else {
+                    // When in root recent view, show all recent items
+                    if (! empty($recentItems)) {
+                        $recentValue = $recentItems->value;
+
+                        // Separate file IDs and folder IDs
+                        $fileIds = [];
+                        $folderIds = [];
+
+                        foreach ($recentValue as $item) {
+                            if (isset($item['is_folder']) && $item['is_folder']) {
+                                $folderIds[] = $item['id'];
+                            } else {
+                                $fileIds[] = $item['id'];
+                            }
+                        }
+
+                        // Get folders
+                        if (count($folderIds) > 0) {
+                            $paramsFolder = array_merge_recursive($paramsFolder, [
+                                'condition' => [
+                                    ['media_folders.id', 'IN', $folderIds],
+                                ],
+                            ]);
+                        }
+
+                        // Get files
+                        if (count($fileIds) > 0) {
+                            $paramsFile = array_merge_recursive($paramsFile, [
+                                'condition' => [
+                                    ['media_files.id', 'IN', $fileIds],
+                                ],
+                            ]);
+                        }
+
+                        if (count($fileIds) > 0 || count($folderIds) > 0) {
+                            $queried = $this->fileRepository->getFilesByFolderId(
+                                0,
+                                $paramsFile,
+                                true, // Include folders
+                                $paramsFolder
+                            );
+
+                            $folders = FolderResource::collection($queried->where('is_folder', 1));
+                            $files = FileResource::collection($queried->where('is_folder', 0));
+                        }
+                    }
                 }
-
-                $queried = $this->fileRepository->getFilesByFolderId(
-                    0,
-                    array_merge($paramsFile, ['recent_items' => $request->input('recent_items', [])]),
-                    false,
-                    $paramsFolder
-                );
-
-                $files = FileResource::collection($queried);
 
                 break;
 
@@ -209,12 +264,45 @@ class MediaController extends BaseController
                         ],
                     ]);
 
-                    $queried = $this->fileRepository->getFilesByFolderId(
-                        $folderId,
-                        $paramsFile,
-                        true,
-                        $paramsFolder
-                    );
+                    // If we're in a specific folder, show all files in that folder
+                    if ($folderId > 0) {
+                        // When in a specific folder, show all files in that folder like normal
+                        // Remove the favorites filter to show all files in the folder
+                        $cleanParamsFile = $paramsFile;
+                        if (isset($cleanParamsFile['condition'])) {
+                            foreach ($cleanParamsFile['condition'] as $key => $condition) {
+                                if (is_array($condition) && count($condition) > 2 && $condition[0] === 'media_files.id' && $condition[1] === 'IN') {
+                                    unset($cleanParamsFile['condition'][$key]);
+                                }
+                            }
+                        }
+
+                        $cleanParamsFolder = $paramsFolder;
+                        if (isset($cleanParamsFolder['condition'])) {
+                            foreach ($cleanParamsFolder['condition'] as $key => $condition) {
+                                if (is_array($condition) && count($condition) > 2 && $condition[0] === 'media_folders.id' && $condition[1] === 'IN') {
+                                    unset($cleanParamsFolder['condition'][$key]);
+                                }
+                            }
+                        }
+
+                        $queried = $this->fileRepository->getFilesByFolderId(
+                            $folderId,
+                            $cleanParamsFile,
+                            true,
+                            $cleanParamsFolder
+                        );
+                    } else {
+                        // When in root favorites view, show all favorited items regardless of folder
+                        $paramsFile['is_favorite'] = true;
+
+                        $queried = $this->fileRepository->getFilesByFolderId(
+                            0,
+                            $paramsFile,
+                            true,
+                            $paramsFolder
+                        );
+                    }
 
                     $folders = FolderResource::collection($queried->where('is_folder', 1));
 
@@ -544,6 +632,56 @@ class MediaController extends BaseController
 
                 break;
 
+            case 'add_recent':
+                // Validate the input
+                $itemId = $request->input('item.id');
+
+                // If the item ID is not valid, return an error
+                if (empty($itemId)) {
+                    $response = RvMedia::responseError('Invalid item ID');
+
+                    break;
+                }
+
+                $meta = MediaSetting::query()->firstOrCreate([
+                    'key' => 'recent_items',
+                    'user_id' => Auth::guard()->id(),
+                ]);
+
+                $value = $meta->value ?: [];
+
+                // Add the new item to the recent items list
+                // Only store essential information (id and is_folder)
+                $recentItem = [
+                    'id' => $itemId,
+                    'is_folder' => (bool) $request->input('item.is_folder', false),
+                ];
+
+                // Check if the item already exists in the list
+                foreach ($value as $key => $item) {
+                    if ($item['id'] == $recentItem['id'] && isset($item['is_folder']) && $item['is_folder'] == $recentItem['is_folder']) {
+                        // Remove it so we can add it to the beginning (most recent)
+                        unset($value[$key]);
+
+                        break;
+                    }
+                }
+
+                // Add the item to the beginning of the array
+                array_unshift($value, $recentItem);
+
+                // Limit to 20 most recent items
+                if (count($value) > 20) {
+                    $value = array_slice($value, 0, 20);
+                }
+
+                $meta->value = $value;
+                $meta->save();
+
+                $response = RvMedia::responseSuccess([], trans('core/media::media.add_recent_success'));
+
+                break;
+
             case 'crop':
                 $validated = Validator::validate($request->input(), [
                     'imageId' => ['required', 'string', 'exists:media_files,id'],
@@ -766,6 +904,140 @@ class MediaController extends BaseController
         return $file;
     }
 
+    public function getFolderList(Request $request)
+    {
+        $parentId = $request->input('parent_id', 0);
+        $excludeIds = array_filter((array) $request->input('exclude_ids', []));
+
+        $allExcludeIds = $this->getAllDescendantFolderIds($excludeIds);
+
+        $query = MediaFolder::query()
+            ->where(function ($q) use ($parentId): void {
+                if (! $parentId || $parentId === '0') {
+                    $q->whereNull('parent_id')
+                        ->orWhere('parent_id', 0)
+                        ->orWhere('parent_id', '0');
+                } else {
+                    $q->where('parent_id', $parentId);
+                }
+            })
+            ->whereNotIn('id', $allExcludeIds);
+
+        $folders = $query->orderBy('name')
+            ->get(['id', 'name', 'parent_id'])
+            ->map(function ($folder) use ($allExcludeIds) {
+                return [
+                    'id' => $folder->id,
+                    'name' => $folder->name,
+                    'parent_id' => $folder->parent_id,
+                    'has_children' => MediaFolder::query()
+                        ->where('parent_id', $folder->id)
+                        ->whereNotIn('id', $allExcludeIds)
+                        ->exists(),
+                ];
+            });
+
+        $currentFolder = $parentId
+            ? MediaFolder::query()->find($parentId, ['id', 'name', 'parent_id'])
+            : null;
+
+        $breadcrumbs = $this->buildFolderBreadcrumbs($parentId);
+
+        return RvMedia::responseSuccess([
+            'current_folder' => $currentFolder ? [
+                'id' => $currentFolder->id,
+                'name' => $currentFolder->name,
+                'parent_id' => $currentFolder->parent_id,
+            ] : ['id' => 0, 'name' => trans('core/media::media.root'), 'parent_id' => null],
+            'folders' => $folders,
+            'breadcrumbs' => $breadcrumbs,
+        ]);
+    }
+
+    protected function getAllDescendantFolderIds(array $folderIds): array
+    {
+        if (empty($folderIds)) {
+            return [];
+        }
+
+        $allIds = $folderIds;
+        $childIds = MediaFolder::query()
+            ->whereIn('parent_id', $allIds)
+            ->pluck('id')
+            ->toArray();
+
+        if (! empty($childIds)) {
+            $allIds = array_merge($allIds, $this->getAllDescendantFolderIds($childIds));
+        }
+
+        return array_unique($allIds);
+    }
+
+    protected function buildFolderBreadcrumbs(int|string $folderId): array
+    {
+        $breadcrumbs = [['id' => 0, 'name' => trans('core/media::media.root')]];
+
+        if (! $folderId) {
+            return $breadcrumbs;
+        }
+
+        $folder = MediaFolder::query()->find($folderId);
+        $path = [];
+
+        while ($folder) {
+            array_unshift($path, ['id' => $folder->id, 'name' => $folder->name]);
+            $folder = $folder->parent_id
+                ? MediaFolder::query()->find($folder->parent_id)
+                : null;
+        }
+
+        return array_merge($breadcrumbs, $path);
+    }
+
+    public function getFolderTree(Request $request)
+    {
+        $excludeIds = array_filter((array) $request->input('exclude_ids', []));
+        $allExcludeIds = $this->getAllDescendantFolderIds($excludeIds);
+
+        $folders = MediaFolder::query()
+            ->whereNotIn('id', $allExcludeIds)
+            ->orderBy('name')
+            ->get(['id', 'name', 'parent_id']);
+
+        $tree = $this->buildFolderTree($folders, null, $allExcludeIds);
+
+        return RvMedia::responseSuccess([
+            'tree' => $tree,
+        ]);
+    }
+
+    protected function buildFolderTree($folders, $parentId = null, array $excludeIds = []): array
+    {
+        $tree = [];
+
+        $children = $folders->filter(function ($folder) use ($parentId) {
+            if ($parentId === null) {
+                return $folder->parent_id === null || $folder->parent_id === 0 || $folder->parent_id === '0';
+            }
+
+            return $folder->parent_id == $parentId;
+        });
+
+        foreach ($children as $folder) {
+            $childTree = $this->buildFolderTree($folders, $folder->id, $excludeIds);
+
+            $tree[] = [
+                'id' => $folder->id,
+                'name' => $folder->name,
+                'parent_id' => $folder->parent_id,
+                'children' => $childTree,
+                'has_children' => count($childTree) > 0,
+            ];
+        }
+
+        return $tree;
+    }
+
     public function download(Request $request)
     {
         $items = $request->input('selected', []);
@@ -790,10 +1062,13 @@ class MediaController extends BaseController
                                 $zip->add($filePath);
                             }
                         } else {
-                            $zip->addString(
-                                File::basename($file),
-                                Http::withoutVerifying()->get($filePath)->body()
-                            );
+                            try {
+                                $fileContent = Storage::get($file->url);
+                            } catch (Throwable $exception) {
+                                $fileContent = Http::withoutVerifying()->get($filePath)->body();
+                            }
+
+                            $zip->addString(File::basename($file->url), $fileContent);
                         }
                     }
                 } else {
@@ -807,10 +1082,13 @@ class MediaController extends BaseController
                         } else {
                             $allFiles = Storage::allFiles($this->folderRepository->getFullPath($folder->id));
                             foreach ($allFiles as $file) {
-                                $zip->addString(
-                                    File::basename($file),
-                                    Http::withoutVerifying()->get(RvMedia::getRealPath($file))->body()
-                                );
+                                try {
+                                    $fileContent = Storage::get($file);
+                                } catch (Throwable $exception) {
+                                    $fileContent = Http::withoutVerifying()->get(RvMedia::getRealPath($file))->body();
+                                }
+
+                                $zip->addString(File::basename($file), $fileContent);
                             }
                         }
                     }

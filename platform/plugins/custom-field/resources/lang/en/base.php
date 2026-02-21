@@ -39,6 +39,10 @@ return [
         'choices' => 'Choices',
         'choices_helper' => 'Enter each choice on a new line.<br>For more control, you may specify both a value and label like this:<br>red: Red<br>blue: Blue',
         'button_label' => 'Button for repeater',
+        'date_format' => 'Date format',
+        'date_format_helper' => 'Choose the display format for dates',
+        'time_format' => 'Time format',
+        'time_format_helper' => 'Choose the display format for time',
 
         'groups' => [
             'basic' => 'Basic',
@@ -53,6 +57,11 @@ return [
             'number' => 'Number',
             'email' => 'Email',
             'password' => 'Password',
+            'url' => 'URL',
+            'date' => 'Date picker',
+            'datetime' => 'Date & time picker',
+            'time' => 'Time picker',
+            'color' => 'Color picker',
             'wysiwyg' => 'WYSIWYG editor',
             'image' => 'Image',
             'file' => 'File',

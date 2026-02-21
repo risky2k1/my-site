@@ -3,9 +3,13 @@
 @endphp
 
 <div {!! Html::attributes($wrapperAttributes) !!}>
+    @if (isset($label) && $label)
+        <label @class(['form-label', 'required' => isset($required) && $required])>{{ $label }}</label>
+        <fieldset class="form-fieldset">
+    @endif
     <div class="shortcode-tabs-field-wrapper">
         <div class="mb-3">
-            <label class="form-label">{{ __('Quantity') }}</label>
+            <label class="form-label">{{ trans('packages/shortcode::shortcode.form.quantity') }}</label>
             {!! Form::customSelect($tabKey ? "{$tabKey}_quantity" : 'quantity', $choices, $current, [
                 'id' => $selector,
                 'data-max' => $max,
@@ -40,7 +44,7 @@
                             aria-expanded="false"
                             aria-controls="collapse-{{ $tabItemKey }}"
                         >
-                            {{ __('Tab #:number', ['number' => $i]) }}
+                            {{ trans('packages/shortcode::shortcode.form.tab_number', ['number' => $i]) }}
                         </button>
                     </h2>
                     <div
@@ -62,8 +66,9 @@
                                         $fieldAttributes = [...Arr::get($field, 'attributes', []), 'data-name' => $key];
 
                                         $options = [];
-                                        if (Arr::has($field, 'options')) {
-                                            $options = Arr::get($field, 'options', []);
+                                        if (Arr::has($field, 'options') || Arr::has($field, 'choices')) {
+                                            $options =
+                                                Arr::get($field, 'options', []) ?: Arr::get($field, 'choices', []);
                                         }
                                     @endphp
 
@@ -71,57 +76,83 @@
                                         <label @class(['form-label', 'required' => Arr::get($field, 'required')])>{{ $title }}</label>
                                         @switch(Arr::get($field, 'type'))
                                             @case('image')
+                                            @case('mediaImage')
                                                 {!! Form::mediaImage($name, $value, $fieldAttributes) !!}
-                                                @break
+                                            @break
 
                                             @case('file')
+                                            @case('mediaFile')
                                                 {!! Form::mediaFile($name, $value, $fieldAttributes) !!}
-                                                @break
+                                            @break
 
                                             @case('color')
                                                 {!! Form::customColor($name, $value, $fieldAttributes) !!}
-                                                @break
+                                            @break
 
                                             @case('icon')
                                                 {!! Form::themeIcon($name, $value, $fieldAttributes) !!}
-                                                @break
+                                            @break
 
                                             @case('number')
                                                 {!! Form::number($name, $value, [
                                                     'class' => 'form-control',
                                                     'placeholder' => $placeholder,
                                                     'data-name' => $key,
+                                                    'required' => Arr::get($field, 'required', false),
                                                 ]) !!}
-                                                @break
+                                            @break
 
                                             @case('textarea')
                                                 {!! Form::textarea($name, $value, [
                                                     'class' => 'form-control',
                                                     'placeholder' => $placeholder,
                                                     'rows' => 3,
+                                                    'required' => Arr::get($field, 'required', false),
                                                     ...$fieldAttributes,
                                                 ]) !!}
-                                                @break
+                                            @break
+
+                                            @case('url')
+                                            @case('link')
+                                                {!! Form::url($name, $value, [
+                                                    'class' => 'form-control',
+                                                    'placeholder' => $placeholder,
+                                                    'required' => Arr::get($field, 'required', false),
+                                                    ...$fieldAttributes,
+                                                ]) !!}
+                                            @break
+
+                                            @case('email')
+                                                {!! Form::email($name, $value, [
+                                                    'class' => 'form-control',
+                                                    'placeholder' => $placeholder,
+                                                    'required' => Arr::get($field, 'required', false),
+                                                    ...$fieldAttributes,
+                                                ]) !!}
+                                            @break
 
                                             @case('checkbox')
-                                                @php($options =  ['no' => __('No'), 'yes' => __('Yes')])
-
+                                                @php($options = ['no' => trans('packages/shortcode::shortcode.form.no'), 'yes' => trans('packages/shortcode::shortcode.form.yes')])
                                             @case('select')
-                                                {!! Form::customSelect($name, $options, $value, $fieldAttributes) !!}
-                                                @break
+                                                {!! Form::customSelect($name, $options, $value, [
+                                                    'required' => Arr::get($field, 'required', false),
+                                                    ...$fieldAttributes,
+                                                ]) !!}
+                                            @break
 
                                             @case('onOff')
                                                 {!! Form::onOff($name, $value, [...$options, ...$fieldAttributes]) !!}
-                                                @break
+                                            @break
 
                                             @case('coreIcon')
                                                 {!! Form::coreIcon($name, $value, [...$options, ...$fieldAttributes]) !!}
-                                                @break
+                                            @break
 
                                             @default
                                                 {!! Form::text($name, $value, [
                                                     'class' => 'form-control',
                                                     'placeholder' => $placeholder,
+                                                    'required' => Arr::get($field, 'required', false),
                                                     ...$fieldAttributes,
                                                 ]) !!}
                                         @endswitch
@@ -139,4 +170,8 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('vendor/core/packages/shortcode/js/shortcode-fields.js') }}?v={{ time() }}"></script>
+
+@if (isset($label) && $label)
+    </fieldset>
+@endif
+<script src="{{ asset('vendor/core/packages/shortcode/js/shortcode-fields.js') }}?v={{ get_cms_version() }}"></script>

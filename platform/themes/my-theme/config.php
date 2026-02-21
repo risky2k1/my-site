@@ -47,23 +47,21 @@ return [
 
             $version = get_cms_version();
 
-            $theme->asset()->usePath()->add('font-awesome', 'css/font-awesome.min.css' );
-            $theme->asset()->usePath()->add('bootstrap', 'css/bootstrap.css' );
-            $theme->asset()->usePath()->add('owl.carousel', 'css/owl.carousel.min.css' );
-            $theme->asset()->usePath()->add('owl.theme.default', 'css/owl.theme.default.min.css' );
-            $theme->asset()->usePath()->add('magnific-popup', 'css/magnific-popup.css' );
-            $theme->asset()->usePath()->add('style', 'css/style.css' );
+            /*$theme->asset()->add('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css', version: '5.3.7');
+            $theme->asset()->add('bootstrap-icon', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css', version: '1.11.3');*/
+            $theme->asset()->add('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css');
 
-            $theme->asset()->container('footer')->usePath()->add('jquery', 'js/jquery.min.js', [] );
-            $theme->asset()->container('footer')->usePath()->add('bootstrap', 'js/bootstrap.min.js', [] );
-            $theme->asset()->container('footer')->usePath()->add('jquery.stellar', 'js/jquery.stellar.js', [] );
-            $theme->asset()->container('footer')->usePath()->add('animated.headline', 'js/animated.headline.js', [] );
-            $theme->asset()->container('footer')->usePath()->add('owl.carousel', 'js/owl.carousel.min.js', [] );
-            $theme->asset()->container('footer')->usePath()->add('scrollIt', 'js/scrollIt.min.js', [] );
-            $theme->asset()->container('footer')->usePath()->add('isotope.pkgd', 'js/isotope.pkgd.min.js', [] );
-            $theme->asset()->container('footer')->usePath()->add('jquery.magnific-popup', 'js/jquery.magnific-popup.min.js', [] );
-            $theme->asset()->container('footer')->usePath()->add('particles', 'js/particles.min.js', [] );
-            $theme->asset()->container('footer')->usePath()->add('main', 'js/main.js', [] );
+            $theme->asset()->usePath()->add('style', 'css/style.css');
+
+            $theme->asset()->container('footer')->add('jquery', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js');
+            $theme->asset()->container('footer')->add('bootstrap-bundle', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js');
+            $theme->asset()->container('footer')->add('fontawesome-js', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js');
+
+            $theme->asset()->container('footer')->usePath()->add(
+                'script',
+                'js/main.js',
+                ['jquery']
+            );
 
             if (function_exists('shortcode')) {
                 $theme->composer(['page'], function (View $view) {

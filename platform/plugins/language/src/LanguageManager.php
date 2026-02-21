@@ -6,6 +6,7 @@ use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Models\BaseModel;
 use Botble\Language\Models\Language;
 use Botble\Language\Models\LanguageMeta;
+use Botble\Support\Services\Cache\Cache;
 use Botble\Table\Columns\Column;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -38,7 +39,7 @@ class LanguageManager
 
     protected array $supportedLocales = [];
 
-    protected string|false $currentLocale = false;
+    protected string|false|null $currentLocale = false;
 
     /**
      * An array that contains all routes that should be translated
@@ -99,10 +100,13 @@ class LanguageManager
         }
 
         $locales = [];
+
+        $hiddenLanguages = json_decode(setting('language_hide_languages', '[]'), true);
+
         foreach ($languages as $language) {
             if (
                 is_in_admin() ||
-                ! in_array($language->lang_id, json_decode(setting('language_hide_languages', '[]'), true))
+                ! in_array($language->lang_id, $hiddenLanguages)
             ) {
                 $key = $language->lang_locale;
 
@@ -548,7 +552,7 @@ class LanguageManager
      * @param string|null $locale
      * @return string route with attributes changed
      */
-    protected function substituteAttributesInRoute(array $attributes, ?string $route, string $locale = null): string
+    protected function substituteAttributesInRoute(array $attributes, ?string $route, ?string $locale = null): string
     {
         foreach ($attributes as $key => $value) {
             if ($value instanceof Interfaces\LocalizedUrlRoutable) {
@@ -586,11 +590,11 @@ class LanguageManager
      *
      * @param string|false|null $url Url to check if it is a translated route
      * @param array $attributes Attributes to check if the url exists in the translated routes array
-     * @param string $locale Language to check if the url exists
+     * @param string|null $locale Language to check if the url exists
      *
      * @return string|false Key for translation, false if not exist
      */
-    protected function findTranslatedRouteByUrl(string|false|null $url, array $attributes, string $locale): bool|string
+    protected function findTranslatedRouteByUrl(string|false|null $url, array $attributes, ?string $locale): bool|string
     {
         if (empty($url)) {
             return false;
@@ -817,6 +821,15 @@ class LanguageManager
         return Arr::get($supportedLocales, $this->getDefaultLocale() . '.lang_code');
     }
 
+    public function formatLocaleForHrefLang(?string $localeCode): ?string
+    {
+        if (empty($localeCode)) {
+            return null;
+        }
+
+        return strtolower(str_replace('_', '-', $localeCode));
+    }
+
     public function getCurrentLocaleFlag(): ?string
     {
         $supportedLocales = $this->getSupportedLocales();
@@ -889,7 +902,9 @@ class LanguageManager
         $defaultLanguage = $this->getDefaultLanguage(['lang_id']);
         if (! empty($defaultLanguage)) {
             if ($data && in_array(get_class($data), $this->supportedModels())) {
-                if ($currentLanguageCode = $request->input('language')) {
+                $currentLanguageCode = $request->input('language') ?: $request->header('X-LANGUAGE');
+
+                if ($currentLanguageCode) {
                     $uniqueKey = null;
                     $meta = LanguageMeta::query()
                         ->where([
@@ -1006,7 +1021,7 @@ class LanguageManager
             // it tries to get it from the first segment of the url
             $locale = $this->request->segment(1);
 
-            $localeFromRequest = $this->request->input('language');
+            $localeFromRequest = $this->request->input('language') ?: $this->request->header('X-LANGUAGE');
 
             if ($localeFromRequest && is_string($localeFromRequest) && array_key_exists($localeFromRequest, $supportedLocales)) {
                 $locale = $localeFromRequest;
@@ -1086,7 +1101,9 @@ class LanguageManager
 
         $showRelated = setting('language_show_default_item_if_current_version_not_existed', true);
 
-        return $showRelated ? $this->getLocalizedURL($localeCode) : url($localeCode);
+        $url = $showRelated ? $this->getLocalizedURL($localeCode) : url($localeCode);
+
+        return apply_filters('language_switcher_get_url', $url, $localeCode, $languageCode, $this);
     }
 
     /**
@@ -1201,5 +1218,10 @@ class LanguageManager
                 ->titleAttr(trans('plugins/language::language.name'))
                 ->responsivePriority(99),
         ];
+    }
+
+    public function clearCache(): void
+    {
+        Cache::make('languages')->flush();
     }
 }

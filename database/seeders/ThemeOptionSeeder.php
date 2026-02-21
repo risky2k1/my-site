@@ -20,6 +20,7 @@ class ThemeOptionSeeder extends BaseSeeder
             'seo_description' => 'With experience, we make sure to get every project done very fast and in time with high quality using our Botble CMS https://1.envato.market/LWRBY',
             'copyright' => '©%Y Your Company. All rights reserved.',
             'favicon' => $this->filePath('general/favicon.png'),
+            'favicon_type' => 'image/png',
             'logo' => $this->filePath('general/logo.png'),
             'website' => 'https://botble.com',
             'contact_email' => 'support@company.com',

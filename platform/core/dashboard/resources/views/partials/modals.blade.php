@@ -16,7 +16,7 @@
                 <x-core::table.body.row>
                     <x-core::table.body.cell @class([
                         'py-0 border-0 d-flex justify-content-between align-items-center',
-                        'text-decoration-line-through text-muted' => ! $checked
+                        'text-decoration-line-through text-muted' => !$checked,
                     ])>
                         <label
                             for="{{ $widgetId }}"

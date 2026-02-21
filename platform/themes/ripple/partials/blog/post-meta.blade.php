@@ -9,6 +9,6 @@
     {!! BaseHelper::renderIcon('ti ti-clock') !!} {{ Theme::formatDate($post->created_at) }}
 </span>
 
-@if ($post->author->name)
+@if ((!isset($showAuthorName) || $showAuthorName) && $post->author->name)
     <span class="post-author">{!! BaseHelper::renderIcon('ti ti-user-circle') !!} <span>{{ $post->author->name }}</span></span>
 @endif

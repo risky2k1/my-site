@@ -29,7 +29,7 @@ class LoginController extends BaseController
             session(['url.intended' => url()->previous()]);
         }
 
-        Theme::breadcrumb()->add(__('Login'), route('public.member.login'));
+        Theme::breadcrumb()->add(trans('plugins/member::member.login'), route('public.member.login'));
 
         return Theme::scope(
             'member.auth.login',

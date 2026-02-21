@@ -3,8 +3,10 @@
 namespace Botble\Member\Forms\Settings;
 
 use Botble\Base\Forms\FieldOptions\MediaImageFieldOption;
+use Botble\Base\Forms\FieldOptions\NumberFieldOption;
 use Botble\Base\Forms\FieldOptions\OnOffFieldOption;
 use Botble\Base\Forms\Fields\MediaImageField;
+use Botble\Base\Forms\Fields\NumberField;
 use Botble\Base\Forms\Fields\OnOffCheckboxField;
 use Botble\Member\Http\Requests\Settings\MemberSettingRequest;
 use Botble\Setting\Forms\SettingForm;
@@ -43,6 +45,17 @@ class MemberSettingForm extends SettingForm
                     ->label(trans('plugins/member::settings.verify_account_email'))
                     ->value(setting('verify_account_email', false))
                     ->helperText(trans('plugins/member::settings.verify_account_email_helper'))
+            )
+            ->add(
+                'member_verification_expire_minutes',
+                NumberField::class,
+                NumberFieldOption::make()
+                    ->label(trans('plugins/member::settings.verification_expire_minutes'))
+                    ->value(setting('member_verification_expire_minutes', config('plugins.member.general.verification_expire_minutes', 60)))
+                    ->helperText(trans('plugins/member::settings.verification_expire_minutes_helper'))
+                    ->min(1)
+                    ->max(10080)
+                    ->step(1)
             )
             ->addCloseCollapsible('member_enabled_login', '1')
             ->add(

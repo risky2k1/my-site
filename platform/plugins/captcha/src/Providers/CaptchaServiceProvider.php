@@ -58,7 +58,8 @@ class CaptchaServiceProvider extends ServiceProvider
     {
         $this
             ->setNamespace('plugins/captcha')
-            ->loadAndPublishConfigurations(['general', 'permissions'])
+            ->loadAndPublishConfigurations(['general'])
+            ->loadAndPublishConfigurations(['permissions'])
             ->loadRoutes()
             ->loadAndPublishViews()
             ->loadAndPublishTranslations();
@@ -182,8 +183,8 @@ class CaptchaServiceProvider extends ServiceProvider
         add_filter('core_request_messages', function (array $messages): array {
             return [
                 ...$messages,
-                'captcha' => __('Captcha Verification Failed!'),
-                'math_captcha' => __('Math Captcha Verification Failed!'),
+                'captcha' => trans('plugins/captcha::captcha.captcha_verification_failed'),
+                'math_captcha' => trans('plugins/captcha::captcha.math_captcha_verification_failed'),
             ];
         }, 999);
 
@@ -221,7 +222,7 @@ class CaptchaServiceProvider extends ServiceProvider
             }
 
             return $app['captcha']->verify($value, $this->app['request']->getClientIp(), $parameters);
-        }, __('Captcha Verification Failed!'));
+        }, trans('plugins/captcha::captcha.captcha_verification_failed'));
 
         $validator->extend('math_captcha', function ($attribute, $value) {
             if (! is_string($value)) {
@@ -229,7 +230,7 @@ class CaptchaServiceProvider extends ServiceProvider
             }
 
             return $this->app['math-captcha']->verify($value);
-        }, __('Math Captcha Verification Failed!'));
+        }, trans('plugins/captcha::captcha.math_captcha_verification_failed'));
     }
 
     public function mapParameterToOptions(?array $parameters = []): array

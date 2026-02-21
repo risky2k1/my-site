@@ -56,7 +56,7 @@ $(() => {
                         Botble.hideButtonLoading(currentTarget)
                         $modal.modal('hide')
                     }
-                });
+                })
         }
 
         sendRequest()

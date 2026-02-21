@@ -48,6 +48,7 @@ class CommentForm extends FormFront
                 TextareaField::class,
                 TextareaFieldOption::make()
                     ->label(trans('plugins/fob-comment::comment.common.comment'))
+                    ->placeholder(trans('plugins/fob-comment::comment.common.comment_placeholder'))
                     ->required()
                     ->colspan(2)
                     ->toArray()
@@ -57,6 +58,7 @@ class CommentForm extends FormFront
                 TextField::class,
                 TextFieldOption::make()
                     ->label(trans('plugins/fob-comment::comment.common.name'))
+                    ->placeholder(trans('plugins/fob-comment::comment.common.name_placeholder'))
                     ->when(
                         Arr::get($preparedData, 'name'),
                         fn (TextFieldOption $option, $value) => $option->defaultValue($value)->disabled(),
@@ -72,24 +74,26 @@ class CommentForm extends FormFront
                     ->when(
                         Arr::get($preparedData, 'email'),
                         fn (EmailFieldOption $option, $value) => $option->defaultValue($value)->disabled(),
-                        fn (EmailFieldOption $option) => $option->required()
+                        fn (EmailFieldOption $option) => CommentHelper::isEmailOptional() ? $option : $option->required()
                     )
                     ->placeholder(trans('plugins/fob-comment::comment.common.email_placeholder'))
                     ->colspan(1)
                     ->toArray()
             )
-            ->add(
-                'website',
-                TextField::class,
-                TextFieldOption::make()->label(trans('plugins/fob-comment::comment.common.website'))
-                    ->colspan(2)
-                    ->when(
-                        Arr::get($preparedData, 'website'),
-                        fn (TextFieldOption $option, $value) => $option->defaultValue($value)->disabled()
-                    )
-                    ->placeholder(trans('plugins/fob-comment::comment.common.website_placeholder'))
-                    ->toArray()
-            )
+            ->when(CommentHelper::isShowWebsiteField(), function (FormAbstract $form) use ($preparedData): void {
+                $form->add(
+                    'website',
+                    TextField::class,
+                    TextFieldOption::make()->label(trans('plugins/fob-comment::comment.common.website'))
+                        ->colspan(2)
+                        ->when(
+                            Arr::get($preparedData, 'website'),
+                            fn (TextFieldOption $option, $value) => $option->defaultValue($value)->disabled()
+                        )
+                        ->placeholder(trans('plugins/fob-comment::comment.common.website_placeholder'))
+                        ->toArray()
+                );
+            })
             ->when(
                 CommentHelper::isEnableReCaptcha(),
                 fn (FormAbstract $form) => $form->add('recaptcha', ReCaptchaField::class)

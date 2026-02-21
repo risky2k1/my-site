@@ -1,55 +1,23 @@
-<!--Footer Start-->
-<footer class="pt-50 pb-50">
+<!-- Footer -->
+<footer class="bg-dark text-white py-5">
     <div class="container">
-        <div class="row text-center">
-            <div class="col-md-3 col-sm-6">
-                <!--Contant Item-->
-                <div class="contact-info">
-                    <h5>Kalvin</h5>
-                    <p>lorem Ipsum donor sit.</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <!--Contant Item-->
-                <div class="contact-info">
-                    <h5>Phone No.</h5>
-                    <p>(+1) 123 456 7890</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <!--Contant Item-->
-                <div class="contact-info">
-                    <h5>Email</h5>
-                    <p>info@example.com</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <!--Contant Item-->
-                <div class="contact-info">
-                    <h5>Address</h5>
-                    <p>123 lorem ipsum New York, USA.</p>
-                </div>
-            </div>
+        <div class="row g-4">
+            {!! dynamic_sidebar('footer_sidebar') !!}
+
         </div>
-        <div class="row text-center">
-            <div class="col-md-12">
-                <hr>
-                <p class="copy pt-30">
-                    {!! Theme::getSiteCopyright() !!}
-                </p>
-            </div>
+        <hr class="border-secondary opacity-25 my-4"/>
+        <div class="text-center text-white-50">
+            @if ($copyright = Theme::getSiteCopyright())
+                {!! $copyright !!}
+            @else
+                {{ __('© :year PhmTuns. All rights reserved.', ['year' => date('Y')]) }}
+            @endif
         </div>
+
     </div>
 </footer>
-<!--Footer End-->
+
 
 {!! Theme::footer() !!}
-
-<script>
-    //Particles
-    particlesJS.load('particles-js', '{{ Theme::asset()->url("js/index-particles1.json") }}', function () {
-        console.log('callback - particles.js config loaded');
-    });
-</script>
 </body>
 </html>

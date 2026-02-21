@@ -37,6 +37,7 @@ return [
                 'if' => 'The if statement in Twig is comparable with the if statements of PHP',
             ],
         ],
+        'footer_contact_message' => 'If you have any questions, feel free to message us at <a href="mailto::site_email">:site_email</a>.',
     ],
     'change_image' => 'Change image',
     'delete_image' => 'Delete image',
@@ -52,6 +53,7 @@ return [
     'panel' => [
         'others' => 'Others',
         'system' => 'System',
+        'platform_administration' => 'Platform Administration',
         'manage_description' => 'Manage :name',
     ],
     'global_search' => [

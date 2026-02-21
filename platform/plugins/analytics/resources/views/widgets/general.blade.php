@@ -115,12 +115,13 @@
 </div>
 
 <script>
-    window.analyticsStats = {{ Js::from([
-        'stats' => $chartStats,
-        'countryStats' => $countryStats,
-        'translations' => [
-            'pageViews' => trans('plugins/analytics::analytics.pageviews'),
-            'visits' => trans('plugins/analytics::analytics.visitors'),
-        ],
-    ]) }}
+    window.analyticsStats =
+        {{ Js::from([
+            'stats' => $chartStats,
+            'countryStats' => $countryStats,
+            'translations' => [
+                'pageViews' => trans('plugins/analytics::analytics.pageviews'),
+                'visits' => trans('plugins/analytics::analytics.visitors'),
+            ],
+        ]) }}
 </script>

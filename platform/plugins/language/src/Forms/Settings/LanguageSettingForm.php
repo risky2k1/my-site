@@ -21,6 +21,9 @@ class LanguageSettingForm extends FormAbstract
 {
     public function setup(): void
     {
+        $hiddenLanguagesSetting = json_decode(setting('language_hide_languages', '[]'), true);
+        $hiddenLanguages = is_array($hiddenLanguagesSetting) ? $hiddenLanguagesSetting : [];
+
         $this
             ->model(Setting::class)
             ->setUrl(route('languages.settings'))
@@ -75,9 +78,31 @@ class LanguageSettingForm extends FormAbstract
                         MultiChecklistFieldOption::make()
                             ->label(trans('plugins/language::language.hide_languages'))
                             ->choices($choices)
-                            ->selected(json_decode(setting('language_hide_languages', '[]'), true))
+                            ->selected($hiddenLanguages)
                     );
             }
+        }
+
+        $hiddenLanguagesCount = count($hiddenLanguages);
+        $hiddenLanguagesText = Language::getHiddenLanguageText();
+
+        if ($hiddenLanguagesCount === 1) {
+            $hideLanguagesTranslation = trans(
+                'plugins/language::language.hide_languages_helper_display_hidden_singular',
+                ['language' => $hiddenLanguagesText]
+            );
+        } else {
+            $hideLanguagesTranslation = trans(
+                'plugins/language::language.hide_languages_helper_display_hidden_plural',
+                [
+                    'language' => $hiddenLanguagesText,
+                    'count' => $hiddenLanguagesCount,
+                ]
+            );
+        }
+
+        if ($hiddenLanguagesCount === 0) {
+            $hideLanguagesTranslation = trans('plugins/language::language.hide_languages_helper_display_hidden_zero');
         }
 
         $this
@@ -85,13 +110,7 @@ class LanguageSettingForm extends FormAbstract
                 'hide_languages_helper_display_hidden',
                 AlertField::class,
                 AlertFieldOption::make()
-                    ->content(
-                        trans_choice(
-                            'plugins/language::language.hide_languages_helper_display_hidden',
-                            count(json_decode(setting('language_hide_languages', '[]'), true)),
-                            ['language' => Language::getHiddenLanguageText()]
-                        )
-                    )
+                    ->content($hideLanguagesTranslation)
             )
             ->add(
                 'language_auto_detect_user_language',

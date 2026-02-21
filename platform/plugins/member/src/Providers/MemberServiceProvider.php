@@ -12,6 +12,7 @@ use Botble\Base\Forms\Fields\HiddenField;
 use Botble\Base\Forms\Fields\SelectField;
 use Botble\Base\Forms\FormAbstract;
 use Botble\Base\Http\Responses\BaseHttpResponse;
+use Botble\Base\Models\BaseModel;
 use Botble\Base\PanelSections\PanelSectionItem;
 use Botble\Base\Supports\DashboardMenuItem;
 use Botble\Base\Supports\Language as BaseLanguage;
@@ -86,20 +87,24 @@ class MemberServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        SlugHelper::setPrefix(Member::class, 'author');
-        SlugHelper::setColumnUsedForSlugGenerator(Member::class, 'last_name');
-
-        add_filter(IS_IN_ADMIN_FILTER, [$this, 'setInAdmin'], 24);
-
         $this
             ->setNamespace('plugins/member')
             ->loadHelpers()
-            ->loadAndPublishConfigurations(['general', 'permissions', 'email'])
+            ->loadAndPublishConfigurations(['general', 'email'])
+            ->loadAndPublishConfigurations(['permissions'])
             ->loadAndPublishTranslations()
             ->loadAndPublishViews()
             ->loadRoutes(['web', 'member'])
             ->loadMigrations()
             ->publishAssets();
+
+        add_filter(IS_IN_ADMIN_FILTER, [$this, 'setInAdmin'], 24);
+
+        SlugHelper::registering(function (): void {
+            SlugHelper::registerModule(Member::class);
+            SlugHelper::setPrefix(Member::class, 'author');
+            SlugHelper::setColumnUsedForSlugGenerator(Member::class, 'last_name');
+        });
 
         DashboardMenu::default()->beforeRetrieving(function (): void {
             DashboardMenu::registerItem(
@@ -212,8 +217,7 @@ class MemberServiceProvider extends ServiceProvider
                     in_array('member', Route::current()->middleware()) &&
                     Auth::guard('member')->check() &&
                     ! $isDefaultLocale &&
-                    $model &&
-                    $model instanceof Member &&
+                    $model instanceof BaseModel &&
                     $model->getKey() &&
                     LanguageAdvancedManager::isSupported($model)
                 ) {
@@ -237,39 +241,33 @@ class MemberServiceProvider extends ServiceProvider
 
         $this->app->booted(function (): void {
             if (is_plugin_active('blog')) {
-                PostForm::beforeRendering(function (PostForm $form) {
+                PostForm::beforeRendering(function (PostForm $form): PostForm {
                     $authors = Member::query()
                         ->select(['id', 'first_name', 'last_name'])
                         ->get()
-                        ->mapWithKeys(function ($author) {
-                            return [
-                                $author->id => $author->name,
-                            ];
-                        })
+                        ->mapWithKeys(fn ($author) => [$author->id => $author->name])
                         ->all();
 
-                    $form
-                        ->when($authors, function (PostForm $form) use ($authors): void {
-                            $form
-                                ->addAfter(
-                                    'status',
-                                    'author_id',
-                                    SelectField::class,
-                                    SelectFieldOption::make()
-                                        ->label(trans('plugins/member::member.author'))
-                                        ->helperText(trans('plugins/member::member.author_helper'))
-                                        ->choices($authors)
-                                        ->searchable()
-                                        ->emptyValue(trans('plugins/member::member.select_author'))
-                                        ->allowClear()
-                                )
-                                ->add(
-                                    'author_type',
-                                    HiddenField::class,
-                                    HiddenFieldOption::make()
-                                        ->value(Member::class)
-                                );
-                        });
+                    if ($authors) {
+                        $form
+                            ->modify(
+                                'author_id',
+                                SelectField::class,
+                                SelectFieldOption::make()
+                                    ->label(trans('plugins/member::member.author'))
+                                    ->helperText(trans('plugins/member::member.author_helper'))
+                                    ->choices($authors)
+                                    ->searchable()
+                                    ->emptyValue(trans('plugins/member::member.select_author'))
+                                    ->allowClear()
+                            )
+                            ->add(
+                                'author_type',
+                                HiddenField::class,
+                                HiddenFieldOption::make()
+                                    ->value(Member::class)
+                            );
+                    }
 
                     return $form;
                 });

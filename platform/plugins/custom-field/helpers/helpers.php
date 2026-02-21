@@ -22,7 +22,7 @@ if (! function_exists('get_custom_field_boxes')) {
 }
 
 if (! function_exists('response_with_messages')) {
-    function response_with_messages(string|array $messages, bool $error = false, int $responseCode = null, array|string|null $data = null): array
+    function response_with_messages(string|array $messages, bool $error = false, ?int $responseCode = null, array|string|null $data = null): array
     {
         return [
             'error' => $error,

@@ -2,6 +2,7 @@
 
 namespace Botble\Contact\Providers;
 
+use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Supports\ServiceProvider;
 use Botble\Contact\Enums\ContactStatusEnum;
 use Botble\Contact\Forms\Fronts\ContactForm;
@@ -20,9 +21,11 @@ class HookServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        add_filter(BASE_FILTER_TOP_HEADER_LAYOUT, [$this, 'registerTopHeaderNotification'], 120);
-        add_filter(BASE_FILTER_APPEND_MENU_NAME, [$this, 'getUnreadCount'], 120, 2);
-        add_filter(BASE_FILTER_MENU_ITEMS_COUNT, [$this, 'getMenuItemCount'], 120);
+        if (BaseHelper::isAdminRequest()) {
+            add_filter(BASE_FILTER_TOP_HEADER_LAYOUT, [$this, 'registerTopHeaderNotification'], 120);
+            add_filter(BASE_FILTER_APPEND_MENU_NAME, [$this, 'getUnreadCount'], 120, 2);
+            add_filter(BASE_FILTER_MENU_ITEMS_COUNT, [$this, 'getMenuItemCount'], 120);
+        }
 
         FormFrontManager::register(ContactForm::class, ContactRequest::class);
 
@@ -37,9 +40,16 @@ class HookServiceProvider extends ServiceProvider
             ShortcodeFacade::setAdminConfig('contact-form', function (array $attributes) {
                 return ShortcodeContactAdminConfigForm::createFromArray($attributes);
             });
+
+            ShortcodeFacade::ignoreLazyLoading(['contact-form']);
+            ShortcodeFacade::ignoreCaches(['contact-form']);
         }
 
         add_filter('form_extra_fields_render', function (?string $fields = null, ?string $form = null): ?string {
+            if ($form && $form !== ContactForm::class) {
+                return $fields;
+            }
+
             $customFields = CustomField::query()
                 ->wherePublished()->with('options')
                 ->oldest('order')

@@ -127,4 +127,31 @@ class MemberController extends BaseController
             ->setPreviousUrl(route('member.index'))
             ->withUpdatedSuccessMessage();
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->get('q');
+        $page = $request->get('page', 1);
+
+        $members = Member::query()
+            ->where(function ($q) use ($query): void {
+                $q->where('first_name', 'like', "%{$query}%")
+                  ->orWhere('last_name', 'like', "%{$query}%")
+                  ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$query}%"]);
+            })
+            ->select(['id', 'first_name', 'last_name'])
+            ->paginate(10, ['*'], 'page', $page);
+
+        return response()->json([
+            'data' => $members->map(function ($member) {
+                return [
+                    'id' => $member->id,
+                    'name' => $member->name,
+                ];
+            }),
+            'links' => [
+                'next' => $members->nextPageUrl(),
+            ],
+        ]);
+    }
 }

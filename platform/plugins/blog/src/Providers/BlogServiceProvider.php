@@ -3,7 +3,6 @@
 namespace Botble\Blog\Providers;
 
 use Botble\ACL\Models\User;
-use Botble\Api\Facades\ApiHelper;
 use Botble\Base\Facades\DashboardMenu;
 use Botble\Base\Facades\PanelSectionManager;
 use Botble\Base\PanelSections\PanelSectionItem;
@@ -60,14 +59,15 @@ class BlogServiceProvider extends ServiceProvider
         $this
             ->setNamespace('plugins/blog')
             ->loadHelpers()
-            ->loadAndPublishConfigurations(['permissions', 'general'])
+            ->loadAndPublishConfigurations(['general'])
+            ->loadAndPublishConfigurations(['permissions'])
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()
             ->loadRoutes()
             ->loadMigrations()
             ->publishAssets();
 
-        if (class_exists('ApiHelper') && ApiHelper::enabled()) {
+        if (class_exists('ApiHelper')) {
             $this->loadRoutes(['api']);
         }
 
@@ -80,7 +80,6 @@ class BlogServiceProvider extends ServiceProvider
                 'blog-posts',
             ]);
 
-            // Register monthly archive sitemaps for blog posts
             SiteMapManager::registerMonthlyArchives('blog-posts');
         });
 
@@ -129,6 +128,15 @@ class BlogServiceProvider extends ServiceProvider
                         ->name('plugins/blog::tags.menu_name')
                         ->icon('ti ti-tag')
                         ->route('tags.index')
+                )
+                ->registerItem(
+                    DashboardMenuItem::make()
+                        ->id('cms-plugins-blog-reports')
+                        ->priority(40)
+                        ->parentId('cms-plugins-blog')
+                        ->name('plugins/blog::reports.name')
+                        ->icon('ti ti-chart-bar')
+                        ->route('blog.reports.index')
                 );
         });
 

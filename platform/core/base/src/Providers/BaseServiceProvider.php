@@ -23,6 +23,7 @@ use Botble\Base\Supports\Breadcrumb;
 use Botble\Base\Supports\CustomResourceRegistrar;
 use Botble\Base\Supports\DashboardMenuItem;
 use Botble\Base\Supports\Database\Blueprint;
+use Botble\Base\Supports\EmailHandler;
 use Botble\Base\Supports\Filter;
 use Botble\Base\Supports\GoogleFonts;
 use Botble\Base\Supports\Helper;
@@ -33,6 +34,7 @@ use Botble\Base\Widgets\Contracts\AdminWidget as AdminWidgetContract;
 use Botble\Setting\Providers\SettingServiceProvider;
 use Botble\Setting\Supports\SettingStore;
 use DateTimeZone;
+use Fruitcake\LaravelDebugbar\LaravelDebugbar;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Database\Schema\Builder;
@@ -85,6 +87,8 @@ class BaseServiceProvider extends ServiceProvider
 
         $this->app->singleton('core.google-fonts', GoogleFonts::class);
 
+        $this->app->singleton(EmailHandler::class);
+
         $this->registerRouteMacros();
 
         $this->prepareAliasesIfMissing();
@@ -99,7 +103,8 @@ class BaseServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this
-            ->loadAndPublishConfigurations(['permissions', 'assets'])
+            ->loadAndPublishConfigurations(['assets'])
+            ->loadAndPublishConfigurations(['permissions'])
             ->loadAndPublishViews()
             ->loadAnonymousComponents()
             ->loadAndPublishTranslations()
@@ -112,12 +117,15 @@ class BaseServiceProvider extends ServiceProvider
         $this->overridePackagesConfigs();
 
         $this->app->booted(function (): void {
+            $this->overrideDebugbarConfig();
+
             do_action(BASE_ACTION_INIT);
         });
 
-        $this->registerDashboardMenus();
-
-        $this->registerPanelSections();
+        if (BaseHelper::isAdminRequest()) {
+            $this->registerDashboardMenus();
+            $this->registerPanelSections();
+        }
 
         Paginator::useBootstrap();
 
@@ -261,12 +269,6 @@ class BaseServiceProvider extends ServiceProvider
                     'password',
                 ],
             ],
-            'debugbar.enabled' => $this->app->hasDebugModeEnabled() &&
-                ! $this->app->runningInConsole() &&
-                ! $this->app->environment(['testing', 'production']),
-            'debugbar.capture_ajax' => false,
-            'debugbar.remote_sites_path' => '',
-            'core.base.general.google_fonts' => GoogleFonts::getFonts(),
             'scribe.type' => 'static',
             'scribe.assets_directory' => 'vendor/core/packages/api',
             'scribe.routes' => [
@@ -305,8 +307,17 @@ class BaseServiceProvider extends ServiceProvider
          * @var SettingStore $setting
          */
         $setting = $this->app[SettingStore::class];
-        $timezone = $setting->get('time_zone', $config->get('app.timezone'));
-        $locale = $setting->get('locale', Arr::get($baseConfig, 'locale', $config->get('app.locale')));
+
+        $cacheKey = 'core.base.boot_settings';
+        $bootSettings = cache()->remember($cacheKey, 3600, function () use ($setting, $config) {
+            return [
+                'timezone' => $setting->get('time_zone', $config->get('app.timezone')),
+                'locale' => $setting->get('locale', $config->get('app.locale')),
+            ];
+        });
+
+        $timezone = $bootSettings['timezone'];
+        $locale = $bootSettings['locale'];
 
         $this->app->setLocale($locale);
 
@@ -326,13 +337,21 @@ class BaseServiceProvider extends ServiceProvider
                 'view.officeapps.live.com/op/embed.aspx',
                 'onedrive.live.com/embed',
                 'open.spotify.com/embed',
+                'www.googletagmanager.com',
+                'www.facebook.com/plugins',
+                'tiktok.com/embed',
                 parse_url($config->get('app.url'), PHP_URL_HOST),
             ];
 
             if ($extraUrl = Arr::get($baseConfig, 'allowed_iframe_urls', [])) {
+                $extraUrls = array_map(
+                    fn ($url) => preg_replace('#^https?://(www\.)?#', '', trim($url)),
+                    explode('|', $extraUrl)
+                );
+
                 $allowedIframeUrls = [
                     ...$allowedIframeUrls,
-                    ...explode('|', $extraUrl),
+                    ...$extraUrls,
                 ];
             }
 
@@ -350,12 +369,29 @@ class BaseServiceProvider extends ServiceProvider
             ],
             'ziggy.except' => ['debugbar.*'],
             'datatables-buttons.pdf_generator' => 'excel',
+            'datatables-html.script' => 'core/table::script',
+            'datatables-html.editor' => 'core/table::editor',
             'excel.exports.csv.use_bom' => true,
             'dompdf.public_path' => public_path(),
             'database.connections.mysql.strict' => Arr::get($baseConfig, 'db_strict_mode'),
             'database.connections.mysql.prefix' => Arr::get($baseConfig, 'db_prefix'),
             'excel.imports.ignore_empty' => true,
             'excel.imports.csv.input_encoding' => Arr::get($baseConfig, 'csv_import_input_encoding', 'UTF-8'),
+        ]);
+    }
+
+    protected function overrideDebugbarConfig(): void
+    {
+        if (! class_exists(LaravelDebugbar::class)) {
+            return;
+        }
+
+        $this->app['config']->set([
+            'debugbar.enabled' => $this->app->hasDebugModeEnabled() &&
+                ! $this->app->runningInConsole() &&
+                ! $this->app->environment(['testing', 'production']),
+            'debugbar.capture_ajax' => false,
+            'debugbar.remote_sites_path' => '',
         ]);
     }
 

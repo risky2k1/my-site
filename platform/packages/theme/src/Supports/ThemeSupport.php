@@ -44,8 +44,8 @@ class ThemeSupport
         shortcode()
             ->register(
                 'youtube-video',
-                __('YouTube video'),
-                __('Add YouTube video'),
+                trans('packages/theme::theme.shortcodes.youtube_video'),
+                trans('packages/theme::theme.shortcodes.add_youtube_video'),
                 function ($shortcode) use ($viewPath) {
                     $url = Youtube::getYoutubeVideoEmbedURL($shortcode->content);
                     $width = $shortcode->width;
@@ -59,7 +59,7 @@ class ThemeSupport
             ->setAdminConfig('youtube-video', function ($attributes, $content) {
                 return ShortcodeForm::createFromArray($attributes)
                     ->add('url', TextField::class, [
-                        'label' => __('YouTube URL'),
+                        'label' => trans('packages/theme::theme.shortcodes.youtube_url'),
                         'attr' => [
                             'placeholder' => 'https://www.youtube.com/watch?v=SlPhMPnQ58k ',
                             'data-shortcode-attribute' => 'content',
@@ -67,10 +67,10 @@ class ThemeSupport
                         'value' => $content,
                     ])
                     ->add('width', NumberField::class, [
-                        'label' => __('Width'),
+                        'label' => trans('packages/theme::theme.common.width'),
                     ])
                     ->add('height', NumberField::class, [
-                        'label' => __('Height'),
+                        'label' => trans('packages/theme::theme.common.height'),
                     ]);
             });
     }
@@ -82,8 +82,8 @@ class ThemeSupport
         shortcode()
             ->register(
                 'google-map',
-                __('Google Maps'),
-                __('Add Google Maps iframe'),
+                trans('packages/theme::theme.shortcodes.google_maps'),
+                trans('packages/theme::theme.shortcodes.add_google_maps_iframe'),
                 function (Shortcode $shortcode) use ($viewPath) {
                     $address = $shortcode->content;
 
@@ -102,7 +102,7 @@ class ThemeSupport
             ->setAdminConfig('google-map', function (array $attributes, ?string $content) {
                 return ShortcodeForm::createFromArray($attributes)
                     ->add('address', 'textarea', [
-                        'label' => __('Address'),
+                        'label' => trans('packages/theme::theme.common.address'),
                         'attr' => [
                             'data-shortcode-attribute' => 'content',
                             'placeholder' => '24 Roberts Street, SA73, Chester',
@@ -111,13 +111,15 @@ class ThemeSupport
                         'value' => $content,
                     ])
                     ->add('width', NumberField::class, [
-                        'label' => __('Width'),
+                        'label' => trans('packages/theme::theme.common.width'),
                     ])
                     ->add('height', NumberField::class, [
-                        'label' => __('Height'),
+                        'label' => trans('packages/theme::theme.common.height'),
                         'default_value' => 500,
                     ]);
             });
+
+        shortcode()->ignoreLazyLoading(['google-map']);
     }
 
     public static function getCustomJS(string $location): string
@@ -177,6 +179,10 @@ class ThemeSupport
                 return $html;
             }
 
+            if (request()->has('visual_builder') || request()->has('preview')) {
+                return $html;
+            }
+
             $preloader = null;
 
             if (theme_option('preloader_version', 'v1') === 'v1') {
@@ -192,18 +198,19 @@ class ThemeSupport
                     'id' => 'preloader_enabled',
                     'section_id' => 'opt-text-subsection-general',
                     'type' => 'customSelect',
-                    'label' => __('Enable Preloader?'),
+                    'label' => trans('packages/theme::theme.preloader.enable'),
                     'attributes' => [
                         'name' => 'preloader_enabled',
                         'list' => [
-                            'yes' => __('Yes'),
-                            'no' => __('No'),
+                            'yes' => trans('packages/theme::theme.common.yes'),
+                            'no' => trans('packages/theme::theme.common.no'),
                         ],
                         'value' => 'no',
                         'options' => [
                             'class' => 'form-control',
                         ],
                     ],
+                    'priority' => 35,
                 ])
                 ->when(count(static::getPreloaderVersions()) > 1, function () {
                     return theme_option()
@@ -211,7 +218,7 @@ class ThemeSupport
                             'id' => 'preloader_version',
                             'section_id' => 'opt-text-subsection-general',
                             'type' => 'customSelect',
-                            'label' => __('Preloader Version'),
+                            'label' => trans('packages/theme::theme.preloader.version'),
                             'attributes' => [
                                 'name' => 'preloader_version',
                                 'list' => static::getPreloaderVersions(),
@@ -220,6 +227,7 @@ class ThemeSupport
                                     'class' => 'form-control',
                                 ],
                             ],
+                            'priority' => 40,
                         ]);
                 });
         });
@@ -228,7 +236,7 @@ class ThemeSupport
     public static function getPreloaderVersions(): array
     {
         return apply_filters('theme_preloader_versions', [
-            'v1' => __('Default'),
+            'v1' => trans('packages/theme::theme.common.default'),
         ]);
     }
 
@@ -312,45 +320,17 @@ class ThemeSupport
         app('events')->listen(RenderingThemeOptionSettings::class, function (): void {
             theme_option()
                 ->setSection([
-                    'title' => __('Facebook Integration'),
+                    'title' => trans('packages/theme::theme.facebook.integration'),
                     'id' => 'opt-text-subsection-facebook-integration',
                     'subsection' => true,
                     'icon' => 'ti ti-brand-facebook',
                     'fields' => [
                         [
-                            'id' => 'facebook_chat_enabled',
-                            'type' => 'customSelect',
-                            'label' => __('Enable Facebook chat?'),
-                            'attributes' => [
-                                'name' => 'facebook_chat_enabled',
-                                'list' => [
-                                    'no' => __('No'),
-                                    'yes' => __('Yes'),
-                                ],
-                                'value' => 'no',
-                                'options' => [
-                                    'class' => 'form-control',
-                                ],
-                            ],
-                            'helper' => __(
-                                'To show chat box on that website, please go to :link and add :domain to whitelist domains!',
-                                [
-                                    'domain' => Html::link(url('')),
-                                    'link' => Html::link(
-                                        sprintf(
-                                            'https://www.facebook.com/%s/settings/?tab=messenger_platform',
-                                            theme_option('facebook_page_id', '[PAGE_ID]')
-                                        )
-                                    ),
-                                ]
-                            ),
-                        ],
-                        [
                             'id' => 'facebook_page_id',
                             'type' => 'text',
-                            'label' => __('Facebook page ID'),
-                            'helper' => __(
-                                'You can get fan page ID using this site :link',
+                            'label' => trans('packages/theme::theme.facebook.page_id'),
+                            'helper' => trans(
+                                'packages/theme::theme.facebook.page_id_helper',
                                 ['link' => Html::link('https://findidfb.com')]
                             ),
                             'attributes' => [
@@ -364,12 +344,12 @@ class ThemeSupport
                         [
                             'id' => 'facebook_comment_enabled_in_post',
                             'type' => 'customSelect',
-                            'label' => __('Enable Facebook comment in post detail page?'),
+                            'label' => trans('packages/theme::theme.facebook.enable_comment'),
                             'attributes' => [
                                 'name' => 'facebook_comment_enabled_in_post',
                                 'list' => [
-                                    'yes' => __('Yes'),
-                                    'no' => __('No'),
+                                    'yes' => trans('packages/theme::theme.common.yes'),
+                                    'no' => trans('packages/theme::theme.common.no'),
                                 ],
                                 'value' => 'no',
                                 'options' => [
@@ -380,7 +360,7 @@ class ThemeSupport
                         [
                             'id' => 'facebook_app_id',
                             'type' => 'text',
-                            'label' => __('Facebook App ID'),
+                            'label' => trans('packages/theme::theme.facebook.app_id'),
                             'attributes' => [
                                 'name' => 'facebook_app_id',
                                 'value' => null,
@@ -389,22 +369,22 @@ class ThemeSupport
                                 ],
                                 'placeholder' => 'Ex: 2061237023872679',
                             ],
-                            'helper' => __(
-                                'You can create your app in :link',
+                            'helper' => trans(
+                                'packages/theme::theme.facebook.app_id_helper',
                                 ['link' => Html::link('https://developers.facebook.com/apps')]
                             ),
                         ],
                         [
                             'id' => 'facebook_admins',
                             'type' => 'repeater',
-                            'label' => __('Facebook Admins'),
+                            'label' => trans('packages/theme::theme.facebook.admins'),
                             'attributes' => [
                                 'name' => 'facebook_admins',
                                 'value' => null,
                                 'fields' => [
                                     [
                                         'type' => 'text',
-                                        'label' => __('Facebook Admin ID'),
+                                        'label' => trans('packages/theme::theme.facebook.admin_id'),
                                         'attributes' => [
                                             'name' => 'text',
                                             'value' => null,
@@ -416,8 +396,8 @@ class ThemeSupport
                                     ],
                                 ],
                             ],
-                            'helper' => __(
-                                'Facebook admins to manage comments :link',
+                            'helper' => trans(
+                                'packages/theme::theme.facebook.admins_helper',
                                 ['link' => Html::link('https://developers.facebook.com/docs/plugins/comments')]
                             ),
                         ],
@@ -439,25 +419,6 @@ class ThemeSupport
                 }
             }
 
-            if (theme_option('facebook_chat_enabled', 'no') == 'yes' && theme_option('facebook_page_id')) {
-                $html .= '<link href="//connect.facebook.net" rel="dns-prefetch" />';
-            }
-
-            return $html;
-        }, 1180);
-
-        add_filter(THEME_FRONT_FOOTER, function (?string $html): string {
-            if (AdminHelper::isInAdmin()) {
-                return $html;
-            }
-
-            if (
-                theme_option('facebook_comment_enabled_in_post', 'no') == 'yes'
-                || (theme_option('facebook_chat_enabled', 'no') == 'yes' && theme_option('facebook_page_id'))
-            ) {
-                return $html . view('packages/theme::partials.facebook-integration')->render();
-            }
-
             return $html;
         }, 1180);
 
@@ -469,6 +430,14 @@ class ThemeSupport
             $commentHtml = apply_filters('facebook_comment_html', '', $object);
 
             if (! empty($commentHtml)) {
+                add_filter(THEME_FRONT_FOOTER, function (?string $html): string {
+                    if (AdminHelper::isInAdmin()) {
+                        return $html;
+                    }
+
+                    return $html . view('packages/theme::partials.facebook-integration')->render();
+                }, 1180);
+
                 return $html . $commentHtml;
             }
 
@@ -481,13 +450,13 @@ class ThemeSupport
         app('events')->listen(RenderingThemeOptionSettings::class, function (): void {
             ThemeOption::setSection(
                 ThemeOptionSection::make('opt-text-subsection-social-links')
-                    ->title(__('Social Links'))
+                    ->title(trans('packages/theme::theme.social_links.title'))
                     ->icon('ti ti-social')
                     ->fields([
                         [
                             'id' => 'social_links',
                             'type' => 'repeater',
-                            'label' => __('Social Links'),
+                            'label' => trans('packages/theme::theme.social_links.title'),
                             'attributes' => [
                                 'name' => 'social_links',
                                 'value' => null,
@@ -504,7 +473,7 @@ class ThemeSupport
         return [
             [
                 'type' => 'text',
-                'label' => __('Name'),
+                'label' => trans('packages/theme::theme.common.name'),
                 'attributes' => [
                     'name' => 'name',
                     'value' => null,
@@ -515,7 +484,7 @@ class ThemeSupport
             ],
             [
                 'type' => 'coreIcon',
-                'label' => __('Icon'),
+                'label' => trans('packages/theme::theme.common.icon'),
                 'attributes' => [
                     'name' => 'icon',
                     'value' => null,
@@ -526,7 +495,7 @@ class ThemeSupport
             ],
             [
                 'type' => 'text',
-                'label' => __('URL'),
+                'label' => trans('packages/theme::theme.common.url'),
                 'attributes' => [
                     'name' => 'url',
                     'value' => null,
@@ -537,7 +506,7 @@ class ThemeSupport
             ],
             [
                 'type' => 'mediaImage',
-                'label' => __('Icon Image (It will override icon above if set)'),
+                'label' => trans('packages/theme::theme.social_links.icon_image_override'),
                 'attributes' => [
                     'name' => 'image',
                     'value' => null,
@@ -545,7 +514,7 @@ class ThemeSupport
             ],
             [
                 'type' => 'customColor',
-                'label' => __('Color'),
+                'label' => trans('packages/theme::theme.common.color'),
                 'attributes' => [
                     'name' => 'color',
                     'value' => 'transparent',
@@ -556,7 +525,7 @@ class ThemeSupport
             ],
             [
                 'type' => 'customColor',
-                'label' => __('Background color'),
+                'label' => trans('packages/theme::theme.common.background_color'),
                 'attributes' => [
                     'name' => 'background-color',
                     'value' => null,
@@ -588,9 +557,9 @@ class ThemeSupport
         return static::convertSocialLinksToArray($data);
     }
 
-    public static function convertSocialLinksToArray(array $data): array
+    public static function convertSocialLinksToArray(array|string $data): array
     {
-        if (empty($data)) {
+        if (empty($data) || is_string($data)) {
             return [];
         }
 
@@ -650,18 +619,18 @@ class ThemeSupport
                 'id' => 'copyright',
                 'section_id' => 'opt-text-subsection-general',
                 'type' => 'textarea',
-                'label' => __('Copyright'),
+                'label' => trans('packages/theme::theme.copyright.label'),
                 'attributes' => [
                     'name' => 'copyright',
                     'value' => null,
                     'options' => [
                         'class' => 'form-control',
-                        'placeholder' => __('Change copyright'),
+                        'placeholder' => trans('packages/theme::theme.copyright.placeholder'),
                         'data-counter' => 255,
                         'rows' => 3,
                     ],
                 ],
-                'helper' => __('Copyright on footer of site. Using %Y to display current year.'),
+                'helper' => trans('packages/theme::theme.copyright.helper'),
             ]);
         });
     }
@@ -694,22 +663,22 @@ class ThemeSupport
                 'id' => 'lazy_load_images',
                 'section_id' => 'opt-text-subsection-general',
                 'type' => 'onOff',
-                'label' => __('Lazy load images'),
+                'label' => trans('packages/theme::theme.lazy_load.label'),
                 'attributes' => [
                     'name' => 'lazy_load_images',
                     'value' => false,
                 ],
-                'helper' => 'Enable lazy load images to improve page load time.',
+                'helper' => trans('packages/theme::theme.lazy_load_images_helper'),
             ])->setField([
                 'id' => 'lazy_load_placeholder_image',
                 'section_id' => 'opt-text-subsection-general',
                 'type' => 'mediaImage',
-                'label' => __('Lazy load placeholder image (250x250px)'),
+                'label' => trans('packages/theme::theme.lazy_load.placeholder_image'),
                 'attributes' => [
                     'name' => 'lazy_load_placeholder_image',
                     'value' => null,
                 ],
-                'helper' => __('This image will be used as placeholder for lazy load images. The best size for this image is 250x250px.'),
+                'helper' => trans('packages/theme::theme.lazy_load.placeholder_image_helper'),
             ]);
         });
 
@@ -726,6 +695,7 @@ class ThemeSupport
         ) {
             if (
                 AdminHelper::isInAdmin()
+                || request()->expectsJson()
                 || Arr::get($attributes, 'data-bb-lazy') !== 'true'
             ) {
                 return $html;
@@ -762,7 +732,7 @@ class ThemeSupport
                     });
 
                     document.addEventListener('shortcode.loaded', function () {
-                        Theme.lazyLoadInstance.update()
+                        Theme.lazyLoadInstance.update();
                     });
                 </script>
             HTML;
@@ -774,38 +744,38 @@ class ThemeSupport
         app('events')->listen(RenderingThemeOptionSettings::class, function (): void {
             ThemeOption::setSection(
                 ThemeOptionSection::make('opt-text-subsection-social-sharing')
-                    ->title(__('Social Sharing'))
+                    ->title(trans('packages/theme::theme.social_sharing.title'))
                     ->icon('ti ti-share')
                     ->fields([
                         RepeaterField::make()
                             ->name('social_sharing')
-                            ->label(__('Social sharing buttons'))
+                            ->label(trans('packages/theme::theme.social_sharing.buttons'))
                             ->defaultValue(self::getDefaultSocialSharingData())
                             ->fields([
                                 SelectField::make()
                                     ->name('social')
-                                    ->label(__('Social'))
+                                    ->label(trans('packages/theme::theme.social_sharing.social'))
                                     ->options([
-                                        'facebook' => __('Facebook'),
-                                        'x' => __('X (Twitter)'),
-                                        'linkedin' => __('LinkedIn'),
-                                        'pinterest' => __('Pinterest'),
-                                        'whatsapp' => __('WhatsApp'),
-                                        'telegram' => __('Telegram'),
-                                        'email' => __('Email'),
+                                        'facebook' => trans('packages/theme::theme.social_sharing.facebook'),
+                                        'x' => trans('packages/theme::theme.social_sharing.x_twitter'),
+                                        'linkedin' => trans('packages/theme::theme.social_sharing.linkedin'),
+                                        'pinterest' => trans('packages/theme::theme.social_sharing.pinterest'),
+                                        'whatsapp' => trans('packages/theme::theme.social_sharing.whatsapp'),
+                                        'telegram' => trans('packages/theme::theme.social_sharing.telegram'),
+                                        'email' => trans('packages/theme::theme.social_sharing.email'),
                                     ]),
                                 IconField::make()
                                     ->name('icon')
-                                    ->label(__('Icon')),
+                                    ->label(trans('packages/theme::theme.common.icon')),
                                 MediaImageField::make()
                                     ->name('icon_image')
-                                    ->label(__('Icon image (It will override icon above if set)')),
+                                    ->label(trans('packages/theme::theme.social_sharing.icon_image_override')),
                                 ColorField::make()
                                     ->name('color')
-                                    ->label(__('Color')),
+                                    ->label(trans('packages/theme::theme.common.color')),
                                 ColorField::make()
                                     ->name('background_color')
-                                    ->label(__('Background color')),
+                                    ->label(trans('packages/theme::theme.common.background_color')),
                             ]),
                     ])
             );
@@ -842,8 +812,10 @@ class ThemeSupport
         ];
     }
 
-    public static function getSocialSharingButtons(string $url, string $title, ?string $thumbnail = null): array
+    public static function getSocialSharingButtons(string $url, ?string $title, ?string $thumbnail = null): array
     {
+        $title = $title ?: '';
+
         $socialSharing = theme_option('social_sharing') ?: self::getDefaultSocialSharingData();
 
         if (empty($socialSharing)) {
@@ -887,14 +859,14 @@ class ThemeSupport
 
             $items[$social] = [
                 'name' => $name = match ($social) {
-                    'facebook' => __('Facebook'),
-                    'x' => __('X (Twitter)'),
-                    'linkedin' => __('LinkedIn'),
-                    'pinterest' => __('Pinterest'),
-                    'whatsapp' => __('WhatsApp'),
-                    'telegram' => __('Telegram'),
-                    'email' => __('Email'),
-                    default => __('Unknown'),
+                    'facebook' => trans('packages/theme::theme.social_sharing.facebook'),
+                    'x' => trans('packages/theme::theme.social_sharing.x_twitter'),
+                    'linkedin' => trans('packages/theme::theme.social_sharing.linkedin'),
+                    'pinterest' => trans('packages/theme::theme.social_sharing.pinterest'),
+                    'whatsapp' => trans('packages/theme::theme.social_sharing.whatsapp'),
+                    'telegram' => trans('packages/theme::theme.social_sharing.telegram'),
+                    'email' => trans('packages/theme::theme.social_sharing.email'),
+                    default => trans('packages/theme::theme.common.unknown'),
                 },
                 'icon' => $image ? Html::image(RvMedia::getImageUrl($image), $name, attributes: ['loading' => false]) : BaseHelper::renderIcon($icon),
                 'url' => match ($social) {
@@ -965,7 +937,7 @@ class ThemeSupport
             ThemeOption::setField(
                 SelectField::make()
                     ->sectionId('opt-text-subsection-general')
-                    ->label(__('Date format'))
+                    ->label(trans('packages/theme::theme.date_format.label'))
                     ->name('date_format')
                     ->defaultValue(Arr::first(self::supportedDateFormats()))
                     ->options(
@@ -973,7 +945,7 @@ class ThemeSupport
                             ->mapWithKeys(fn ($format) => [$format => sprintf('%s (%s)', $format, date($format))])
                             ->all()
                     )
-                    ->helperText(__('Choose date format for your front theme.'))
+                    ->helperText(trans('packages/theme::theme.date_format.helper'))
             );
         });
 
@@ -1002,34 +974,50 @@ class ThemeSupport
 
     public static function renderGoogleTagManagerScript(): string
     {
-        $googleTagManagerCode = setting('google_tag_manager_code');
-        $googleTagManagerId = setting('google_tag_manager_id', setting('google_analytics'));
-        $renderType = setting(
-            'google_tag_manager_type',
-            $googleTagManagerCode ? 'code' : 'id'
-        );
+        return GoogleTagManagerEnhanced::renderGoogleTagManagerScript();
+    }
 
-        if (! BaseHelper::hasDemoModeEnabled() && $renderType === 'code' && $googleTagManagerCode) {
-            return trim($googleTagManagerCode);
+    public static function renderGoogleTagManagerNoscript(): string
+    {
+        return GoogleTagManagerEnhanced::renderGoogleTagManagerNoscript();
+    }
+
+    public static function isGoogleTagManagerEnabled(): bool
+    {
+        $type = setting('google_tag_manager_type');
+
+        return match ($type) {
+            'gtm' => (bool) setting('gtm_container_id'),
+            'id' => (setting('google_tag_manager_id') || setting('google_analytics')),
+            'custom', 'code' => (setting('custom_tracking_header_js') || setting('custom_tracking_body_html') || setting('google_tag_manager_code')),
+            default => (setting('gtm_container_id') || setting('google_tag_manager_id') || setting('google_analytics') || setting('custom_tracking_header_js') || setting('custom_tracking_body_html') || setting('google_tag_manager_code'))
+        };
+    }
+
+    public static function isGoogleTagManagerDebugEnabled(): bool
+    {
+        return (bool) setting('gtm_debug_mode', false);
+    }
+
+    public static function getGoogleTagManagerType(): ?string
+    {
+        $type = setting('google_tag_manager_type');
+
+        if ($type === 'code') {
+            return 'custom';
         }
 
-        if ($renderType === 'id' && $googleTagManagerId) {
-            return trim(
-                <<<HTML
-                <!-- Global site tag (gtag.js) - Google Analytics -->
-                <script async defer src='https://www.googletagmanager.com/gtag/js?id=$googleTagManagerId'></script>
-                <script>
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-
-                  gtag('config', '$googleTagManagerId');
-                </script>
-            HTML
-            );
+        if (! $type) {
+            if (setting('gtm_container_id')) {
+                return 'gtm';
+            } elseif (setting('custom_tracking_header_js') || setting('custom_tracking_body_html') || setting('google_tag_manager_code')) {
+                return 'custom';
+            } elseif (setting('google_tag_manager_id') || setting('google_analytics')) {
+                return 'id';
+            }
         }
 
-        return '';
+        return $type;
     }
 
     public static function registerSiteLogoHeight(int $defaultValue = 50): void
@@ -1039,8 +1027,8 @@ class ThemeSupport
                 NumberFieldOption::make()
                     ->sectionId('opt-text-subsection-logo')
                     ->name('logo_height')
-                    ->label(__('Logo height (px)'))
-                    ->helperText(__('Set the height of the logo in pixels. The default value is :default.', ['default' => $defaultValue . 'px']))
+                    ->label(trans('packages/theme::theme.logo_height.label'))
+                    ->helperText(trans('packages/theme::theme.logo_height.helper', ['default' => $defaultValue . 'px']))
                     ->attributes([
                         'min' => 0,
                         'max' => 150,

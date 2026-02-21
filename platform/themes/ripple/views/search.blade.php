@@ -1,4 +1,4 @@
-@php Theme::set('section-name', __('Search result for: ":query"', ['query' => BaseHelper::stringify(request()->input('q'))])) @endphp
+@php Theme::set('section-name', __('Search result for: ":query"', ['query' => e(BaseHelper::stringify(request()->input('q')))])) @endphp
 
 @if ($posts->isNotEmpty())
     @foreach ($posts as $post)

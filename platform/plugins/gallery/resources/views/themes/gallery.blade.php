@@ -18,7 +18,7 @@
                     </div>
                     <div id="list-photo">
                         @foreach (gallery_meta_data($gallery) as $image)
-                            @continue(! $image)
+                            @continue(!$image)
 
                             <div
                                 class="item"

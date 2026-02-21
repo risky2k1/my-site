@@ -74,7 +74,9 @@ class Manager
             Arr::set($translations, $transKey, $transValue);
         }
 
-        $translations = array_merge($englishTranslations, $translations);
+        if (is_array($englishTranslations) && ! empty($englishTranslations)) {
+            $englishTranslations = array_merge($englishTranslations, $translations);
+        }
 
         $file = $locale . DIRECTORY_SEPARATOR . $group;
 
@@ -106,13 +108,17 @@ class Manager
         return $this->config[$key];
     }
 
-    public function removeUnusedThemeTranslations(): bool
+    public function removeUnusedThemeTranslations(?string $theme = null): bool
     {
         if (Theme::hasInheritTheme()) {
             $this->removeUnusedThemeTranslationsFromTheme(Theme::getInheritTheme());
         }
 
-        $this->removeUnusedThemeTranslationsFromTheme(Theme::getThemeName());
+        if (! $theme) {
+            $theme = Theme::getThemeName();
+        }
+
+        $this->removeUnusedThemeTranslationsFromTheme($theme);
 
         return true;
     }
@@ -371,18 +377,22 @@ class Manager
         return array_unique($keys);
     }
 
-    public function updateThemeTranslations(): int
+    public function updateThemeTranslations(?string $theme = null): int
     {
+        if (! $theme) {
+            $theme = Theme::getThemeName();
+        }
+
         $keys = $this->findJsonTranslations(core_path());
         $keys += $this->findJsonTranslations(package_path());
         $keys += $this->findJsonTranslations(plugin_path());
-        $keys += $this->findJsonTranslations(theme_path());
+        $keys += $this->findJsonTranslations(theme_path($theme));
 
         ksort($keys);
 
         $data = json_encode($keys, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-        BaseHelper::saveFileData(theme_path(sprintf('%s/lang/en.json', Theme::getThemeName())), $data, false);
+        BaseHelper::saveFileData(theme_path(sprintf('%s/lang/en.json', $theme)), $data, false);
 
         return count($keys);
     }
